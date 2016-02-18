@@ -8,7 +8,7 @@
  */
 
 
-include_once "../coolsms.php";
+include_once "../src/coolsms/coolsms.php";
 
 /*
  ** api_key and api_secret can be obtained from www.coolsms.co.kr/credentials

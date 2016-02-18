@@ -11,7 +11,7 @@ class coolsms
 {
 	private $api_key;
 	private	$api_secret;
-	private $host = "http://api.coolsms.co.kr/";
+	private $host = "http://api.coolsms.co.kr";
 	private $resource;
 	private $version = "1.5";
 	private $sdk_version = "1.1";
@@ -22,8 +22,10 @@ class coolsms
 	private $result;
 	private $basecamp;
 	private $user_agent;
-	private $error;
 
+	/**
+	 * @brief construct
+	 */
 	public function __construct($api_key, $api_secret, $basecamp=false)
 	{
 		if($basecamp)
@@ -41,20 +43,14 @@ class coolsms
 	}
 
 	/**
-	 * process curl
+	 * @brief process curl
 	 */
 	public function curlProcess()
 	{
 		$ch = curl_init(); 
 		// Set host. 1 = POST , 0 = GET
-		if($this->method==1) 
-		{
-			$host = sprintf("%s%s/%s/%s", $this->host, $this->resource, $this->version, $this->path);
-		}
-		else if($this->method==0)
-		{
-			$host = sprintf("%s%s/%s/%s?%s", $this->host, $this->resource, $this->version, $this->path, $this->content);
-		}
+		$host = sprintf("%s/%s/%s/%s?%s", $this->host, $this->resource, $this->version, $this->path, $this->content);
+		if($this->method==1) $host = sprintf("%s/%s/%s/%s", $this->host, $this->resource, $this->version, $this->path);
 
 		curl_setopt($ch, CURLOPT_URL, $host);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
@@ -65,18 +61,21 @@ class coolsms
 		// Set POST DATA
 		if($this->method)
 		{
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
+			$header = array("Content-Type:multipart/form-data");
+
+			// route가 있으면 header에 붙여준다. substr 해준 이유는 앞에 @^가 붙기 때문에 자르기 위해서.
+			if($this->content['route']) $header[] = "User-Agent:" . substr($this->content['route'], 1);
+
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $this->content); 
 		}
 		curl_setopt($ch, CURLOPT_TIMEOUT, 10); // TimeOut 값
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // 결과값을 받을것인지
 		
 		$this->result = json_decode(curl_exec($ch));
-		// Check coolsms error code
-		if($this->result->code) $this->error = 'Code : ' . $this->result->code . ' Message : ' . $this->result->message;
 
 		// Check connect errors
-		if(curl_errno($ch)) $this->error = curl_error($ch);
+		if(curl_errno($ch)) $this->result = curl_error($ch);
 
 		curl_close ($ch);
 	}
@@ -91,16 +90,16 @@ class coolsms
 			$this->content = array();
 			foreach($options as $key => $val)
 			{
-				if($key != "image")
-					$this->content[$key] = sprintf("\0%s", $val);
-				else
-					$this->content[$key] = "@".realpath("./$val");
+				$this->content[$key] = sprintf("\0%s", $val);
+				if($key == "image") $this->content[$key] = "@".realpath("./$val");
 			}
 		}
 		else
 		{
 			foreach($options as $key => $val)
+			{
 				$this->content .= $key."=".urlencode($val)."&";
+			}
 		}
 	}
 
@@ -156,7 +155,7 @@ class coolsms
 	}
 
 	/**
-	 * return result
+	 * @brief return result
 	 */
 	public function getResult()
 	{
@@ -173,7 +172,7 @@ class coolsms
 	{
 		$this->setMethod('sms', 'send', 1);
 		$this->addInfos($options);	
-		return $this;
+		return $this->result;
 	}
 	
 	/**
@@ -188,7 +187,7 @@ class coolsms
 			$options = new stdClass();
 		$this->setMethod('sms', 'sent', 0);
 		$this->addInfos($options);	
-		return $this;
+		return $this->result;
 	}
 
 	/**
@@ -200,7 +199,7 @@ class coolsms
 	{
 		$this->setMethod('sms', 'cancel', 1);
 		$this->addInfos($options);	
-		return $this;
+		return $this->result;
 	}
 
 	/**
@@ -212,7 +211,7 @@ class coolsms
 	{
 		$this->setMethod('sms', 'balance', 0);
 		$this->addInfos($options = new stdClass());	
-		return $this;
+		return $this->result;
 	}
 
 	/**
@@ -225,7 +224,7 @@ class coolsms
 	{
 		$this->setMethod('sms', 'status', 0);
 		$this->addInfos($options);	
-		return $this;
+		return $this->result;
 	}
 
 	/**
@@ -237,7 +236,7 @@ class coolsms
 	{
 		$this->setMethod('senderid', 'register', 1, "1.1");
 		$this->addInfos($options);
-		return $this;
+		return $this->result;
 	}
 
 	/**
@@ -249,7 +248,7 @@ class coolsms
 	{
 		$this->setMethod('senderid', 'verify', 1, "1.1");
 		$this->addInfos($options);
-		return $this;
+		return $this->result;
 	}
 
 	/**
@@ -261,7 +260,7 @@ class coolsms
 	{
 		$this->setMethod('senderid', 'delete', 1, "1.1");
 		$this->addInfos($options);
-		return $this;
+		return $this->result;
 	}
 
 	/**
@@ -269,11 +268,11 @@ class coolsms
 	 * $options must conatins api_key, salt, signature, site_user(optional)
 	 * return json object(idno, phone_number, flag_default, updatetime, regdate)
 	 */
-	public function get_senderid_list($options)
+	public function senderid_list($options)
 	{
 		$this->setMethod('senderid', 'list', 0, "1.1");
 		$this->addInfos($options);
-		return $this;
+		return $this->result;
 	}
 
 	/**
@@ -285,7 +284,7 @@ class coolsms
 	{
 		$this->setMethod('senderid', 'set_default', 1, "1.1");
 		$this->addInfos($options);
-		return $this;
+		return $this->result;
 	}
 
 	/**
@@ -297,9 +296,124 @@ class coolsms
 	{
 		$this->setMethod('senderid', 'get_default', 0, "1.1");
 		$this->addInfos($options);
-		return $this;
+		return $this->result;
 	}
-	
+
+	/**
+	 * 	@GET new_group method
+	 * 	@param $options (options can be optional)
+	 * 	@charset, srk, mode, delay, force_sms, os_platform, dev_lang, sdk_version, app_version (optional)
+	 * 	@returns an object(status, message, group_id)
+	 */
+	public function new_group($options=null) 
+	{
+		if(!$options) $options = new stdClass();
+			
+		$this->setMethod('sms', 'new_group', 0);
+		$this->addInfos($options);	
+		return $this->result;
+	}
+
+	/**
+	 *  @GET group_list method
+	 *	@returns an object(status, message, list['groupid', 'groupid'...])
+	 */
+	public function group_list() 
+	{
+		$options = new stdClass();
+		$this->setMethod('sms', 'group_list', 0);
+		$this->addInfos($options);
+		return $this->result;
+	}
+
+	/**
+	 *  @POST delete_groups method
+	 *	@param $options (options must contain group_ids)
+	 *	@returns an object(status, message, count)
+	 */
+	public function delete_groups($options) 
+	{
+		$this->setMethod('sms', 'delete', 1);
+		$this->addInfos($options);	
+		return $this->result;
+	}
+
+	/**
+	 * 	@GET groups/{group_id} method
+	 * 	@param $options (options must contain group_id)
+	 * 	@returns an object(status, message, group_id, size)
+	 */
+	public function group_info($options=null) 
+	{
+		$this->setMethod('sms', 'groups/' . $options->group_id, 0);
+		$this->addInfos($options);	
+		return $this->result;
+	}
+
+	/**
+	 *  @POST groups/{group_id}/add_messages method
+	 *	@param $options (options must contain group_id)
+	 *	@to, from, text, type, image_id, refname, country, datetime, subject, delay, extension (optional)
+	 *	@returns an object(['type', 'to', 'text'])
+	 */
+	public function add_messages($options) 
+	{
+		$this->setMethod('sms', 'groups/' . $options->group_id . '/add_messages' , 1);
+		$this->addInfos($options);	
+		return $this->result;
+	}
+
+	/**
+	 * 	@GET groups/{group_id}/message_list method
+	 * 	@param $options (options must contain group_id)
+	 *	@offset, limit (optional)
+	 * 	@returns an object(status, message, total_count, offset, limit, list['message_id', 'message_id' ...])
+	 */
+	public function message_list($options=null) 
+	{
+		$this->setMethod('sms', 'groups/' . $options->group_id . '/message_list', 0);
+		$this->addInfos($options);	
+		return $this->result;
+	}
+
+	/**
+	 *  @POST groups/{group_id}/delete_messages method
+	 *	@param $options (options must contain group_id, message_ids)
+	 *	@returns an object(status, message, count)
+	 */
+	public function delete_messages($options) 
+	{
+		$this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
+		$this->addInfos($options);	
+		return $this->result;
+	}
+
+	/**
+	 * 	@GET image_list method
+	 * 	@param $options (options can be optional)
+	 *	@offset, limit (optional)
+	 * 	@returns an object(status, message, total_count, offset, limit, list['image_id', 'image_id' ...])
+	 */
+	public function image_list($options=null) 
+	{
+		$this->setMethod('sms', 'image_list', 0);
+		$this->addInfos($options);	
+		return $this->result;
+	}
+
+	/**
+	 * 	@GET images/{image_id} method
+	 * 	@param $options (options must contain image_id)
+	 * 	@returns an object(status, message, image_id, file_name, original_name, file_size, width, height)
+	 */
+	public function image_info($options=null) 
+	{
+		$this->setMethod('sms', 'images/' . $options->image_id, 0);
+		$this->addInfos($options);	
+		return $this->result;
+	}
+
+
 	/**
 	 * return user's current OS
 	 */

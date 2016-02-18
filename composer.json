@@ -1,0 +1,14 @@
+{
+    "name": "nurigo/php-sdk",
+    "description": "Send message using PHP and RestAPI",
+    "type": "library",
+    "license": "GPL v2",
+    "authors": [
+        {
+            "name": "nurigo",
+            "email": "contact@nurigo.net"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
