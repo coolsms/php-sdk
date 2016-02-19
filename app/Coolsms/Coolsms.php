@@ -7,7 +7,9 @@
  *
  **/
 
-class coolsms
+namespace Coolsms
+
+class Coolsms
 {
 	private $api_key;
 	private	$api_secret;
@@ -303,7 +305,7 @@ class coolsms
 	 * 	@GET new_group method
 	 * 	@param $options (options can be optional)
 	 * 	@charset, srk, mode, delay, force_sms, os_platform, dev_lang, sdk_version, app_version (optional)
-	 * 	@returns an object(status, message, group_id)
+	 * 	@returns an object(group_id)
 	 */
 	public function new_group($options=null) 
 	{
@@ -316,7 +318,7 @@ class coolsms
 
 	/**
 	 *  @GET group_list method
-	 *	@returns an object(status, message, list['groupid', 'groupid'...])
+	 *	@returns an array['groupid', 'groupid'...]
 	 */
 	public function group_list() 
 	{
@@ -329,7 +331,7 @@ class coolsms
 	/**
 	 *  @POST delete_groups method
 	 *	@param $options (options must contain group_ids)
-	 *	@returns an object(status, message, count)
+	 *	@returns an object(count)
 	 */
 	public function delete_groups($options) 
 	{
@@ -341,7 +343,7 @@ class coolsms
 	/**
 	 * 	@GET groups/{group_id} method
 	 * 	@param $options (options must contain group_id)
-	 * 	@returns an object(status, message, group_id, size)
+	 * 	@returns an object(group_id, message_count)
 	 */
 	public function group_info($options=null) 
 	{
@@ -354,7 +356,7 @@ class coolsms
 	 *  @POST groups/{group_id}/add_messages method
 	 *	@param $options (options must contain group_id)
 	 *	@to, from, text, type, image_id, refname, country, datetime, subject, delay, extension (optional)
-	 *	@returns an object(['type', 'to', 'text'])
+	 *	@returns an object(success_count, error_count, error_list['messageid':'code', 'messageid', 'code'])
 	 */
 	public function add_messages($options) 
 	{
@@ -367,7 +369,7 @@ class coolsms
 	 * 	@GET groups/{group_id}/message_list method
 	 * 	@param $options (options must contain group_id)
 	 *	@offset, limit (optional)
-	 * 	@returns an object(status, message, total_count, offset, limit, list['message_id', 'message_id' ...])
+	 * 	@returns an object(total_count, offset, limit, list['message_id', 'message_id' ...])
 	 */
 	public function message_list($options=null) 
 	{
@@ -379,7 +381,7 @@ class coolsms
 	/**
 	 *  @POST groups/{group_id}/delete_messages method
 	 *	@param $options (options must contain group_id, message_ids)
-	 *	@returns an object(status, message, count)
+	 *	@returns an object(success_count)
 	 */
 	public function delete_messages($options) 
 	{
@@ -392,7 +394,7 @@ class coolsms
 	 * 	@GET image_list method
 	 * 	@param $options (options can be optional)
 	 *	@offset, limit (optional)
-	 * 	@returns an object(status, message, total_count, offset, limit, list['image_id', 'image_id' ...])
+	 * 	@returns an object(total_count, offset, limit, list['image_id', 'image_id' ...])
 	 */
 	public function image_list($options=null) 
 	{
@@ -404,7 +406,7 @@ class coolsms
 	/**
 	 * 	@GET images/{image_id} method
 	 * 	@param $options (options must contain image_id)
-	 * 	@returns an object(status, message, image_id, file_name, original_name, file_size, width, height)
+	 * 	@returns an object(image_id, file_name, original_name, file_size, width, height)
 	 */
 	public function image_info($options=null) 
 	{
@@ -413,6 +415,30 @@ class coolsms
 		return $this->result;
 	}
 
+	/**
+	 *  @POST upload_image method
+	 *	@param $options (options must contain image)
+	 *	@encoding (optional)
+	 *	@returns an object(image_id)
+	 */
+	public function upload_image($options) 
+	{
+		$this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
+		$this->addInfos($options);	
+		return $this->result;
+	}
+
+	/**
+	 *  @POST delete_images method
+	 *	@param $options (options must contain image_ids)
+	 *	@returns an object(success_count)
+	 */
+	public function delete_images($options) 
+	{
+		$this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
+		$this->addInfos($options);	
+		return $this->result;
+	}
 
 	/**
 	 * return user's current OS
