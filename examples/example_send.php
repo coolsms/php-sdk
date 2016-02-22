@@ -7,7 +7,7 @@
  *
  */
 
-include_once "../src/coolsms.php";
+include_once "../app/CS/Coolsms.php";
 
 
 /*
