@@ -18,5 +18,5 @@ $apisecret = '#ENTER_YOUR_OWN#';
 //initiate rest api sdk object
 $rest = new coolsms($apikey, $apisecret);
 
-$result = $rest->balance()->getResult();
+$result = $rest->balance();
 print_r($result);

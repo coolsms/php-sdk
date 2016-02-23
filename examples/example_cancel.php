@@ -22,4 +22,4 @@ $rest = new coolsms($apikey, $apisecret);
 $options->mid = 'M52CB443257C61';			//message id. 
 //$options->gid = 'G52CB4432576C8';			//group id. 
 
-$rest->cancel($options);					//cancel does not return any.
+$result = $rest->cancel($options);					//cancel does not return any.

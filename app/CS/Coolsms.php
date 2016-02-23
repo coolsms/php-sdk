@@ -276,7 +276,7 @@ class Coolsms
      * $options must conatins api_key, salt, signature, site_user(optional)
      * return json object(idno, phone_number, flag_default, updatetime, regdate)
      */
-    public function senderid_list($options)
+    public function senderidList($options)
     {
         $this->setMethod('senderid', 'list', 0, "1.1");
         $this->addInfos();
@@ -288,7 +288,7 @@ class Coolsms
      * $options must contains api_key, salt, signature, handle_key, site_user(optional)
      * return nothing
      */
-    public function set_default($options)
+    public function setDefault($options)
     {
         $this->setMethod('senderid', 'set_default', 1, "1.1");
         $this->addInfos($options);
@@ -300,7 +300,7 @@ class Coolsms
      * $options must conatins api_key, salt, signature, site_user(optional)
      * return json object(handle_key, phone_number)
      */
-    public function get_default($options)
+    public function getDefault($options)
     {
         $this->setMethod('senderid', 'get_default', 0, "1.1");
         $this->addInfos();
@@ -313,7 +313,7 @@ class Coolsms
      * @charset, srk, mode, delay, force_sms, os_platform, dev_lang, sdk_version, app_version (optional)
      * @returns an object(group_id)
      */
-    public function new_group($options) 
+    public function newGroup($options) 
     {
         $this->setMethod('sms', 'new_group', 0);
         $this->addInfos($options);    
@@ -325,7 +325,7 @@ class Coolsms
 	 * $options (none)
      * @returns an array['groupid', 'groupid'...]
      */
-    public function group_list() 
+    public function groupList() 
     {
         $this->setMethod('sms', 'group_list', 0);
         $this->addInfos();
@@ -337,7 +337,7 @@ class Coolsms
      * @param $options (options must contain group_ids)
      * @returns an object(count)
      */
-    public function delete_groups($options) 
+    public function deleteGroups($options) 
     {
         $this->setMethod('sms', 'delete', 1);
         $this->addInfos($options);    
@@ -349,7 +349,7 @@ class Coolsms
      * @param $options (options must contain group_id)
      * @returns an object(group_id, message_count)
      */
-    public function group_info($options) 
+    public function groupInfo($options) 
     {
         $this->setMethod('sms', 'groups/' . $options->group_id, 0);
         $this->addInfos($options);    
@@ -362,7 +362,7 @@ class Coolsms
      * @to, from, text, type, image_id, refname, country, datetime, subject, delay, extension (optional)
      * @returns an object(success_count, error_count, error_list['messageid':'code', 'messageid', 'code'])
      */
-    public function add_messages($options) 
+    public function addMessages($options) 
     {
         $this->setMethod('sms', 'groups/' . $options->group_id . '/add_messages' , 1);
         $this->addInfos($options);    
@@ -375,7 +375,7 @@ class Coolsms
      * @offset, limit (optional)
      * @returns an object(total_count, offset, limit, list['message_id', 'message_id' ...])
      */
-    public function message_list($options) 
+    public function messageList($options) 
     {
         $this->setMethod('sms', 'groups/' . $options->group_id . '/message_list', 0);
         $this->addInfos($options);    
@@ -387,7 +387,7 @@ class Coolsms
      * @param $options (options must contain group_id, message_ids)
      * @returns an object(success_count)
      */
-    public function delete_messages($options) 
+    public function deleteMessages($options) 
     {
         $this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
         $this->addInfos($options);    
@@ -400,7 +400,7 @@ class Coolsms
      * @offset, limit (optional)
      * @returns an object(total_count, offset, limit, list['image_id', 'image_id' ...])
      */
-    public function image_list($options) 
+    public function imageList($options) 
     {
         $this->setMethod('sms', 'image_list', 0);
         $this->addInfos($options);    
@@ -412,7 +412,7 @@ class Coolsms
      * @param $options (options must contain image_id)
      * @returns an object(image_id, file_name, original_name, file_size, width, height)
      */
-    public function image_info($options) 
+    public function imageInfo($options) 
     {
         $this->setMethod('sms', 'images/' . $options->image_id, 0);
         $this->addInfos($options);    
@@ -425,7 +425,7 @@ class Coolsms
      * @encoding (optional)
      * @returns an object(image_id)
      */
-    public function upload_image($options) 
+    public function uploadImage($options) 
     {
         $this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
         $this->addInfos($options);    
@@ -437,7 +437,7 @@ class Coolsms
      * @param $options (options must contain image_ids)
      * @returns an object(success_count)
      */
-    public function delete_images($options) 
+    public function deleteImages($options) 
     {
         $this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
         $this->addInfos($options);    

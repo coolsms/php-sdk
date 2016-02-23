@@ -21,7 +21,7 @@ $rest = new coolsms($apikey, $apisecret);
 $options->timestamp = (string)time();
 
 // 등록된 sender_ids 전체 불러온후 발신번호 설정
-$senderid = $rest->get_senderid_list($options)->getResult();
+$senderid = $rest->senderidList($options);
 print_r($senderid);
 if(is_array($senderid) && count($senderid)) $options->from = $senderid[0]->phone_number;
 
@@ -57,4 +57,4 @@ $options->app_version = 'test app 1.2';  //application name and version
 //$options->sdk_version = 'PHP SDK 1.1';	//SDK version being used. SDK creates automatically if empty 
 
 $result = $rest->send($options);			
-print_r($result->getResult());
+print_r($result);
