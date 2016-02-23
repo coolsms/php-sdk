@@ -18,7 +18,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Coolsms\\": "app/Coolsms"
+			"CS\\": "app/CS"
 		}
 	}
 }

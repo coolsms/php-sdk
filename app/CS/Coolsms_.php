@@ -6,8 +6,6 @@
  * Version 1.1
  **/
 
-namespace CS;
-
 // check php extension "curl_init, json_decode"
 if (!function_exists('curl_init')) {
   throw new Exception('Coolsms needs the CURL PHP extension.');
@@ -120,7 +118,7 @@ class Coolsms
      */
     private function addInfos($options = null)
 	{
-		if (!$options) $options = new \stdClass();
+		if (!$options) $options = new stdClass();
 
         $this->salt = uniqid();
         $this->timestamp = (string)time();

@@ -7,16 +7,16 @@
  *
  */
 
-include_once "../app/CS/Coolsms.php";
+use CS;
 
-/*
- ** api_key and api_secret can be obtained from www.coolsms.co.kr/credentials
- */
+require_once __DIR__ . "/../../vendor/autoload.php";
+
+// api_key and api_secret can be obtained from www.coolsms.co.kr/credentials
 $apikey = '#ENTER_YOUR_OWN#';
 $apisecret = '#ENTER_YOUR_OWN#';
 
-//initiate rest api sdk object
-$rest = new coolsms($apikey, $apisecret);
+// initiate rest api sdk object
+$rest = new CS\Coolsms($apikey, $apisecret);
 
 $result = $rest->balance();
 print_r($result);

@@ -7,8 +7,9 @@
  *
  */
 
+use CS;
 
-include_once "../app/CS/Coolsms.php";
+require_once __DIR__ . "/../../vendor/autoload.php";
 
 /*
  ** api_key and api_secret can be obtained from www.coolsms.co.kr/credentials
@@ -17,7 +18,7 @@ $apikey = '#ENTER_YOUR_OWN#';
 $apisecret = '#ENTER_YOUR_OWN#';
 
 //initiate rest api sdk object
-$rest = new coolsms($apikey, $apisecret);
+$rest = new CS\Coolsms($apikey, $apisecret);
 
 //set necessary options
 $options->mid = 'M52CB443257C61';			//message id 
