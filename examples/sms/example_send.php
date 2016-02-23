@@ -1,10 +1,10 @@
 <?php
-/* #example_send
+/**
+ * #example_send
  *
- **  This sample code demonstrate how to send sms through CoolSMS Rest API PHP v1.0
- **  for more info, visit
- **  www.coolsms.co.kr
- *
+ * This sample code demonstrate how to send sms through CoolSMS Rest API PHP v1.0
+ * for more info, visit
+ * www.coolsms.co.kr
  */
 
 use CS;

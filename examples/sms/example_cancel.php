@@ -1,10 +1,10 @@
 <?php
-/* #example_cancel
+/** 
+ * #example_cancel
  *
- **  This sample code demonstrate how to cancel reserved sms through CoolSMS Rest API PHP v1.0
- **  for more info, visit
- **  www.coolsms.co.kr
- *
+ * This sample code demonstrate how to cancel reserved sms through CoolSMS Rest API PHP v1.0
+ * for more info, visit
+ * www.coolsms.co.kr
  */
 
 use CS;

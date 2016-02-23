@@ -1,10 +1,10 @@
 <?php
-/* #example_sent
+/**
+ * #example_sent
  *
- **  This sample code demonstrate how to check sms result through CoolSMS Rest API PHP v1.0
- **  for more info, visit
- **  www.coolsms.co.kr
- *
+ * This sample code demonstrate how to check sms result through CoolSMS Rest API PHP v1.0
+ * for more info, visit
+ * www.coolsms.co.kr
  */
 
 use CS;
