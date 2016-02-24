@@ -18,7 +18,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"CS\\": "app/CS"
+			"Nurigo\\": "app/Nurigo"
 		}
 	}
 }

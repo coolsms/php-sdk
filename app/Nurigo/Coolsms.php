@@ -6,7 +6,7 @@
  * Version 1.1
  **/
 
-namespace CS;
+namespace Nurigo;
 
 // check php extension "curl_init, json_decode"
 if (!function_exists('curl_init')) {
