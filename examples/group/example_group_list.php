@@ -17,7 +17,6 @@ $apisecret = '#ENTER_YOUR_OWN#';
 
 // initiate rest api sdk object
 $rest = new CS\Coolsms($apikey, $apisecret);
-$options->timestamp = (string)time();
 
 $result = $rest->groupList($options);			
 print_r($result);

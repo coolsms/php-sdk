@@ -17,7 +17,6 @@ $apisecret = '#ENTER_YOUR_OWN#';
 
 // initiate rest api sdk object
 $rest = new CS\Coolsms($apikey, $apisecret);
-$options->timestamp = (string)time();
 
 // options(group_ids) are mandatory. must be filled
 $options->group_ids = 'GID56CC00E21C4DC'; // ex) '1GCOLS23BDG','RGGBB11545'

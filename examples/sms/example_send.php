@@ -11,19 +11,14 @@ use CS;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-/*
- **  api_key and api_secret can be obtained from www.coolsms.co.kr/credentials
- */
+// api_key and api_secret can be obtained from www.coolsms.co.kr/credentials
 $apikey = '#ENTER_YOUR_OWN#';
 $apisecret = '#ENTER_YOUR_OWN#';
 
-//initiate rest api sdk object
+// initiate rest api sdk object
 $rest = new CS\Coolsms($apikey, $apisecret);
-$options->timestamp = (string)time();
 
-/*
- **  4 options(to, from, type, text) are mandatory. must be filled
- */
+// 4 options(to, from, type, text) are mandatory. must be filled
 $options->to = '01000000000';
 $options->from = '01000000000';
 $options->type = 'SMS';
@@ -40,9 +35,7 @@ $options->app_version = 'test app 1.2';  //application name and version
 // $options->subject = 'Hello World';		//set msg title for LMS and MMS
 // $options->charset = 'euckr';				//For Korean language, set euckr or utf-8
 
-/**
- * added REST API v1.5
- **/
+// added REST API v1.5
 // $options->os_platform = 'Windows 7';		//Operating System. SDK creates automatically if empty 
 // $options->dev_lang = 'PHP 5.3.3';		//Application development language. SDK creates automatically if empty 
 // $options->sdk_version = 'PHP SDK 1.1';	//SDK version being used. SDK creates automatically if empty 
