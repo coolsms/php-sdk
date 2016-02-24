@@ -4,6 +4,8 @@
  * Copyright (C) 2008-2015 NURIGO
  * http://www.coolsms.co.kr
  * Version 1.1
+ *
+ * This file is not used the namespace
  **/
 
 // check php extension "curl_init, json_decode"
