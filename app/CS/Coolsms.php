@@ -41,12 +41,12 @@ class Coolsms
      * @brief Construct
      */
     public function __construct($api_key, $api_secret, $basecamp=false)
-	{
-		$this->api_key = $api_key;
+    {
+        $this->api_key = $api_key;
         $this->api_secret = $api_secret;
-		$this->user_agent = $_SERVER['HTTP_USER_AGENT'];
+        $this->user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-		if ($basecamp) $this->basecamp = true;
+        if ($basecamp) $this->basecamp = true;
     }
 
     /**
@@ -59,7 +59,7 @@ class Coolsms
         $host = sprintf("%s/%s/%s/%s?%s", self::HOST, $this->resource, self::VERSION, $this->path, $this->content);
         if ($this->method==1) $host = sprintf("%s/%s/%s/%s", self::HOST, $this->resource, self::VERSION, $this->path);
 
-		// Set curl info
+        // Set curl info
         curl_setopt($ch, CURLOPT_URL, $host);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
         curl_setopt($ch, CURLOPT_SSLVERSION,3); // SSL version (need for https connect)
@@ -90,21 +90,23 @@ class Coolsms
      * @brief Set http body content
      */
     private function setContent($options)
-	{
-		// POST method content
+    {
+        // POST method content
         if ($this->method) {
             $this->content = array();
             foreach ($options as $key => $val) {
-                $this->content[$key] = sprintf("\0%s", $val);
+                $val = trim($val);
+                $this->content[$key] = sprintf("%s", $val);
                 if ($key == "image") $this->content[$key] = "@".realpath("./$val");
-			}
-			return;
-		}
+            }
+            return;
+        }
 
-		// GET method content
-		foreach ($options as $key => $val) {
-			$this->content .= $key."=".urlencode($val)."&";
-		}
+        // GET method content
+        foreach ($options as $key => $val) {
+            $val = trim($val);
+            $this->content .= $key."=".urlencode($val)."&";
+        }
     }
 
     /**
@@ -119,8 +121,8 @@ class Coolsms
      * @brief Set authenticate information
      */
     private function addInfos($options = null)
-	{
-		if (!$options) $options = new \stdClass();
+    {
+        if (!$options) $options = new \stdClass();
 
         $this->salt = uniqid();
         $this->timestamp = (string)time();
@@ -130,14 +132,14 @@ class Coolsms
         if (!$options->sdk_version) $options->sdk_version = sprintf("PHP SDK %s", self::SDK_VERSION);
 
         $options->salt = $this->salt;
-		$options->timestamp = $this->timestamp;
+        $options->timestamp = $this->timestamp;
 
-	    // If basecamp is true '$coolsms_user' use
+        // If basecamp is true '$coolsms_user' use
         if ($this->basecamp) {
             $options->coolsms_user = $this->api_key;
         } else {
             $options->api_key = $this->api_key;
-		}
+        }
 
         $options->signature = $this->getSignature();
         $this->setContent($options);
@@ -150,11 +152,11 @@ class Coolsms
      * $method 
      * GET = 0, POST, 1
      * $path
-	 * sms['send' 'sent' 'cancel' 'balance']
-	 * senderid['register' 'verify' 'delete' 'list' 'set_default' 'get_default']
-	 * group['new_group' 'group_list' 'delete_groups' 'groups/{group_id}' 'groups/{group_id}/add_messages' 
-	 *       'groups/{group_id}/message' 'groups/{group_id}/delete_messages' 'groups/{group_id}/send]
-	 * image['image_list' 'images/{image_id}' 'upload_image' 'delete_image']
+     * sms['send' 'sent' 'cancel' 'balance']
+     * senderid['register' 'verify' 'delete' 'list' 'set_default' 'get_default']
+     * group['new_group' 'group_list' 'delete_groups' 'groups/{group_id}' 'groups/{group_id}/add_messages' 
+     *       'groups/{group_id}/message' 'groups/{group_id}/delete_messages' 'groups/{group_id}/send]
+     * image['image_list' 'images/{image_id}' 'upload_image' 'delete_image']
      */
     private function setMethod($resource, $path, $method, $version=self::VERSION)
     {
@@ -321,8 +323,8 @@ class Coolsms
     }
 
     /**
-	 * @GET group_list method
-	 * $options (none)
+     * @GET group_list method
+     * $options (none)
      * @returns an array['groupid', 'groupid'...]
      */
     public function groupList() 
@@ -392,9 +394,9 @@ class Coolsms
         $this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
         $this->addInfos($options);    
         return $this->result;
-	}
+    }
 
-	/**
+    /**
      * @POST groups/{group_id}/send method
      * @param $options (options must contain group_id)
      * @returns an object(group_id)

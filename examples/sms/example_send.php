@@ -22,7 +22,7 @@ $rest = new CS\Coolsms($apikey, $apisecret);
 $options->timestamp = (string)time();
 
 /*
- **  5 options(timestamp, to, from, type, text) are mandatory. must be filled
+ **  4 options(to, from, type, text) are mandatory. must be filled
  */
 $options->to = '01000000000';
 $options->from = '01000000000';
