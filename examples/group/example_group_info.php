@@ -2,7 +2,7 @@
 /**
  * #example_send
  *
- * This sample code demonstrate how to check group info CoolSMS Rest API PHP
+ * This sample code demonstrate how to check group info through CoolSMS Rest API PHP
  * for more info, visit
  * www.coolsms.co.kr
  */
