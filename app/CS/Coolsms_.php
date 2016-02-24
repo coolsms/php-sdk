@@ -6,8 +6,6 @@
  * Version 1.1
  **/
 
-namespace CS;
-
 // check php extension "curl_init, json_decode"
 if (!function_exists('curl_init')) {
   throw new Exception('Coolsms needs the CURL PHP extension.');
@@ -22,8 +20,8 @@ if (!function_exists('json_decode')) {
  */
 class Coolsms
 {
-    const HOST = "http://rest2.coolsms.co.kr";
-    const VERSION = "2";
+    const HOST = "http://api.coolsms.co.kr";
+    const VERSION = "1.5";
     const SDK_VERSION = "1.1";
 
     private $api_key;
@@ -120,7 +118,7 @@ class Coolsms
      */
     private function addInfos($options = null)
 	{
-		if (!$options) $options = new \stdClass();
+		if (!$options) $options = new stdClass();
 
         $this->salt = uniqid();
         $this->timestamp = (string)time();
@@ -153,7 +151,7 @@ class Coolsms
 	 * sms['send' 'sent' 'cancel' 'balance']
 	 * senderid['register' 'verify' 'delete' 'list' 'set_default' 'get_default']
 	 * group['new_group' 'group_list' 'delete_groups' 'groups/{group_id}' 'groups/{group_id}/add_messages' 
-	 *       'groups/{group_id}/message' 'groups/{group_id}/delete_messages' 'groups/{group_id}/send]
+	 *       'groups/{group_id}/message' 'groups/{group_id}/delete_messages']
 	 * image['image_list' 'images/{image_id}' 'upload_image' 'delete_image']
      */
     private function setMethod($resource, $path, $method, $version=self::VERSION)
@@ -339,7 +337,7 @@ class Coolsms
      */
     public function deleteGroups($options) 
     {
-        $this->setMethod('sms', 'delete_groups', 1);
+        $this->setMethod('sms', 'delete', 1);
         $this->addInfos($options);    
         return $this->result;
     }
@@ -390,18 +388,6 @@ class Coolsms
     public function deleteMessages($options) 
     {
         $this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
-        $this->addInfos($options);    
-        return $this->result;
-	}
-
-	/**
-     * @POST groups/{group_id}/send method
-     * @param $options (options must contain group_id)
-     * @returns an object(group_id)
-     */
-    public function sendGroupMessage($options) 
-    {
-        $this->setMethod('sms', 'groups/' . $options->group_id . '/send', 1);
         $this->addInfos($options);    
         return $this->result;
     }
