@@ -2,7 +2,7 @@
 /**
  * #example_balance
  *
- * This sample code demonstrate how to check cash & point balance through CoolSMS Rest API PHP v1.0
+ * This sample code demonstrate how to check cash & point balance through CoolSMS Rest API PHP
  * for more info, visit
  * www.coolsms.co.kr
  */

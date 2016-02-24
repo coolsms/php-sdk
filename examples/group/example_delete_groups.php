@@ -2,7 +2,7 @@
 /**
  * #example_send
  *
- * This sample code demonstrate how to delete sms group through CoolSMS Rest API PHP v1.0
+ * This sample code demonstrate how to delete sms group through CoolSMS Rest API PHP
  * for more info, visit
  * www.coolsms.co.kr
  */
