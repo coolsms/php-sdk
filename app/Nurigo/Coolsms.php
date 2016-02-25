@@ -95,7 +95,7 @@ class Coolsms
         if ($this->method) {
             $this->content = array();
             foreach ($options as $key => $val) {
-                $val = trim($val);
+                if ($key != "text") $val = trim($val);
                 $this->content[$key] = sprintf("%s", $val);
                 if ($key == "image") $this->content[$key] = "@".realpath("./$val");
             }
@@ -104,7 +104,7 @@ class Coolsms
 
         // GET method content
         foreach ($options as $key => $val) {
-            $val = trim($val);
+            if ($key != "text") $val = trim($val);
             $this->content .= $key."=".urlencode($val)."&";
         }
     }
