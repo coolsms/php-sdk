@@ -62,7 +62,7 @@ class Coolsms
         // Set curl info
         curl_setopt($ch, CURLOPT_URL, $host);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
-        curl_setopt($ch, CURLOPT_SSLVERSION,3); // SSL version (need for https connect)
+        curl_setopt($ch, CURLOPT_SSLVERSION, 3); // SSL version (need for https connect)
         curl_setopt($ch, CURLOPT_HEADER, 0); // output header (1 = true, 0 = false) 
         curl_setopt($ch, CURLOPT_POST, $this->method); // POST GET method
 
@@ -441,7 +441,7 @@ class Coolsms
      */
     public function uploadImage($options) 
     {
-        $this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
+        $this->setMethod('sms', 'upload_image', 1);
         $this->addInfos($options);    
         return $this->result;
     }
@@ -453,7 +453,7 @@ class Coolsms
      */
     public function deleteImages($options) 
     {
-        $this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
+        $this->setMethod('sms', 'delete_images', 1);
         $this->addInfos($options);    
         return $this->result;
     }
