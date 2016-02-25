@@ -7,7 +7,8 @@
  * www.coolsms.co.kr
  */
 
-use Nurigo;
+use Nurigo\Coolsms as Coolsms;
+use Nurigo\CoolsmsException as CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
@@ -15,8 +16,12 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 $api_key = '#ENTER_YOUR_OWN#';
 $api_secret = '#ENTER_YOUR_OWN#';
 
-// initiate rest api sdk object
-$rest = new Nurigo\Coolsms($api_key, $api_secret);
-
-$result = $rest->balance();
-print_r($result);
+try {
+	// initiate rest api sdk object
+	$rest = new Nurigo\Coolsms($api_key, $api_secret);
+	$result = $rest->balance();  //cancel does not return any.
+	print_r($result);
+} catch(Nurigo\CoolsmsException $e) {
+	echo $e->getMessage();
+	echo $e->getResponseCode();
+}

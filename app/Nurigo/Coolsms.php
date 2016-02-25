@@ -38,6 +38,7 @@ class Coolsms
     private $result;
     private $basecamp;
     private $user_agent;
+    private $content;
 
     /**
      * @brief Construct
@@ -46,7 +47,7 @@ class Coolsms
     {
         $this->api_key = $api_key;
         $this->api_secret = $api_secret;
-        $this->user_agent = $_SERVER['HTTP_USER_AGENT'];
+        if(isset($_SERVER['HTTP_USER_AGENT'])) $this->user_agent = $_SERVER['HTTP_USER_AGENT'];
 
         if ($basecamp) $this->basecamp = true;
     }
@@ -81,9 +82,8 @@ class Coolsms
         curl_setopt($ch, CURLOPT_TIMEOUT, 10); // TimeOut value
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // curl_exec() result output (1 = true, 0 = false)
 
-        $result_str = curl_exec($ch);
-        $this->result = json_decode($result_str);
-        if($this->result->code) throw new CoolsmsException($result_str);
+        $this->result = json_decode(curl_exec($ch));
+        if($this->result->code) throw new CoolsmsException($this->result->message, $this->result->code);
 
         // Check connect errors
         if (curl_errno($ch)) throw new CoolsmsException(curl_error($ch));
@@ -130,10 +130,10 @@ class Coolsms
 
         $this->salt = uniqid();
         $this->timestamp = (string)time();
-        if (!$options->User_Agent) $options->User_Agent = sprintf("PHP REST API %s", self::VERSION);
-        if (!$options->os_platform) $options->os_platform = $this->getOS();
-        if (!$options->dev_lang) $options->dev_lang = sprintf("PHP %s", phpversion());
-        if (!$options->sdk_version) $options->sdk_version = sprintf("PHP SDK %s", self::SDK_VERSION);
+        if (!isset($options->User_Agent)) $options->User_Agent = sprintf("PHP REST API %s", self::VERSION);
+        if (!isset($options->os_platform)) $options->os_platform = $this->getOS();
+        if (!isset($options->dev_lang)) $options->dev_lang = sprintf("PHP %s", phpversion());
+        if (!isset($options->sdk_version)) $options->sdk_version = sprintf("PHP SDK %s", self::SDK_VERSION);
 
         $options->salt = $this->salt;
         $options->timestamp = $this->timestamp;
@@ -180,8 +180,8 @@ class Coolsms
 
     /**
      * @POST send method
-     * @param $options (options must contain api_key, salt, signature, to, from, text)
-     * @type, image, refname, country, datetime, mid, gid, subject, charset (optional)
+     * @param $options (options can be optional)
+     * @to, from, text, type, image, refname, country, datetime, mid, gid, subject, charset (optional)
      * @returns an object(recipient_number, group_id, message_id, result_code, result_message)
      */
     public function send($options) 
@@ -194,7 +194,7 @@ class Coolsms
     /**
      * @GET sent method
      * @param $options (options can be optional)
-     * @count,  page, s_rcpt, s_start, s_end, mid, gid (optional)
+     * @count, page, s_rcpt, s_start, s_end, mid, gid (optional)
      * @returns an object(total count, list_count, page, data['type', 'accepted_time', 'recipient_number', 'group_id', 'message_id', 'status', 'result_code', 'result_message', 'sent_time', 'text'])
      */
     public function sent($options) 
@@ -230,7 +230,7 @@ class Coolsms
 
     /**
      * @GET status method
-     * @options must contain api_key, salt, signature
+     * @param $options (options can be optional)
      * @return an object(registdate, sms_average, sms_sk_average, sms_kt_average, sms_lg_average, mms_average, mms_sk_average, mms_kt_average, mms_lg_average)
      * this method is made for Coolsms inc. internal use
      */
@@ -243,7 +243,7 @@ class Coolsms
 
     /**
      * @POST register method
-     * @options must contains api_key, salt, signature, phone, site_user(optional)
+     * @options must contains phone, site_user(optional)
      * @return json object(handle_key, ars_number)
      */
     public function register($options)
@@ -255,7 +255,7 @@ class Coolsms
 
     /**
      * @POST verify method
-     * @options must contains api_key, salt, signature, handle_key
+     * @options must contains handle_key
      * return nothing
      */
     public function verify($options)
@@ -267,7 +267,7 @@ class Coolsms
 
     /**
      * POST delete method
-     * $options must contains api_key, salt, signature, handle_key
+     * $options must contains handle_key
      * return nothing
      */
     public function delete($options)
@@ -279,8 +279,8 @@ class Coolsms
 
     /**
      * GET list method
-     * $options must conatins api_key, salt, signature, site_user(optional)
-     * return json object(idno, phone_number, flag_default, updatetime, regdate)
+     * $options must conatins site_user(optional)
+     * return json object(site_user, idno, phone_number, flag_default, updatetime, regdate)
      */
     public function senderidList($options)
     {
