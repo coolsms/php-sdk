@@ -1,8 +1,8 @@
 <?php
 /**
- * #example_message_list
+ * #example_set_default
  *
- * This sample code demonstrate check message list through CoolSMS Rest API PHP
+ * This sample code demonstrate how to set default sender number through CoolSMS Rest API PHP
  * for more info, visit
  * www.coolsms.co.kr
  */
@@ -18,9 +18,11 @@ $api_secret = '#ENTER_YOUR_OWN#';
 // initiate rest api sdk object
 $rest = new Nurigo\Coolsms($api_key, $api_secret);
 
-// Optional parameters for your own needs
-// $options->offset = 0; // default 0
-// $options->limit = 20; // default 20
+// options(handle_key) are mandatory. must be filled
+$options->handle_key = 'C29CE02IOE9'; // sender number handle key. check for 'example_list'
 
-$result = $rest->messageList($options);
+// Optional parameters for your own needs
+// $options->site_user = 'admin'; // site user_id. '__private__' is default value
+
+$result = $rest->setDefault($options);			
 print_r($result);
