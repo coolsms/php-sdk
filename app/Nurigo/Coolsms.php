@@ -1,4 +1,6 @@
 <?php
+/*- coding: utf-8 -*/
+/* vi:set sw=4 ts=4 expandtab: */
 
 /**
  * Copyright (C) 2008-2015 NURIGO
@@ -10,10 +12,10 @@ namespace Nurigo;
 
 // check php extension "curl_init, json_decode"
 if (!function_exists('curl_init')) {
-  throw new Exception('Coolsms needs the CURL PHP extension.');
+  throw new CoolsmsException('Coolsms needs the CURL PHP extension.');
 }
 if (!function_exists('json_decode')) {
-  throw new Exception('Coolsms needs the JSON PHP extension.');
+  throw new CoolsmsException('Coolsms needs the JSON PHP extension.');
 }
 
 /**
@@ -78,11 +80,13 @@ class Coolsms
         }
         curl_setopt($ch, CURLOPT_TIMEOUT, 10); // TimeOut value
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // curl_exec() result output (1 = true, 0 = false)
-        
-        $this->result = json_decode(curl_exec($ch));
+
+        $result_str = curl_exec($ch);
+        $this->result = json_decode($result_str);
+        if($this->result->code) throw new CoolsmsException($result_str);
 
         // Check connect errors
-        if (curl_errno($ch)) $this->result = curl_error($ch);
+        if (curl_errno($ch)) throw new CoolsmsException(curl_error($ch));
         curl_close ($ch);
     }
 
