@@ -1,4 +1,6 @@
 <?php
+/*- coding: utf-8 -*/
+/* vi:set sw=4 ts=4 expandtab: */
 
 /**
  * Copyright (C) 2008-2015 NURIGO
@@ -10,10 +12,10 @@ namespace Nurigo;
 
 // check php extension "curl_init, json_decode"
 if (!function_exists('curl_init')) {
-  throw new Exception('Coolsms needs the CURL PHP extension.');
+  throw new CoolsmsException('Coolsms needs the CURL PHP extension.');
 }
 if (!function_exists('json_decode')) {
-  throw new Exception('Coolsms needs the JSON PHP extension.');
+  throw new CoolsmsException('Coolsms needs the JSON PHP extension.');
 }
 
 /**
@@ -36,6 +38,7 @@ class Coolsms
     private $result;
     private $basecamp;
     private $user_agent;
+    private $content;
 
     /**
      * @brief Construct
@@ -44,7 +47,7 @@ class Coolsms
     {
         $this->api_key = $api_key;
         $this->api_secret = $api_secret;
-        $this->user_agent = $_SERVER['HTTP_USER_AGENT'];
+        if(isset($_SERVER['HTTP_USER_AGENT'])) $this->user_agent = $_SERVER['HTTP_USER_AGENT'];
 
         if ($basecamp) $this->basecamp = true;
     }
@@ -78,11 +81,12 @@ class Coolsms
         }
         curl_setopt($ch, CURLOPT_TIMEOUT, 10); // TimeOut value
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // curl_exec() result output (1 = true, 0 = false)
-        
+
         $this->result = json_decode(curl_exec($ch));
+        if($this->result->code) throw new CoolsmsException($this->result->message, $this->result->code);
 
         // Check connect errors
-        if (curl_errno($ch)) $this->result = curl_error($ch);
+        if (curl_errno($ch)) throw new CoolsmsException(curl_error($ch));
         curl_close ($ch);
     }
 
@@ -95,7 +99,7 @@ class Coolsms
         if ($this->method) {
             $this->content = array();
             foreach ($options as $key => $val) {
-                $val = trim($val);
+                if ($key != "text") $val = trim($val);
                 $this->content[$key] = sprintf("%s", $val);
                 if ($key == "image") $this->content[$key] = "@".realpath("./$val");
             }
@@ -104,7 +108,7 @@ class Coolsms
 
         // GET method content
         foreach ($options as $key => $val) {
-            $val = trim($val);
+            if ($key != "text") $val = trim($val);
             $this->content .= $key."=".urlencode($val)."&";
         }
     }
@@ -126,10 +130,10 @@ class Coolsms
 
         $this->salt = uniqid();
         $this->timestamp = (string)time();
-        if (!$options->User_Agent) $options->User_Agent = sprintf("PHP REST API %s", self::VERSION);
-        if (!$options->os_platform) $options->os_platform = $this->getOS();
-        if (!$options->dev_lang) $options->dev_lang = sprintf("PHP %s", phpversion());
-        if (!$options->sdk_version) $options->sdk_version = sprintf("PHP SDK %s", self::SDK_VERSION);
+        if (!isset($options->User_Agent)) $options->User_Agent = sprintf("PHP REST API %s", self::VERSION);
+        if (!isset($options->os_platform)) $options->os_platform = $this->getOS();
+        if (!isset($options->dev_lang)) $options->dev_lang = sprintf("PHP %s", phpversion());
+        if (!isset($options->sdk_version)) $options->sdk_version = sprintf("PHP SDK %s", self::SDK_VERSION);
 
         $options->salt = $this->salt;
         $options->timestamp = $this->timestamp;
@@ -176,8 +180,8 @@ class Coolsms
 
     /**
      * @POST send method
-     * @param $options (options must contain api_key, salt, signature, to, from, text)
-     * @type, image, refname, country, datetime, mid, gid, subject, charset (optional)
+     * @param $options (options can be optional)
+     * @to, from, text, type, image, refname, country, datetime, mid, gid, subject, charset (optional)
      * @returns an object(recipient_number, group_id, message_id, result_code, result_message)
      */
     public function send($options) 
@@ -190,7 +194,7 @@ class Coolsms
     /**
      * @GET sent method
      * @param $options (options can be optional)
-     * @count,  page, s_rcpt, s_start, s_end, mid, gid (optional)
+     * @count, page, s_rcpt, s_start, s_end, mid, gid (optional)
      * @returns an object(total count, list_count, page, data['type', 'accepted_time', 'recipient_number', 'group_id', 'message_id', 'status', 'result_code', 'result_message', 'sent_time', 'text'])
      */
     public function sent($options) 
@@ -202,11 +206,12 @@ class Coolsms
 
     /**
      * @POST cancel method
-     * @options must contain api_key, salt, signature
+     * @param $options (options can be optional)
      * @mid, gid (either one must be entered.)
      */
     public function cancel($options) 
     {
+        if (!$options->mid && !$options->gid) throw new CoolsmsException('"mid or gid" either one must be entered');
         $this->setMethod('sms', 'cancel', 1);
         $this->addInfos($options);    
         return $this->result;
@@ -226,7 +231,7 @@ class Coolsms
 
     /**
      * @GET status method
-     * @options must contain api_key, salt, signature
+     * @param $options (options can be optional)
      * @return an object(registdate, sms_average, sms_sk_average, sms_kt_average, sms_lg_average, mms_average, mms_sk_average, mms_kt_average, mms_lg_average)
      * this method is made for Coolsms inc. internal use
      */
@@ -239,11 +244,16 @@ class Coolsms
 
     /**
      * @POST register method
-     * @options must contains api_key, salt, signature, phone, site_user(optional)
+     * @param $phone (required)
+     * @param $site_user (optional)
      * @return json object(handle_key, ars_number)
      */
-    public function register($options)
+    public function register($phone, $site_user=null)
     {
+        if (!$phone) throw new CoolsmsException('phone number is required');
+
+        $options->phone = $phone;
+        $options->site_user = $site_user;
         $this->setMethod('senderid', 'register', 1, "1.1");
         $this->addInfos($options);
         return $this->result;
@@ -251,11 +261,14 @@ class Coolsms
 
     /**
      * @POST verify method
-     * @options must contains api_key, salt, signature, handle_key
+     * @param $handle_key (required)
      * return nothing
      */
-    public function verify($options)
+    public function verify($handle_key)
     {
+        if (!$handle_key) throw new CoolsmsException('handle_key is required');
+
+        $options->handle_key = $handle_key;
         $this->setMethod('senderid', 'verify', 1, "1.1");
         $this->addInfos($options);
         return $this->result;
@@ -263,11 +276,14 @@ class Coolsms
 
     /**
      * POST delete method
-     * $options must contains api_key, salt, signature, handle_key
+     * @param $handle_key (required)
      * return nothing
      */
-    public function delete($options)
+    public function delete($handle_key)
     {
+        if (!$handle_key) throw new CoolsmsException('handle_key is required');
+
+        $options->handle_key = $handle_key;
         $this->setMethod('senderid', 'delete', 1, "1.1");
         $this->addInfos($options);
         return $this->result;
@@ -275,8 +291,9 @@ class Coolsms
 
     /**
      * GET list method
-     * $options must conatins api_key, salt, signature, site_user(optional)
-     * return json object(idno, phone_number, flag_default, updatetime, regdate)
+     * @param $options (options can be optional)
+     * @site_user
+     * return json object(site_user, idno, phone_number, flag_default, updatetime, regdate)
      */
     public function senderidList($options)
     {
@@ -287,11 +304,16 @@ class Coolsms
 
     /**
      * POST set_default
-     * $options must contains api_key, salt, signature, handle_key, site_user(optional)
+     * @param $phone (required)
+     * @param $site_user (optional)
      * return nothing
      */
-    public function setDefault($options)
+    public function setDefault($handle_key, $site_user=null)
     {
+        if (!$handle_key) throw new CoolsmsException('handle_key is required');
+
+        $options->handle_key = $handle_key;
+        $options->site_user = $site_user;
         $this->setMethod('senderid', 'set_default', 1, "1.1");
         $this->addInfos($options);
         return $this->result;
@@ -299,7 +321,8 @@ class Coolsms
 
     /**
      * GET get_default
-     * $options must conatins api_key, salt, signature, site_user(optional)
+     * @param $options (options can be optional)
+     * @site_user
      * return json object(handle_key, phone_number)
      */
     public function getDefault($options)
@@ -336,11 +359,14 @@ class Coolsms
 
     /**
      * @POST delete_groups method
-     * @param $options (options must contain group_ids)
+     * @param $group_ids (required)
      * @returns an object(count)
      */
-    public function deleteGroups($options) 
+    public function deleteGroups($group_ids) 
     {
+        if (!$group_ids) throw new CoolsmsException('group_ids is required');
+
+        $options->group_ids = $group_ids;
         $this->setMethod('sms', 'delete_groups', 1);
         $this->addInfos($options);    
         return $this->result;
@@ -348,12 +374,15 @@ class Coolsms
 
     /**
      * @GET groups/{group_id} method
-     * @param $options (options must contain group_id)
+     * @param $group_id (required)
      * @returns an object(group_id, message_count)
      */
-    public function groupInfo($options) 
+    public function groupInfo($group_id) 
     {
-        $this->setMethod('sms', 'groups/' . $options->group_id, 0);
+        if (!$group_id) throw new CoolsmsException('group_id is required');
+
+        $options->group_id = $group_id;
+        $this->setMethod('sms', 'groups/' . $group_id, 0);
         $this->addInfos($options);    
         return $this->result;
     }
@@ -366,6 +395,8 @@ class Coolsms
      */
     public function addMessages($options) 
     {
+        if (!$options->group_id) throw new CoolsmsException('group_id is required');
+
         $this->setMethod('sms', 'groups/' . $options->group_id . '/add_messages' , 1);
         $this->addInfos($options);    
         return $this->result;
@@ -379,6 +410,8 @@ class Coolsms
      */
     public function messageList($options) 
     {
+        if (!$options->group_id) throw new CoolsmsException('group_id is required');
+
         $this->setMethod('sms', 'groups/' . $options->group_id . '/message_list', 0);
         $this->addInfos($options);    
         return $this->result;
@@ -386,11 +419,15 @@ class Coolsms
 
     /**
      * @POST groups/{group_id}/delete_messages method
-     * @param $options (options must contain group_id, message_ids)
+     * @param $group_id, $message_ids (required)
      * @returns an object(success_count)
      */
-    public function deleteMessages($options) 
+    public function deleteMessages($group_id, $message_ids) 
     {
+        if (!$group_id || $message_ids) throw new CoolsmsException('"group_id and message_ids" is required');
+
+        $options->group_id = $group_id;
+        $options->message_ids = $message_ids;
         $this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
         $this->addInfos($options);    
         return $this->result;
@@ -398,12 +435,15 @@ class Coolsms
 
     /**
      * @POST groups/{group_id}/send method
-     * @param $options (options must contain group_id)
+     * @param $group_id (required)
      * @returns an object(group_id)
      */
-    public function sendGroupMessage($options) 
+    public function sendGroupMessage($group_id) 
     {
-        $this->setMethod('sms', 'groups/' . $options->group_id . '/send', 1);
+        if (!$group_id) throw new CoolsmsException('group_id is required');
+
+        $options->group_id = $group_id;
+        $this->setMethod('sms', 'groups/' . $group_id . '/send', 1);
         $this->addInfos($options);    
         return $this->result;
     }
@@ -423,24 +463,31 @@ class Coolsms
 
     /**
      * @GET images/{image_id} method
-     * @param $options (options must contain image_id)
+     * @param $image_id (required)
      * @returns an object(image_id, file_name, original_name, file_size, width, height)
      */
-    public function imageInfo($options) 
+    public function imageInfo($iamge_id) 
     {
-        $this->setMethod('sms', 'images/' . $options->image_id, 0);
+        if (!$iamge_id) throw new CoolsmsException('image_id is required');
+
+        $options->image_id = $image_id;
+        $this->setMethod('sms', 'images/' . $image_id, 0);
         $this->addInfos($options);    
         return $this->result;
     }
 
     /**
      * @POST upload_image method
-     * @param $options (options must contain image)
-     * @encoding (optional)
+     * @param $image (required)
+     * @param $encoding (optional)
      * @returns an object(image_id)
      */
-    public function uploadImage($options) 
+    public function uploadImage($image, $encoding=null)
     {
+        if (!$image) throw new CoolsmsException('image is required');
+
+        $options->image = $image;
+        $options->encoding = $encoding;
         $this->setMethod('sms', 'upload_image', 1);
         $this->addInfos($options);    
         return $this->result;
@@ -448,11 +495,14 @@ class Coolsms
 
     /**
      * @POST delete_images method
-     * @param $options (options must contain image_ids)
+     * @param $image_ids (required)
      * @returns an object(success_count)
      */
-    public function deleteImages($options) 
+    public function deleteImages($image_ids) 
     {
+        if (!$image_ids) throw new CoolsmsException('image_ids is required');
+
+        $options->image_ids = $image_ids;
         $this->setMethod('sms', 'delete_images', 1);
         $this->addInfos($options);    
         return $this->result;
