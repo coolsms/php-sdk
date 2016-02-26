@@ -19,7 +19,7 @@ if (!function_exists('json_decode')) {
 }
 
 /**
- * Message management class, using the Rest API
+ * Coolsms Rest API core class, using the Rest API
  * @author NURIGO <contact@nurigo.net>
  */
 class Coolsms
@@ -124,7 +124,7 @@ class Coolsms
     /**
      * @brief Set authenticate information
      */
-    private function addInfos($options = null)
+    protected function addInfos($options = null)
     {
         if (!$options) $options = new \stdClass();
 
@@ -162,7 +162,7 @@ class Coolsms
      *       'groups/{group_id}/message' 'groups/{group_id}/delete_messages' 'groups/{group_id}/send]
      * image['image_list' 'images/{image_id}' 'upload_image' 'delete_image']
      */
-    private function setMethod($resource, $path, $method, $version=self::VERSION)
+    protected function setMethod($resource, $path, $method, $version=self::VERSION)
     {
         $this->resource = $resource;
         $this->path = $path;
@@ -179,339 +179,10 @@ class Coolsms
     }
 
     /**
-     * @POST send method
-     * @param $options (options can be optional)
-     * @to, from, text, type, image, refname, country, datetime, mid, gid, subject, charset (optional)
-     * @returns an object(recipient_number, group_id, message_id, result_code, result_message)
-     */
-    public function send($options) 
-    {
-        $this->setMethod('sms', 'send', 1);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-    
-    /**
-     * @GET sent method
-     * @param $options (options can be optional)
-     * @count, page, s_rcpt, s_start, s_end, mid, gid (optional)
-     * @returns an object(total count, list_count, page, data['type', 'accepted_time', 'recipient_number', 'group_id', 'message_id', 'status', 'result_code', 'result_message', 'sent_time', 'text'])
-     */
-    public function sent($options) 
-    {
-        $this->setMethod('sms', 'sent', 0);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-
-    /**
-     * @POST cancel method
-     * @param $options (options can be optional)
-     * @mid, gid (either one must be entered.)
-     */
-    public function cancel($options) 
-    {
-        if (!$options->mid && !$options->gid) throw new CoolsmsException('"mid or gid" either one must be entered');
-        $this->setMethod('sms', 'cancel', 1);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-
-    /**
-     * @GET balance method
-     * @options(none)
-     * @return an object(cash, point)
-     */
-    public function balance() 
-    {
-        $this->setMethod('sms', 'balance', 0);
-        $this->addInfos();    
-        return $this->result;
-    }
-
-    /**
-     * @GET status method
-     * @param $options (options can be optional)
-     * @return an object(registdate, sms_average, sms_sk_average, sms_kt_average, sms_lg_average, mms_average, mms_sk_average, mms_kt_average, mms_lg_average)
-     * this method is made for Coolsms inc. internal use
-     */
-    public function status($options) 
-    {
-        $this->setMethod('sms', 'status', 0);
-        $this->addInfos();    
-        return $this->result;
-    }
-
-    /**
-     * @POST register method
-     * @param $phone (required)
-     * @param $site_user (optional)
-     * @return json object(handle_key, ars_number)
-     */
-    public function register($phone, $site_user=null)
-    {
-        if (!$phone) throw new CoolsmsException('phone number is required');
-
-        $options->phone = $phone;
-        $options->site_user = $site_user;
-        $this->setMethod('senderid', 'register', 1, "1.1");
-        $this->addInfos($options);
-        return $this->result;
-    }
-
-    /**
-     * @POST verify method
-     * @param $handle_key (required)
-     * return nothing
-     */
-    public function verify($handle_key)
-    {
-        if (!$handle_key) throw new CoolsmsException('handle_key is required');
-
-        $options->handle_key = $handle_key;
-        $this->setMethod('senderid', 'verify', 1, "1.1");
-        $this->addInfos($options);
-        return $this->result;
-    }
-
-    /**
-     * POST delete method
-     * @param $handle_key (required)
-     * return nothing
-     */
-    public function delete($handle_key)
-    {
-        if (!$handle_key) throw new CoolsmsException('handle_key is required');
-
-        $options->handle_key = $handle_key;
-        $this->setMethod('senderid', 'delete', 1, "1.1");
-        $this->addInfos($options);
-        return $this->result;
-    }
-
-    /**
-     * GET list method
-     * @param $options (options can be optional)
-     * @site_user
-     * return json object(site_user, idno, phone_number, flag_default, updatetime, regdate)
-     */
-    public function senderidList($options)
-    {
-        $this->setMethod('senderid', 'list', 0, "1.1");
-        $this->addInfos();
-        return $this->result;
-    }
-
-    /**
-     * POST set_default
-     * @param $phone (required)
-     * @param $site_user (optional)
-     * return nothing
-     */
-    public function setDefault($handle_key, $site_user=null)
-    {
-        if (!$handle_key) throw new CoolsmsException('handle_key is required');
-
-        $options->handle_key = $handle_key;
-        $options->site_user = $site_user;
-        $this->setMethod('senderid', 'set_default', 1, "1.1");
-        $this->addInfos($options);
-        return $this->result;
-    }
-
-    /**
-     * GET get_default
-     * @param $options (options can be optional)
-     * @site_user
-     * return json object(handle_key, phone_number)
-     */
-    public function getDefault($options)
-    {
-        $this->setMethod('senderid', 'get_default', 0, "1.1");
-        $this->addInfos();
-        return $this->result;
-    }
-
-    /**
-     * @GET new_group method
-     * @param $options (options can be optional)
-     * @charset, srk, mode, delay, force_sms, os_platform, dev_lang, sdk_version, app_version (optional)
-     * @returns an object(group_id)
-     */
-    public function newGroup($options) 
-    {
-        $this->setMethod('sms', 'new_group', 0);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-
-    /**
-     * @GET group_list method
-     * $options (none)
-     * @returns an array['groupid', 'groupid'...]
-     */
-    public function groupList() 
-    {
-        $this->setMethod('sms', 'group_list', 0);
-        $this->addInfos();
-        return $this->result;
-    }
-
-    /**
-     * @POST delete_groups method
-     * @param $group_ids (required)
-     * @returns an object(count)
-     */
-    public function deleteGroups($group_ids) 
-    {
-        if (!$group_ids) throw new CoolsmsException('group_ids is required');
-
-        $options->group_ids = $group_ids;
-        $this->setMethod('sms', 'delete_groups', 1);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-
-    /**
-     * @GET groups/{group_id} method
-     * @param $group_id (required)
-     * @returns an object(group_id, message_count)
-     */
-    public function groupInfo($group_id) 
-    {
-        if (!$group_id) throw new CoolsmsException('group_id is required');
-
-        $options->group_id = $group_id;
-        $this->setMethod('sms', 'groups/' . $group_id, 0);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-
-    /**
-     * @POST groups/{group_id}/add_messages method
-     * @param $options (options must contain group_id)
-     * @to, from, text, type, image_id, refname, country, datetime, subject, delay, extension (optional)
-     * @returns an object(success_count, error_count, error_list['messageid':'code', 'messageid', 'code'])
-     */
-    public function addMessages($options) 
-    {
-        if (!$options->group_id) throw new CoolsmsException('group_id is required');
-
-        $this->setMethod('sms', 'groups/' . $options->group_id . '/add_messages' , 1);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-
-    /**
-     * @GET groups/{group_id}/message_list method
-     * @param $options (options must contain group_id)
-     * @offset, limit (optional)
-     * @returns an object(total_count, offset, limit, list['message_id', 'message_id' ...])
-     */
-    public function messageList($options) 
-    {
-        if (!$options->group_id) throw new CoolsmsException('group_id is required');
-
-        $this->setMethod('sms', 'groups/' . $options->group_id . '/message_list', 0);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-
-    /**
-     * @POST groups/{group_id}/delete_messages method
-     * @param $group_id, $message_ids (required)
-     * @returns an object(success_count)
-     */
-    public function deleteMessages($group_id, $message_ids) 
-    {
-        if (!$group_id || $message_ids) throw new CoolsmsException('"group_id and message_ids" is required');
-
-        $options->group_id = $group_id;
-        $options->message_ids = $message_ids;
-        $this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-
-    /**
-     * @POST groups/{group_id}/send method
-     * @param $group_id (required)
-     * @returns an object(group_id)
-     */
-    public function sendGroupMessage($group_id) 
-    {
-        if (!$group_id) throw new CoolsmsException('group_id is required');
-
-        $options->group_id = $group_id;
-        $this->setMethod('sms', 'groups/' . $group_id . '/send', 1);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-
-    /**
-     * @GET image_list method
-     * @param $options (options can be optional)
-     * @offset, limit (optional)
-     * @returns an object(total_count, offset, limit, list['image_id', 'image_id' ...])
-     */
-    public function imageList($options) 
-    {
-        $this->setMethod('sms', 'image_list', 0);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-
-    /**
-     * @GET images/{image_id} method
-     * @param $image_id (required)
-     * @returns an object(image_id, file_name, original_name, file_size, width, height)
-     */
-    public function imageInfo($iamge_id) 
-    {
-        if (!$iamge_id) throw new CoolsmsException('image_id is required');
-
-        $options->image_id = $image_id;
-        $this->setMethod('sms', 'images/' . $image_id, 0);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-
-    /**
-     * @POST upload_image method
-     * @param $image (required)
-     * @param $encoding (optional)
-     * @returns an object(image_id)
-     */
-    public function uploadImage($image, $encoding=null)
-    {
-        if (!$image) throw new CoolsmsException('image is required');
-
-        $options->image = $image;
-        $options->encoding = $encoding;
-        $this->setMethod('sms', 'upload_image', 1);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-
-    /**
-     * @POST delete_images method
-     * @param $image_ids (required)
-     * @returns an object(success_count)
-     */
-    public function deleteImages($image_ids) 
-    {
-        if (!$image_ids) throw new CoolsmsException('image_ids is required');
-
-        $options->image_ids = $image_ids;
-        $this->setMethod('sms', 'delete_images', 1);
-        $this->addInfos($options);    
-        return $this->result;
-    }
-
-    /**
      * @brief Return user's current OS
      */
-    function getOS() { 
+    function getOS()
+    {
         $user_agent = $this->user_agent;
         $os_platform = "Unknown OS Platform";
         $os_array = array(
@@ -551,7 +222,8 @@ class Coolsms
     /**
      * @brief Return user's current browser
      */
-    function getBrowser() {
+    function getBrowser() 
+    {
         $user_agent = $this->user_agent;
         $browser = "Unknown Browser";
         $browser_array = array(

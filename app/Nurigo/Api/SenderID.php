@@ -1,0 +1,106 @@
+<?php
+/*- coding: utf-8 -*/
+/* vi:set sw=4 ts=4 expandtab: */
+
+namespace Nurigo;
+
+use Nurigo\Coolsms as Coolsms;
+
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
+/**
+ * Sender ID management class, using the Rest API
+ * @author NURIGO <contact@nurigo.net>
+ */
+class SenderID extends Coolsms
+{
+    /**
+     * @POST register method
+     * @param $phone (required)
+     * @param $site_user (optional)
+     * @return json object(handle_key, ars_number)
+     */
+    public function register($phone, $site_user=null)
+    {
+        if (!$phone) throw new CoolsmsException('phone number is required');
+
+        $options->phone = $phone;
+        $options->site_user = $site_user;
+        $this->setMethod('senderid', 'register', 1, "1.1");
+        $this->addInfos($options);
+        return $this->result;
+    }
+
+    /**
+     * @POST verify method
+     * @param $handle_key (required)
+     * return nothing
+     */
+    public function verify($handle_key)
+    {
+        if (!$handle_key) throw new CoolsmsException('handle_key is required');
+
+        $options->handle_key = $handle_key;
+        $this->setMethod('senderid', 'verify', 1, "1.1");
+        $this->addInfos($options);
+        return $this->result;
+    }
+
+    /**
+     * POST delete method
+     * @param $handle_key (required)
+     * return nothing
+     */
+    public function delete($handle_key)
+    {
+        if (!$handle_key) throw new CoolsmsException('handle_key is required');
+
+        $options->handle_key = $handle_key;
+        $this->setMethod('senderid', 'delete', 1, "1.1");
+        $this->addInfos($options);
+        return $this->result;
+    }
+
+    /**
+     * GET list method
+     * @param $options (options can be optional)
+     * @site_user
+     * return json object(site_user, idno, phone_number, flag_default, updatetime, regdate)
+     */
+    public function senderidList($options)
+    {
+        $this->setMethod('senderid', 'list', 0, "1.1");
+        $this->addInfos();
+        return $this->result;
+    }
+
+    /**
+     * POST set_default
+     * @param $phone (required)
+     * @param $site_user (optional)
+     * return nothing
+     */
+    public function setDefault($handle_key, $site_user=null)
+    {
+        if (!$handle_key) throw new CoolsmsException('handle_key is required');
+
+        $options->handle_key = $handle_key;
+        $options->site_user = $site_user;
+        $this->setMethod('senderid', 'set_default', 1, "1.1");
+        $this->addInfos($options);
+        return $this->result;
+    }
+
+    /**
+     * GET get_default
+     * @param $options (options can be optional)
+     * @site_user
+     * return json object(handle_key, phone_number)
+     */
+    public function getDefault($options)
+    {
+        $this->setMethod('senderid', 'get_default', 0, "1.1");
+        $this->addInfos();
+        return $this->result;
+    }
+}
