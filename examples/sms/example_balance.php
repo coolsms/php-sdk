@@ -17,11 +17,11 @@ $api_key = '#ENTER_YOUR_OWN#';
 $api_secret = '#ENTER_YOUR_OWN#';
 
 try {
-	// initiate rest api sdk object
-	$rest = new Nurigo\Coolsms($api_key, $api_secret);
-	$result = $rest->balance();  //cancel does not return any.
-	print_r($result);
+    // initiate rest api sdk object
+    $rest = new Nurigo\Coolsms($api_key, $api_secret);
+    $result = $rest->balance(); // cancel does not return any.
+    print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
-	echo $e->getMessage();
-	echo $e->getResponseCode();
+    echo $e->getMessage(); // get error message
+    echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code
 }
