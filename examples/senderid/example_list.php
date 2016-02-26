@@ -7,7 +7,7 @@
  * www.coolsms.co.kr
  */
 
-use Nurigo\Coolsms as Coolsms;
+use Nurigo\Coolsms\SenderID as SenderId;
 use Nurigo\CoolsmsException as CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -18,7 +18,7 @@ $api_secret = '#ENTER_YOUR_OWN#';
 
 try {
     // initiate rest api sdk object
-    $rest = new Nurigo\Coolsms($api_key, $api_secret);
+    $rest = new Nurigo\Coolsms\SenderID($api_key, $api_secret);
 
     // Optional parameters for your own needs
     // $options->site_user = 'admin'; // site user_id. '__private__' is default value
