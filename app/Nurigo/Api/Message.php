@@ -35,7 +35,7 @@ class Message extends Coolsms
      */
     public function sent($options) 
     {
-        $this->setMethod('sms', 'sent', 0);
+        $this->setMethod('sms', 'sent');
         $this->addInfos($options);    
         return $this->result;
     }
@@ -60,7 +60,7 @@ class Message extends Coolsms
      */
     public function balance() 
     {
-        $this->setMethod('sms', 'balance', 0);
+        $this->setMethod('sms', 'balance');
         $this->addInfos();    
         return $this->result;
     }
@@ -73,7 +73,7 @@ class Message extends Coolsms
      */
     public function status($options) 
     {
-        $this->setMethod('sms', 'status', 0);
+        $this->setMethod('sms', 'status');
         $this->addInfos();    
         return $this->result;
     }

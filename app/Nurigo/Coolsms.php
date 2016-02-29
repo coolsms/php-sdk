@@ -43,7 +43,7 @@ class Coolsms
     /**
      * @brief Construct
      */
-    public function __construct($api_key, $api_secret, $basecamp=false)
+    public function __construct($api_key, $api_secret, $basecamp = false)
     {
         $this->api_key = $api_key;
         $this->api_secret = $api_secret;
@@ -100,8 +100,12 @@ class Coolsms
             $this->content = array();
             foreach ($options as $key => $val) {
                 if ($key != "text") $val = trim($val);
-                $this->content[$key] = sprintf("%s", $val);
-                if ($key == "image") $this->content[$key] = "@".realpath("./$val");
+                
+                if ($key == "image") {
+                    $this->content[$key] = "@" . realpath("./$val");
+                } else {
+                    $this->content[$key] = sprintf("%s", $val);
+                }
             }
             return;
         }
@@ -109,7 +113,7 @@ class Coolsms
         // GET method content
         foreach ($options as $key => $val) {
             if ($key != "text") $val = trim($val);
-            $this->content .= $key."=".urlencode($val)."&";
+            $this->content .= $key . "=" . urlencode($val) . "&";
         }
     }
 
@@ -118,7 +122,7 @@ class Coolsms
      */
     private function getSignature()
     {
-        return hash_hmac('md5', (string)$this->timestamp.$this->salt, $this->api_secret);
+        return hash_hmac('md5', (string)$this->timestamp . $this->salt, $this->api_secret);
     }
 
     /**
@@ -154,7 +158,7 @@ class Coolsms
      * $resource
      * 'sms', 'senderid', 'group'
      * $method 
-     * GET = 0, POST, 1
+     * GET = 0(default), POST, 1
      * $path
      * sms['send' 'sent' 'cancel' 'balance']
      * senderid['register' 'verify' 'delete' 'list' 'set_default' 'get_default']
@@ -162,12 +166,11 @@ class Coolsms
      *       'groups/{group_id}/message' 'groups/{group_id}/delete_messages' 'groups/{group_id}/send]
      * image['image_list' 'images/{image_id}' 'upload_image' 'delete_image']
      */
-    protected function setMethod($resource, $path, $method, $version=self::VERSION)
+    protected function setMethod($resource, $path, $method = 0)
     {
         $this->resource = $resource;
         $this->path = $path;
         $this->method = $method;
-        $this->version = $version;
     }
 
     /**

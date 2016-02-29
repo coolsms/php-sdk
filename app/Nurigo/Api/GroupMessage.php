@@ -22,7 +22,7 @@ class GroupMessage extends Coolsms
      */
     public function newGroup($options) 
     {
-        $this->setMethod('sms', 'new_group', 0);
+        $this->setMethod('sms', 'new_group');
         $this->addInfos($options);    
         return $this->result;
     }
@@ -34,7 +34,7 @@ class GroupMessage extends Coolsms
      */
     public function groupList() 
     {
-        $this->setMethod('sms', 'group_list', 0);
+        $this->setMethod('sms', 'group_list');
         $this->addInfos();
         return $this->result;
     }
@@ -64,7 +64,7 @@ class GroupMessage extends Coolsms
         if (!$group_id) throw new CoolsmsException('group_id is required');
 
         $options->group_id = $group_id;
-        $this->setMethod('sms', 'groups/' . $group_id, 0);
+        $this->setMethod('sms', 'groups/' . $group_id);
         $this->addInfos($options);    
         return $this->result;
     }
@@ -94,7 +94,7 @@ class GroupMessage extends Coolsms
     {
         if (!$options->group_id) throw new CoolsmsException('group_id is required');
 
-        $this->setMethod('sms', 'groups/' . $options->group_id . '/message_list', 0);
+        $this->setMethod('sms', 'groups/' . $options->group_id . '/message_list');
         $this->addInfos($options);    
         return $this->result;
     }
