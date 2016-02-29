@@ -14,16 +14,15 @@ require_once __DIR__ . "/../../../vendor/autoload.php";
  */
 class SenderID extends Coolsms
 {
-    $resource_name = "senderid";
-    $resource_version = "1.1";
-
     function __construct($api_key, $api_secret, $basecamp = false)
     {
         // set api_key and api_secret
         parent::__construct($api_key, $api_secret, $basecamp = false);
 
         // set API resource and version
-        $this->setResource($this->resource_name, $this->resource_version);
+        $resource_name = "senderid";
+        $resource_version = "1.1";
+        $this->setResource($resource_name, $resource_version);
     }
 
     /**
@@ -81,7 +80,7 @@ class SenderID extends Coolsms
      * @param $site_user (optional)
      * return json object(site_user, idno, phone_number, flag_default, updatetime, regdate)
      */
-    public function senderidList($site_user)
+    public function senderidList($site_user = null)
     {
         if(isset($site_user)) $options->site_user = $site_user;
 
@@ -113,7 +112,7 @@ class SenderID extends Coolsms
      * @param $site_user (optional)
      * return json object(handle_key, phone_number)
      */
-    public function getDefault($site_user)
+    public function getDefault($site_user = null)
     {
         if(isset($site_user)) $options->site_user = $site_user;
 
