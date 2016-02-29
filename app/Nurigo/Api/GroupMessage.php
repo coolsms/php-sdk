@@ -71,13 +71,15 @@ class GroupMessage extends Coolsms
 
     /**
      * @POST groups/{group_id}/add_messages method
-     * @param $options (options must contain group_id)
-     * @to, from, text, type, image_id, refname, country, datetime, subject, delay, extension (optional)
+     * @param $options (options must contain group_id, to, from, text)
+     * @type, image_id, refname, country, datetime, subject, delay, extension (optional)
      * @returns an object(success_count, error_count, error_list['messageid':'code', 'messageid', 'code'])
      */
     public function addMessages($options) 
     {
-        if (!isset($options->group_id)) throw new CoolsmsException('group_id is required');
+        if (!isset($options->group_id) || !isset($options->to) || !isset($options->text) || !isset($options->from)) {
+            throw new CoolsmsException('group_id, to, text, from is required');
+        }
 
         $this->setMethod('sms', 'groups/' . $options->group_id . '/add_messages' , 1);
         $this->addInfos($options);    

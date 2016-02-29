@@ -21,6 +21,7 @@ try {
     $rest = new Nurigo\Coolsms\GroupMessage($api_key, $api_secret);
 
     // Optional parameters for your own needs
+    $options = new stcClass();
     // $options->charset = 'utf8'; 				// utf8, euckr default value is utf8
     // $options->srk = '';						// Solution key
     // $options->mode = 'test';					// If 'test' value. refund cash to point

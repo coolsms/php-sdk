@@ -20,11 +20,11 @@ try {
     // initiate rest api sdk object
     $rest = new Nurigo\Coolsms\GroupMessage($api_key, $api_secret);
 
-    // options(group_id, message_ids) are mandatory. must be filled
-    $options->group_id = 'GID56CC00E21C4DC'; // ex) '1GCOLS23BDG'
-    $options->message_ids = '2838DFJFE02EI10TM'; // ex) '2838DFJFE02EI10TM','RGGBB11545'
+    // group_id, message_ids are mandatory. must be filled
+    $group_id = 'GID56CC00E21C4DC'; // ex) '1GCOLS23BDG'
+    $message_ids = '2838DFJFE02EI10TM'; // ex) '2838DFJFE02EI10TM','RGGBB11545'
 
-    $result = $rest->deleteMessages($options);			
+    $result = $rest->deleteMessages($group_id, $message_ids);
 	print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message

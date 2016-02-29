@@ -20,10 +20,10 @@ try {
     // initiate rest api sdk object
     $rest = new Nurigo\Coolsms\GroupMessage($api_key, $api_secret);
 
-    // options(group_id) are mandatory. must be filled
-    $options->group_id = 'GID56CC00E21C4DC'; // ex) '1GCOLS23BDG'
+	// group_id are mandatory. must be filled
+    $group_id = 'GID56CC00E21C4DC'; // ex) '1GCOLS23BDG'
 
-    $result = $rest->sendGroupMessage($options);			
+    $result = $rest->sendGroupMessage($group_id);
 	print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message
