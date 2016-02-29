@@ -21,6 +21,7 @@ try {
 	$rest = new Nurigo\Coolsms\Message($api_key, $api_secret);
 
 	// Either mid or gid must be entered. 
+	$options = new stdClass();
 	$options->mid = 'M52CB443257C61'; // message id. 
 	// $options->gid = 'G52CB4432576C8'; // group id. 
 

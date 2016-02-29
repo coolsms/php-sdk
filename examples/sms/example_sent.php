@@ -20,7 +20,8 @@ try {
     // initiate rest api sdk object
     $rest = new Nurigo\Coolsms\Message($api_key, $api_secret);
 
-    // set necessary options
+	// set necessary options
+	$options = new stdClass();
     $options->mid = 'M52CB443257C61';			//message id 
     // $options->gid = 'G52CB4432576C8';		//group id
     // $options->count = '40';					//result return counts. default is 20
