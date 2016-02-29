@@ -25,7 +25,7 @@ try {
 	$options->mid = 'M52CB443257C61'; // message id. 
 	// $options->gid = 'G52CB4432576C8'; // group id. 
 
-	$result = $rest->cancel($options); // cancel does not return any.
+	$rest->cancel($options); // cancel does not return any.
 } catch(Nurigo\CoolsmsException $e) {
 	echo $e->getMessage(); // get error message
 	echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code

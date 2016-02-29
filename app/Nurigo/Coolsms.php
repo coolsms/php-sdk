@@ -88,7 +88,7 @@ class Coolsms
         if (isset($this->result->code)) throw new CoolsmsException($this->result->message, $this->result->code);
 
         // Check connect errors
-        if (isset(curl_errno($ch))) throw new CoolsmsException(curl_error($ch));
+        if (curl_errno($ch)) throw new CoolsmsException(curl_error($ch));
         curl_close($ch);
     }
 
