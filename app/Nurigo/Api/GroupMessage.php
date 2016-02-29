@@ -2,7 +2,7 @@
 /*- coding: utf-8 -*/
 /* vi:set sw=4 ts=4 expandtab: */
 
-namespace Nurigo;
+namespace Nurigo\Coolsms;
 
 use Nurigo\Coolsms as Coolsms;
 
@@ -48,6 +48,7 @@ class GroupMessage extends Coolsms
     {
         if (!isset($group_ids)) throw new CoolsmsException('group_ids is required');
 
+        $options = new \stdClass();
         $options->group_ids = $group_ids;
         $this->setMethod('sms', 'delete_groups', 1);
         $this->addInfos($options);    
@@ -63,6 +64,7 @@ class GroupMessage extends Coolsms
     {
         if (!isset($group_id)) throw new CoolsmsException('group_id is required');
 
+        $options = new \stdClass();
         $options->group_id = $group_id;
         $this->setMethod('sms', 'groups/' . $group_id);
         $this->addInfos($options);    
@@ -110,6 +112,7 @@ class GroupMessage extends Coolsms
     {
         if (!isset($group_id) || !isset($message_ids)) throw new CoolsmsException('"group_id and message_ids" is required');
 
+        $options = new \stdClass();
         $options->group_id = $group_id;
         $options->message_ids = $message_ids;
         $this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
@@ -126,6 +129,7 @@ class GroupMessage extends Coolsms
     {
         if (!isset($group_id)) throw new CoolsmsException('group_id is required');
 
+        $options = new \stdClass();
         $options->group_id = $group_id;
         $this->setMethod('sms', 'groups/' . $group_id . '/send', 1);
         $this->addInfos($options);    

@@ -2,7 +2,7 @@
 /*- coding: utf-8 -*/
 /* vi:set sw=4 ts=4 expandtab: */
 
-namespace Nurigo;
+namespace Nurigo\Coolsms;
 
 use Nurigo\Coolsms as Coolsms;
 
@@ -36,6 +36,7 @@ class Image extends Coolsms
     {
         if (!isset($iamge_id)) throw new CoolsmsException('image_id is required');
 
+        $options = new \stdClass();
         $options->image_id = $image_id;
         $this->setMethod('sms', 'images/' . $image_id);
         $this->addInfos($options);    
@@ -52,6 +53,7 @@ class Image extends Coolsms
     {
         if (!isset($image)) throw new CoolsmsException('image is required');
 
+        $options = new \stdClass();
         $options->image = $image;
         $options->encoding = $encoding;
         $this->setMethod('sms', 'upload_image', 1);
@@ -68,6 +70,7 @@ class Image extends Coolsms
     {
         if (!isset($image_ids)) throw new CoolsmsException('image_ids is required');
 
+        $options = new \stdClass();
         $options->image_ids = $image_ids;
         $this->setMethod('sms', 'delete_images', 1);
         $this->addInfos($options);    

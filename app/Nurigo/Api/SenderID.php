@@ -2,7 +2,7 @@
 /*- coding: utf-8 -*/
 /* vi:set sw=4 ts=4 expandtab: */
 
-namespace Nurigo;
+namespace Nurigo\Coolsms;
 
 use Nurigo\Coolsms as Coolsms;
 
@@ -24,6 +24,7 @@ class SenderID extends Coolsms
     {
         if (!isset($phone)) throw new CoolsmsException('phone number is required');
 
+        $options = new \stdClass();
         $options->phone = $phone;
         $options->site_user = $site_user;
         $this->setMethod('senderid', 'register', 1);
@@ -40,6 +41,7 @@ class SenderID extends Coolsms
     {
         if (!isset($handle_key)) throw new CoolsmsException('handle_key is required');
 
+        $options = new \stdClass();
         $options->handle_key = $handle_key;
         $this->setMethod('senderid', 'verify', 1);
         $this->addInfos($options);
@@ -55,6 +57,7 @@ class SenderID extends Coolsms
     {
         if (!isset($handle_key)) throw new CoolsmsException('handle_key is required');
 
+        $options = new \stdClass();
         $options->handle_key = $handle_key;
         $this->setMethod('senderid', 'delete', 1);
         $this->addInfos($options);
@@ -85,6 +88,7 @@ class SenderID extends Coolsms
     {
         if (!isset($handle_key)) throw new CoolsmsException('handle_key is required');
 
+        $options = new \stdClass();
         $options->handle_key = $handle_key;
         $options->site_user = $site_user;
         $this->setMethod('senderid', 'set_default', 1);
