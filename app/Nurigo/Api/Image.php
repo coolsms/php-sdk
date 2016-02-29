@@ -22,7 +22,7 @@ class Image extends Coolsms
      */
     public function imageList($options) 
     {
-        $this->setMethod('sms', 'image_list');
+        $this->setMethod('image_list');
         $this->addInfos($options);
         return $this->getResult();
     }
@@ -38,7 +38,7 @@ class Image extends Coolsms
 
         $options = new \stdClass();
         $options->image_id = $image_id;
-        $this->setMethod('sms', 'images/' . $image_id);
+        $this->setMethod('images/' . $image_id);
         $this->addInfos($options);    
         return $this->getResult();
     }
@@ -56,7 +56,7 @@ class Image extends Coolsms
         $options = new \stdClass();
         $options->image = $image;
         $options->encoding = $encoding;
-        $this->setMethod('sms', 'upload_image', 1);
+        $this->setMethod('upload_image', 1);
         $this->addInfos($options);    
         return $this->getResult();
     }
@@ -72,7 +72,7 @@ class Image extends Coolsms
 
         $options = new \stdClass();
         $options->image_ids = $image_ids;
-        $this->setMethod('sms', 'delete_images', 1);
+        $this->setMethod('delete_images', 1);
         $this->addInfos($options);    
         return $this->getResult();
     }

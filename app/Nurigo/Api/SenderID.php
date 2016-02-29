@@ -14,6 +14,18 @@ require_once __DIR__ . "/../../../vendor/autoload.php";
  */
 class SenderID extends Coolsms
 {
+    $resource_name = "senderid";
+    $resource_version = "1.1";
+
+    function __construct($api_key, $api_secret, $basecamp = false)
+    {
+        // set api_key and api_secret
+        parent::__construct($api_key, $api_secret, $basecamp = false);
+
+        // set API resource and version
+        $this->setResource($this->resource_name, $this->resource_version);
+    }
+
     /**
      * @POST register method
      * @param $phone (required)
@@ -27,7 +39,7 @@ class SenderID extends Coolsms
         $options = new \stdClass();
         $options->phone = $phone;
         $options->site_user = $site_user;
-        $this->setMethod('senderid', 'register', 1);
+        $this->setMethod('register', 1);
         $this->addInfos($options);
         return $this->getResult();
     }
@@ -43,7 +55,7 @@ class SenderID extends Coolsms
 
         $options = new \stdClass();
         $options->handle_key = $handle_key;
-        $this->setMethod('senderid', 'verify', 1);
+        $this->setMethod('verify', 1);
         $this->addInfos($options);
         return $this->getResult();
     }
@@ -59,7 +71,7 @@ class SenderID extends Coolsms
 
         $options = new \stdClass();
         $options->handle_key = $handle_key;
-        $this->setMethod('senderid', 'delete', 1);
+        $this->setMethod('delete', 1);
         $this->addInfos($options);
         return $this->getResult();
     }
@@ -73,7 +85,7 @@ class SenderID extends Coolsms
     {
         if(isset($site_user)) $options->site_user = $site_user;
 
-        $this->setMethod('senderid', 'list');
+        $this->setMethod('list');
         $this->addInfos();
         return $this->getResult();
     }
@@ -91,7 +103,7 @@ class SenderID extends Coolsms
         $options = new \stdClass();
         $options->handle_key = $handle_key;
         $options->site_user = $site_user;
-        $this->setMethod('senderid', 'set_default', 1);
+        $this->setMethod('set_default', 1);
         $this->addInfos($options);
         return $this->getResult();
     }
@@ -105,7 +117,7 @@ class SenderID extends Coolsms
     {
         if(isset($site_user)) $options->site_user = $site_user;
 
-        $this->setMethod('senderid', 'get_default');
+        $this->setMethod('get_default');
         $this->addInfos();
         return $this->getResult();
     }

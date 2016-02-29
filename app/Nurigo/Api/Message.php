@@ -22,7 +22,7 @@ class Message extends Coolsms
      */
     public function send($options) 
     {
-        $this->setMethod('sms', 'send', 1);
+        $this->setMethod('send', 1);
         $this->addInfos($options);    
         return $this->getResult();
     }
@@ -35,7 +35,7 @@ class Message extends Coolsms
      */
     public function sent($options) 
     {
-        $this->setMethod('sms', 'sent');
+        $this->setMethod('sent');
         $this->addInfos($options);    
         return $this->getResult();
     }
@@ -48,7 +48,7 @@ class Message extends Coolsms
     public function cancel($options) 
     {
         if (!isset($options->mid) && !isset($options->gid)) throw new CoolsmsException('"mid or gid" either one must be entered');
-        $this->setMethod('sms', 'cancel', 1);
+        $this->setMethod('cancel', 1);
         $this->addInfos($options);    
         return $this->getResult();
     }
@@ -60,7 +60,7 @@ class Message extends Coolsms
      */
     public function balance() 
     {
-        $this->setMethod('sms', 'balance');
+        $this->setMethod('balance');
         $this->addInfos();    
         return $this->getResult();
     }
@@ -73,7 +73,7 @@ class Message extends Coolsms
      */
     public function status($options) 
     {
-        $this->setMethod('sms', 'status');
+        $this->setMethod('status');
         $this->addInfos();    
         return $this->getResult();
     }

@@ -25,12 +25,12 @@ if (!function_exists('json_decode')) {
 class Coolsms
 {
     const HOST = "http://rest2.coolsms.co.kr";
-    const VERSION = "1.5";
     const SDK_VERSION = "1.1";
 
+    private $resource = "sms";
+    private $version = "1.5";
     private $api_key;
     private $api_secret;
-    private $resource;
     private $path;
     private $method;
     private $timestamp;
@@ -59,9 +59,9 @@ class Coolsms
         $ch = curl_init(); 
         // Set host. 1 = POST , 0 = GET
         if ($this->method == 1) {
-            $host = sprintf("%s/%s/%s/%s", self::HOST, $this->resource, self::VERSION, $this->path);
+            $host = sprintf("%s/%s/%s/%s", self::HOST, $this->resource, $this->version, $this->path);
         } else {
-            $host = sprintf("%s/%s/%s/%s?%s", self::HOST, $this->resource, self::VERSION, $this->path, $this->content);
+            $host = sprintf("%s/%s/%s/%s?%s", self::HOST, $this->resource, $this->version, $this->path, $this->content);
         }
 
         // Set curl info
@@ -136,7 +136,7 @@ class Coolsms
 
         $this->salt = uniqid();
         $this->timestamp = (string)time();
-        if (!isset($options->User_Agent)) $options->User_Agent = sprintf("PHP REST API %s", self::VERSION);
+        if (!isset($options->User_Agent)) $options->User_Agent = sprintf("PHP REST API %s", $this->version);
         if (!isset($options->os_platform)) $options->os_platform = $this->getOS();
         if (!isset($options->dev_lang)) $options->dev_lang = sprintf("PHP %s", phpversion());
         if (!isset($options->sdk_version)) $options->sdk_version = sprintf("PHP SDK %s", self::SDK_VERSION);
@@ -153,8 +153,6 @@ class Coolsms
     }
 
     /**
-     * $resource
-     * 'sms', 'senderid', 'group'
      * $method 
      * GET = 0(default), POST, 1
      * $path
@@ -164,9 +162,8 @@ class Coolsms
      *       'groups/{group_id}/message' 'groups/{group_id}/delete_messages' 'groups/{group_id}/send]
      * image['image_list' 'images/{image_id}' 'upload_image' 'delete_image']
      */
-    protected function setMethod($resource, $path, $method = 0)
+    protected function setMethod($path, $method = 0)
     {
-        $this->resource = $resource;
         $this->path = $path;
         $this->method = $method;
     }
@@ -177,6 +174,19 @@ class Coolsms
     public function getResult()
     {
         return $this->result;
+    }
+
+    /**
+     * set API resource and version
+     * $resource
+     * 'sms', 'senderid', 'group'
+     * $version
+     */
+    public function setResource($resource, $version)
+    {
+        if (!isset($resource) || !isset($version)) throw new CoolsmsException('API resource, version is requried');
+        $this->resource = $resource;
+        $this->version = $version;
     }
 
     /**
