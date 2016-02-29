@@ -20,10 +20,10 @@ try {
     // initiate rest api sdk object
     $rest = new Nurigo\Coolsms\Image($api_key, $api_secret);
 
-    // options(image_ids) are mandatory. must be filled
-    $options->image_ids = ''; // image ids. ex)'IM34BWIDJ12','IMG2559GBB'
+    // image_ids are mandatory. must be filled
+    $image_ids = ''; // image ids. ex)'IM34BWIDJ12','IMG2559GBB'
 
-    $result = $rest->deleteImages($options);			
+    $result = $rest->deleteImages($image_ids);
 	print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message

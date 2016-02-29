@@ -20,13 +20,13 @@ try {
     // initiate rest api sdk object
     $rest = new Nurigo\Coolsms\SenderID($api_key, $api_secret);
 
-    // options(image) are mandatory. must be filled
-    $options->image = 'images/test.jpg'; // image
+    // image are mandatory. must be filled
+    $image = 'images/test.jpg'; // image
 
     // Optional parameters for your own needs
-    // $options->encoding = 'binary'; // image encoding type (base64, binary) default binary
+    // $encoding = 'binary'; // image encoding type (base64, binary) default binary
 
-    $result = $rest->uploadImage($options);			
+    $result = $rest->uploadImage($image); // or $rest->uploadImage($image, $encoding)
 	print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message

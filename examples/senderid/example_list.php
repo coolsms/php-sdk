@@ -21,9 +21,9 @@ try {
     $rest = new Nurigo\Coolsms\SenderID($api_key, $api_secret);
 
     // Optional parameters for your own needs
-    // $options->site_user = 'admin'; // site user_id. '__private__' is default value
+    // $site_user = 'admin'; // site user_id. '__private__' is default value
 
-    $result = $rest->senderidList($options);
+    $result = $rest->senderidList(); // or $rest->senderidList($site_user);
 	print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message

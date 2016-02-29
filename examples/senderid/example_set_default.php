@@ -20,13 +20,13 @@ try {
     // initiate rest api sdk object
     $rest = new Nurigo\Coolsms\SenderID($api_key, $api_secret);
 
-    // options(handle_key) are mandatory. must be filled
-    $options->handle_key = 'C29CE02IOE9'; // sender number handle key. check for 'example_list'
+    // handle_key are mandatory. must be filled
+    $handle_key = 'C29CE02IOE9'; // sender number handle key. check for 'example_list'
 
     // Optional parameters for your own needs
-    // $options->site_user = 'admin'; // site user_id. '__private__' is default value
+    // $site_user = 'admin'; // site user_id. '__private__' is default value
 
-    $result = $rest->setDefault($options);			
+    $result = $rest->setDefault($handle_key); // or $rest->setDefault($handle_key, $site_user);
 	print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message

@@ -20,10 +20,10 @@ try {
     // initiate rest api sdk object
     $rest = new Nurigo\Coolsms\SenderID($api_key, $api_secret);
 
-    // options(handle_key) are mandatory. must be filled
-    $options->handle_key = 'C29CE02IOE9'; // after register call. return value
+    // handle_key are mandatory. must be filled
+    $handle_key = 'C29CE02IOE9'; // after register call. return value
 
-    $result = $rest->verify($options);			
+    $result = $rest->verify($handle_key);
 	print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message

@@ -20,7 +20,8 @@ try {
     // initiate rest api sdk object
     $rest = new Nurigo\Coolsms\SenderID($api_key, $api_secret);
 
-    // Optional parameters for your own needs
+	// Optional parameters for your own needs
+    $options = new stdClass();
     // $options->offset = 0; // default 0
     // $options->limit = 20; // default 20
 

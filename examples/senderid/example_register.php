@@ -20,13 +20,13 @@ try {
     // initiate rest api sdk object
     $rest = new Nurigo\Coolsms\SenderID($api_key, $api_secret);
 
-    // options(phone) are mandatory. must be filled
-    $options->phone = '01000000000'; // sender number to register 
+    // phone are mandatory. must be filled
+    $phone = '01000000000'; // sender number to register 
 
     // Optional parameters for your own needs
-    // $options->site_user = 'admin'; // site user_id. '__private__' is default value
+    // $site_user = 'admin'; // site user_id. '__private__' is default value
 
-    $result = $rest->register($options);			
+    $result = $rest->register($phone); // or $rest->register($phone, $site_user);
 	print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message

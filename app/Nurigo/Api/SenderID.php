@@ -63,12 +63,13 @@ class SenderID extends Coolsms
 
     /**
      * GET list method
-     * @param $options (options can be optional)
-     * @site_user
+     * @param $site_user (optional)
      * return json object(site_user, idno, phone_number, flag_default, updatetime, regdate)
      */
-    public function senderidList($options)
+    public function senderidList($site_user)
     {
+        if(isset($site_user)) $options->site_user = $site_user;
+
         $this->setMethod('senderid', 'list');
         $this->addInfos();
         return $this->getResult();
@@ -93,12 +94,13 @@ class SenderID extends Coolsms
 
     /**
      * GET get_default
-     * @param $options (options can be optional)
-     * @site_user
+     * @param $site_user (optional)
      * return json object(handle_key, phone_number)
      */
-    public function getDefault($options)
+    public function getDefault($site_user)
     {
+        if(isset($site_user)) $options->site_user = $site_user;
+
         $this->setMethod('senderid', 'get_default');
         $this->addInfos();
         return $this->getResult();
