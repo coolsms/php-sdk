@@ -37,11 +37,6 @@ try {
     // $options->subject = 'Hello World';         // set msg title for LMS and MMS
     // $options->charset = 'euckr';               // For Korean language, set euckr or utf-8
 
-    // added REST API v1.5
-    // $options->os_platform = 'Windows 7';       // Operating System. SDK creates automatically if empty 
-    // $options->dev_lang = 'PHP 5.3.3';          // Application development language. SDK creates automatically if empty 
-    // $options->sdk_version = 'PHP SDK 1.1';     // SDK version being used. SDK creates automatically if empty 
-
     $result = $rest->send($options);            
     print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
