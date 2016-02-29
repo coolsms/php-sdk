@@ -23,7 +23,7 @@ class Image extends Coolsms
     public function imageList($options) 
     {
         $this->setMethod('sms', 'image_list');
-        $this->addInfos($options);    
+        $this->addInfos($options);
         return $this->result;
     }
 
@@ -34,7 +34,7 @@ class Image extends Coolsms
      */
     public function imageInfo($iamge_id) 
     {
-        if (!$iamge_id) throw new CoolsmsException('image_id is required');
+        if (!isset($iamge_id)) throw new CoolsmsException('image_id is required');
 
         $options->image_id = $image_id;
         $this->setMethod('sms', 'images/' . $image_id);
@@ -50,7 +50,7 @@ class Image extends Coolsms
      */
     public function uploadImage($image, $encoding = null)
     {
-        if (!$image) throw new CoolsmsException('image is required');
+        if (!isset($image)) throw new CoolsmsException('image is required');
 
         $options->image = $image;
         $options->encoding = $encoding;
@@ -66,7 +66,7 @@ class Image extends Coolsms
      */
     public function deleteImages($image_ids) 
     {
-        if (!$image_ids) throw new CoolsmsException('image_ids is required');
+        if (!isset($image_ids)) throw new CoolsmsException('image_ids is required');
 
         $options->image_ids = $image_ids;
         $this->setMethod('sms', 'delete_images', 1);

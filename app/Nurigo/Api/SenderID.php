@@ -22,7 +22,7 @@ class SenderID extends Coolsms
      */
     public function register($phone, $site_user = null)
     {
-        if (!$phone) throw new CoolsmsException('phone number is required');
+        if (!isset($phone)) throw new CoolsmsException('phone number is required');
 
         $options->phone = $phone;
         $options->site_user = $site_user;
@@ -38,7 +38,7 @@ class SenderID extends Coolsms
      */
     public function verify($handle_key)
     {
-        if (!$handle_key) throw new CoolsmsException('handle_key is required');
+        if (!isset($handle_key)) throw new CoolsmsException('handle_key is required');
 
         $options->handle_key = $handle_key;
         $this->setMethod('senderid', 'verify', 1);
@@ -53,7 +53,7 @@ class SenderID extends Coolsms
      */
     public function delete($handle_key)
     {
-        if (!$handle_key) throw new CoolsmsException('handle_key is required');
+        if (!isset($handle_key)) throw new CoolsmsException('handle_key is required');
 
         $options->handle_key = $handle_key;
         $this->setMethod('senderid', 'delete', 1);
@@ -82,7 +82,7 @@ class SenderID extends Coolsms
      */
     public function setDefault($handle_key, $site_user = null)
     {
-        if (!$handle_key) throw new CoolsmsException('handle_key is required');
+        if (!isset($handle_key)) throw new CoolsmsException('handle_key is required');
 
         $options->handle_key = $handle_key;
         $options->site_user = $site_user;

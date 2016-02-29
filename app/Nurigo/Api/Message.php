@@ -47,7 +47,7 @@ class Message extends Coolsms
      */
     public function cancel($options) 
     {
-        if (!$options->mid && !$options->gid) throw new CoolsmsException('"mid or gid" either one must be entered');
+        if (!isset($options->mid) && !isset($options->gid)) throw new CoolsmsException('"mid or gid" either one must be entered');
         $this->setMethod('sms', 'cancel', 1);
         $this->addInfos($options);    
         return $this->result;

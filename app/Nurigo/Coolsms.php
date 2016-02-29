@@ -83,7 +83,7 @@ class Coolsms
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // curl_exec() result output (1 = true, 0 = false)
 
         $this->result = json_decode(curl_exec($ch));
-        if($this->result->code) throw new CoolsmsException($this->result->message, $this->result->code);
+        if (isset($this->result->code)) throw new CoolsmsException($this->result->message, $this->result->code);
 
         // Check connect errors
         if (curl_errno($ch)) throw new CoolsmsException(curl_error($ch));
@@ -130,7 +130,7 @@ class Coolsms
      */
     protected function addInfos($options = null)
     {
-        if (!$options) $options = new \stdClass();
+        if (!isset($options)) $options = new \stdClass();
 
         $this->salt = uniqid();
         $this->timestamp = (string)time();
@@ -143,11 +143,7 @@ class Coolsms
         $options->timestamp = $this->timestamp;
 
         // If basecamp is true '$coolsms_user' use
-        if ($this->basecamp) {
-            $options->coolsms_user = $this->api_key;
-        } else {
-            $options->api_key = $this->api_key;
-        }
+        isset($this->basecamp) ? $options->coolsms_user = $this->api_key : $options->api_key = $this->api_key;
 
         $options->signature = $this->getSignature();
         $this->setContent($options);
