@@ -20,7 +20,8 @@ try {
     // initiate rest api sdk object
     $rest = new Nurigo\Coolsms\Message($api_key, $api_secret);
 
-    // 4 options(to, from, type, text) are mandatory. must be filled
+	// 4 options(to, from, type, text) are mandatory. must be filled
+	$options = new stdClass();
     $options->to = '01000000000';
     $options->from = '01000000000';
     $options->type = 'SMS';

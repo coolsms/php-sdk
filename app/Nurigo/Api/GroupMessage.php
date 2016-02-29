@@ -24,7 +24,7 @@ class GroupMessage extends Coolsms
     {
         $this->setMethod('sms', 'new_group');
         $this->addInfos($options);    
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -36,7 +36,7 @@ class GroupMessage extends Coolsms
     {
         $this->setMethod('sms', 'group_list');
         $this->addInfos();
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -51,7 +51,7 @@ class GroupMessage extends Coolsms
         $options->group_ids = $group_ids;
         $this->setMethod('sms', 'delete_groups', 1);
         $this->addInfos($options);    
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -66,7 +66,7 @@ class GroupMessage extends Coolsms
         $options->group_id = $group_id;
         $this->setMethod('sms', 'groups/' . $group_id);
         $this->addInfos($options);    
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -81,7 +81,7 @@ class GroupMessage extends Coolsms
 
         $this->setMethod('sms', 'groups/' . $options->group_id . '/add_messages' , 1);
         $this->addInfos($options);    
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -96,7 +96,7 @@ class GroupMessage extends Coolsms
 
         $this->setMethod('sms', 'groups/' . $options->group_id . '/message_list');
         $this->addInfos($options);    
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -112,7 +112,7 @@ class GroupMessage extends Coolsms
         $options->message_ids = $message_ids;
         $this->setMethod('sms', 'groups/' . $options->group_id . '/delete_messages', 1);
         $this->addInfos($options);    
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -127,6 +127,6 @@ class GroupMessage extends Coolsms
         $options->group_id = $group_id;
         $this->setMethod('sms', 'groups/' . $group_id . '/send', 1);
         $this->addInfos($options);    
-        return $this->result;
+        return $this->getResult();
     }
 }

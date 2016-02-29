@@ -28,7 +28,7 @@ class SenderID extends Coolsms
         $options->site_user = $site_user;
         $this->setMethod('senderid', 'register', 1);
         $this->addInfos($options);
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -43,7 +43,7 @@ class SenderID extends Coolsms
         $options->handle_key = $handle_key;
         $this->setMethod('senderid', 'verify', 1);
         $this->addInfos($options);
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -58,7 +58,7 @@ class SenderID extends Coolsms
         $options->handle_key = $handle_key;
         $this->setMethod('senderid', 'delete', 1);
         $this->addInfos($options);
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -71,7 +71,7 @@ class SenderID extends Coolsms
     {
         $this->setMethod('senderid', 'list');
         $this->addInfos();
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -88,7 +88,7 @@ class SenderID extends Coolsms
         $options->site_user = $site_user;
         $this->setMethod('senderid', 'set_default', 1);
         $this->addInfos($options);
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -101,6 +101,6 @@ class SenderID extends Coolsms
     {
         $this->setMethod('senderid', 'get_default');
         $this->addInfos();
-        return $this->result;
+        return $this->getResult();
     }
 }

@@ -24,7 +24,7 @@ class Image extends Coolsms
     {
         $this->setMethod('sms', 'image_list');
         $this->addInfos($options);
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -39,7 +39,7 @@ class Image extends Coolsms
         $options->image_id = $image_id;
         $this->setMethod('sms', 'images/' . $image_id);
         $this->addInfos($options);    
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -56,7 +56,7 @@ class Image extends Coolsms
         $options->encoding = $encoding;
         $this->setMethod('sms', 'upload_image', 1);
         $this->addInfos($options);    
-        return $this->result;
+        return $this->getResult();
     }
 
     /**
@@ -71,6 +71,6 @@ class Image extends Coolsms
         $options->image_ids = $image_ids;
         $this->setMethod('sms', 'delete_images', 1);
         $this->addInfos($options);    
-        return $this->result;
+        return $this->getResult();
     }
 }

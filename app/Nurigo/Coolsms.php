@@ -25,7 +25,7 @@ if (!function_exists('json_decode')) {
 class Coolsms
 {
     const HOST = "http://rest2.coolsms.co.kr";
-    const VERSION = "2";
+    const VERSION = "1.5";
     const SDK_VERSION = "1.1";
 
     private $api_key;
@@ -58,8 +58,11 @@ class Coolsms
     {
         $ch = curl_init(); 
         // Set host. 1 = POST , 0 = GET
-        $host = sprintf("%s/%s/%s/%s?%s", self::HOST, $this->resource, self::VERSION, $this->path, $this->content);
-        if ($this->method==1) $host = sprintf("%s/%s/%s/%s", self::HOST, $this->resource, self::VERSION, $this->path);
+        if ($this->method == 1) {
+            $host = sprintf("%s/%s/%s/%s", self::HOST, $this->resource, self::VERSION, $this->path);
+        } else {
+            $host = sprintf("%s/%s/%s/%s?%s", self::HOST, $this->resource, self::VERSION, $this->path, $this->content);
+        }
 
         // Set curl info
         curl_setopt($ch, CURLOPT_URL, $host);
@@ -73,7 +76,7 @@ class Coolsms
             $header = array("Content-Type:multipart/form-data");
 
             // route가 있으면 header에 붙여준다. substr 해준 이유는 앞에 @^가 붙기 때문에 자르기 위해서.
-            if ($this->content['route']) $header[] = "User-Agent:" . substr($this->content['route'], 1);
+            if (isset($this->content['route'])) $header[] = "User-Agent:" . substr($this->content['route'], 1);
 
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $this->content); 
@@ -85,8 +88,8 @@ class Coolsms
         if (isset($this->result->code)) throw new CoolsmsException($this->result->message, $this->result->code);
 
         // Check connect errors
-        if (curl_errno($ch)) throw new CoolsmsException(curl_error($ch));
-        curl_close ($ch);
+        if (isset(curl_errno($ch))) throw new CoolsmsException(curl_error($ch));
+        curl_close($ch);
     }
 
     /**
