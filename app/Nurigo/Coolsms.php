@@ -47,8 +47,7 @@ class Coolsms
     {
         $this->api_key = $api_key;
         $this->api_secret = $api_secret;
-        if(isset($_SERVER['HTTP_USER_AGENT'])) $this->user_agent = $_SERVER['HTTP_USER_AGENT'];
-
+        if (isset($_SERVER['HTTP_USER_AGENT'])) $this->user_agent = $_SERVER['HTTP_USER_AGENT'];
         if ($basecamp) $this->basecamp = true;
     }
 
