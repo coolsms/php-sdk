@@ -9,6 +9,10 @@
 
 namespace Nurigo;
 
+use Nurigo\Exceptions\CoolsmsException;
+
+require_once __DIR__ . "/../../vendor/autoload.php";
+
 // check php extension "curl_init, json_decode"
 if (!function_exists('curl_init')) {
     throw new CoolsmsException('Coolsms needs the CURL PHP extension.');
