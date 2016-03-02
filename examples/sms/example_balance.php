@@ -18,7 +18,7 @@ $api_secret = '#ENTER_YOUR_OWN#';
 
 try {
     // initiate rest api sdk object
-	$rest = new Nurigo\Coolsms\Message($api_key, $api_secret);
+    $rest = new Nurigo\Coolsms\Message($api_key, $api_secret);
 
     $result = $rest->balance(); // cancel does not return any.
     print_r($result);

@@ -24,7 +24,7 @@ try {
     $image_id = ''; // image id
 
     $result = $rest->imageInfo($image_id);
-	print_r($result);
+    print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code

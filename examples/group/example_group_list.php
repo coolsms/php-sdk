@@ -21,7 +21,7 @@ try {
     $rest = new Nurigo\Coolsms\GroupMessage($api_key, $api_secret);
 
     $result = $rest->groupList();
-	print_r($result);
+    print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code

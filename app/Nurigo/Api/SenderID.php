@@ -19,10 +19,10 @@ class SenderID extends Coolsms
         // set api_key and api_secret
         parent::__construct($api_key, $api_secret, $basecamp = false);
 
-        // set API resource and version
-        $resource_name = "senderid";
-        $resource_version = "1.1";
-        $this->setResource($resource_name, $resource_version);
+        // set API and version
+        $api = "senderid";
+        $version = "1.1";
+        $this->setResource($api, $version);
     }
 
     /**
@@ -82,7 +82,7 @@ class SenderID extends Coolsms
      */
     public function senderidList($site_user = null)
     {
-        if(isset($site_user)) $options->site_user = $site_user;
+        if($site_user) $options->site_user = $site_user;
 
         $this->setMethod('list');
         $this->addInfos();
@@ -114,7 +114,7 @@ class SenderID extends Coolsms
      */
     public function getDefault($site_user = null)
     {
-        if(isset($site_user)) $options->site_user = $site_user;
+        if($site_user) $options->site_user = $site_user;
 
         $this->setMethod('get_default');
         $this->addInfos();

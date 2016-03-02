@@ -29,8 +29,8 @@ try {
     // $options->force_sms = true;				// 'true or false' always send sms 
     // $options->app_version = '';				// App version
 
-    $result = $rest->newGroup($options);			
-	print_r($result);
+    $result = $rest->newGroup($options);
+    print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code

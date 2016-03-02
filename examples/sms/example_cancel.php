@@ -17,16 +17,16 @@ $api_key = '#ENTER_YOUR_OWN#';
 $api_secret = '#ENTER_YOUR_OWN#';
 
 try {
-	// initiate rest api sdk object 
-	$rest = new Nurigo\Coolsms\Message($api_key, $api_secret);
+    // initiate rest api sdk object 
+    $rest = new Nurigo\Coolsms\Message($api_key, $api_secret);
 
-	// Either mid or gid must be entered. 
-	$options = new stdClass();
-	$options->mid = 'M52CB443257C61'; // message id. 
-	// $options->gid = 'G52CB4432576C8'; // group id. 
+    // Either mid or gid must be entered. 
+    $options = new stdClass();
+    $options->mid = 'M52CB443257C61'; // message id. 
+    // $options->gid = 'G52CB4432576C8'; // group id. 
 
-	$rest->cancel($options); // cancel does not return any.
+    $rest->cancel($options); // cancel does not return any.
 } catch(Nurigo\CoolsmsException $e) {
-	echo $e->getMessage(); // get error message
-	echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code
+    echo $e->getMessage(); // get error message
+    echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code
 }

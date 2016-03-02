@@ -27,7 +27,7 @@ class Coolsms
     const HOST = "http://rest2.coolsms.co.kr";
     const SDK_VERSION = "1.1";
 
-    private $resource = "sms";
+    private $api = "sms";
     private $version = "1.5";
     private $api_key;
     private $api_secret;
@@ -59,9 +59,9 @@ class Coolsms
         $ch = curl_init(); 
         // Set host. 1 = POST , 0 = GET
         if ($this->method == 1) {
-            $host = sprintf("%s/%s/%s/%s", self::HOST, $this->resource, $this->version, $this->path);
+            $host = sprintf("%s/%s/%s/%s", self::HOST, $this->api, $this->version, $this->path);
         } else {
-            $host = sprintf("%s/%s/%s/%s?%s", self::HOST, $this->resource, $this->version, $this->path, $this->content);
+            $host = sprintf("%s/%s/%s/%s?%s", self::HOST, $this->api, $this->version, $this->path, $this->content);
         }
 
         // Set curl info
@@ -177,15 +177,15 @@ class Coolsms
     }
 
     /**
-     * set API resource and version
-     * $resource
+     * set API and version
+     * $api
      * 'sms', 'senderid', 'group'
      * $version
      */
-    public function setResource($resource, $version)
+    public function setResource($api, $version)
     {
-        if (!isset($resource) || !isset($version)) throw new CoolsmsException('API resource, version is requried');
-        $this->resource = $resource;
+        if (!isset($api) || !isset($version)) throw new CoolsmsException('API, version is requried');
+        $this->api = $api;
         $this->version = $version;
     }
 

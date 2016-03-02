@@ -24,7 +24,7 @@ try {
     $image_ids = ''; // image ids. ex)'IM34BWIDJ12','IMG2559GBB'
 
     $result = $rest->deleteImages($image_ids);
-	print_r($result);
+    print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code

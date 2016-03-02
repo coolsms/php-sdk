@@ -25,7 +25,7 @@ try {
     $message_ids = '2838DFJFE02EI10TM'; // ex) '2838DFJFE02EI10TM','RGGBB11545'
 
     $result = $rest->deleteMessages($group_id, $message_ids);
-	print_r($result);
+    print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code

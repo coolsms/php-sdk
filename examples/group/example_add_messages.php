@@ -24,7 +24,7 @@ try {
     $options = new stdClass();
     $options->to = '01000000000';
     $options->from = '01000000000';
-	$options->text = '안녕하세요. 10000건을 20초안에 발송하는 빠르고 저렴한 CoolSMS의 테스팅 문자입니다. ';
+    $options->text = '안녕하세요. 10000건을 20초안에 발송하는 빠르고 저렴한 CoolSMS의 테스팅 문자입니다. ';
     $options->group_id = 'GID56CC00E21C4DC';
 
     // Optional parameters for your own needs

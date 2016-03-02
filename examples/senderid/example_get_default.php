@@ -24,7 +24,7 @@ try {
     // $site_user = 'admin'; // site user_id. '__private__' is default value
 
     $result = $rest->getDefault(); // or $rest->getDefault($site_user);
-	print_r($result);
+    print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code

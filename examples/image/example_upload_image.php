@@ -27,7 +27,7 @@ try {
     // $encoding = 'binary'; // image encoding type (base64, binary) default binary
 
     $result = $rest->uploadImage($image); // or $rest->uploadImage($image, $encoding)
-	print_r($result);
+    print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code

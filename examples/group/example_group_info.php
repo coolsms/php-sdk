@@ -24,7 +24,7 @@ try {
     $group_id = ''; // group id
 
     $result = $rest->groupInfo($group_id);
-	print_r($result);
+    print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code

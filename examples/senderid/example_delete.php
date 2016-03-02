@@ -24,7 +24,7 @@ try {
     $handle_key = 'C29CE02IOE9'; // sender number handle key. check for 'example_list'
 
     $result = $rest->delete($handle_key);
-	print_r($result);
+    print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code

@@ -24,7 +24,7 @@ try {
     $handle_key = 'C29CE02IOE9'; // after register call. return value
 
     $result = $rest->verify($handle_key);
-	print_r($result);
+    print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code

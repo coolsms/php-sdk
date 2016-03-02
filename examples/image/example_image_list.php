@@ -20,13 +20,13 @@ try {
     // initiate rest api sdk object
     $rest = new Nurigo\Coolsms\SenderID($api_key, $api_secret);
 
-	// Optional parameters for your own needs
+    // Optional parameters for your own needs
     $options = new stdClass();
     // $options->offset = 0; // default 0
     // $options->limit = 20; // default 20
 
     $result = $rest->imageList($options);
-	print_r($result);
+    print_r($result);
 } catch(Nurigo\CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code
