@@ -11,10 +11,10 @@ namespace Nurigo;
 
 // check php extension "curl_init, json_decode"
 if (!function_exists('curl_init')) {
-  throw new CoolsmsException('Coolsms needs the CURL PHP extension.');
+    throw new CoolsmsException('Coolsms needs the CURL PHP extension.');
 }
 if (!function_exists('json_decode')) {
-  throw new CoolsmsException('Coolsms needs the JSON PHP extension.');
+    throw new CoolsmsException('Coolsms needs the JSON PHP extension.');
 }
 
 /**
