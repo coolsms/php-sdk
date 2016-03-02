@@ -1,11 +1,10 @@
 <?php
-/*- coding: utf-8 -*/
 /* vi:set sw=4 ts=4 expandtab: */
 
 /**
- * Copyright (C) 2008-2015 NURIGO
+ * Copyright (C) 2008-2016 NURIGO
  * http://www.coolsms.co.kr
- * Version 1.1
+ * SDK Version 1.1
  **/
 
 namespace Nurigo;
@@ -27,14 +26,12 @@ class Coolsms
     const HOST = "http://rest2.coolsms.co.kr";
     const SDK_VERSION = "1.1";
 
-    private $api = "sms";
-    private $version = "1.5";
+    private $api_name = "sms";
+    private $api_version = "1.5";
     private $api_key;
     private $api_secret;
     private $path;
-    private $method;
-    private $timestamp;
-    private $salt;
+    private $is_post;
     private $result;
     private $basecamp;
     private $user_agent;
@@ -57,22 +54,23 @@ class Coolsms
     public function curlProcess()
     {
         $ch = curl_init(); 
-        // Set host. 1 = POST , 0 = GET
-        if ($this->method == 1) {
-            $host = sprintf("%s/%s/%s/%s", self::HOST, $this->api, $this->version, $this->path);
+        if (!$ch) throw new CoolsmsException(curl_error($ch), curl_errno($ch)); // 리워크 할 것임 
+        // Set url. is_post true = POST , false = GET
+        if ($this->is_post) {
+            $url = sprintf("%s/%s/%s/%s", self::HOST, $this->api_name, $this->api_version, $this->path);
         } else {
-            $host = sprintf("%s/%s/%s/%s?%s", self::HOST, $this->api, $this->version, $this->path, $this->content);
+            $url = sprintf("%s/%s/%s/%s?%s", self::HOST, $this->api_name, $this->api_version, $this->path, $this->content);
         }
 
         // Set curl info
-        curl_setopt($ch, CURLOPT_URL, $host);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
-        curl_setopt($ch, CURLOPT_SSLVERSION, 3); // SSL version (need for https connect)
-        curl_setopt($ch, CURLOPT_HEADER, 0); // output header (1 = true, 0 = false) 
-        curl_setopt($ch, CURLOPT_POST, $this->method); // POST GET method
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // check SSL certificate
+        curl_setopt($ch, CURLOPT_SSLVERSION, 3); // SSL protocol version (need for https connect, 3 -> SSLv3)
+        curl_setopt($ch, CURLOPT_HEADER, 0); // include the header in the output (1 = true, 0 = false) 
+        curl_setopt($ch, CURLOPT_POST, $this->is_post); // POST GET method
 
         // Set POST DATA
-        if ($this->method) {
+        if ($this->is_post) {
             $header = array("Content-Type:multipart/form-data");
 
             // route가 있으면 header에 붙여준다. substr 해준 이유는 앞에 @^가 붙기 때문에 자르기 위해서.
@@ -85,7 +83,9 @@ class Coolsms
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // curl_exec() result output (1 = true, 0 = false)
 
         $this->result = json_decode(curl_exec($ch));
-        if (isset($this->result->code)) throw new CoolsmsException($this->result->message, $this->result->code);
+
+        // Unless http status code is 200. throw exception.
+        if (curl_getinfo($ch, CURLINFO_HTTP_CODE) != 200) throw new CoolsmsException($this->result->message, $this->result->code);
 
         // Check connect errors
         if (curl_errno($ch)) throw new CoolsmsException(curl_error($ch));
@@ -98,7 +98,7 @@ class Coolsms
     private function setContent($options)
     {
         // POST method content
-        if ($this->method) {
+        if ($this->is_post) {
             $this->content = array();
             foreach ($options as $key => $val) {
                 if ($key != "text") $val = trim($val);
@@ -122,9 +122,9 @@ class Coolsms
     /**
      * @biref Make a signature with hash_hamac then return the signature
      */
-    private function getSignature()
+    private function getSignature($timestamp, $salt)
     {
-        return hash_hmac('md5', (string)$this->timestamp . $this->salt, $this->api_secret);
+        return hash_hmac('md5', $timestamp . $salt, $this->api_secret);
     }
 
     /**
@@ -133,27 +133,25 @@ class Coolsms
     protected function addInfos($options = null)
     {
         if (!isset($options)) $options = new \stdClass();
-
-        $this->salt = uniqid();
-        $this->timestamp = (string)time();
-        if (!isset($options->User_Agent)) $options->User_Agent = sprintf("PHP REST API %s", $this->version);
+        if (!isset($options->User_Agent)) $options->User_Agent = sprintf("PHP REST API %s", $this->api_version);
         if (!isset($options->os_platform)) $options->os_platform = $this->getOS();
         if (!isset($options->dev_lang)) $options->dev_lang = sprintf("PHP %s", phpversion());
         if (!isset($options->sdk_version)) $options->sdk_version = sprintf("PHP SDK %s", self::SDK_VERSION);
 
-        $options->salt = $this->salt;
-        $options->timestamp = $this->timestamp;
+        // set salt & timestamp
+        $options->salt = uniqid();
+        $options->timestamp = (string)time();
 
         // If basecamp is true '$coolsms_user' use
         isset($this->basecamp) ? $options->coolsms_user = $this->api_key : $options->api_key = $this->api_key;
 
-        $options->signature = $this->getSignature();
+        $options->signature = $this->getSignature($options->timestamp, $options->salt);
         $this->setContent($options);
         $this->curlProcess();
     }
 
     /**
-     * $method 
+     * $is_post 
      * GET = 0(default), POST, 1
      * $path
      * sms['send' 'sent' 'cancel' 'balance']
@@ -162,10 +160,10 @@ class Coolsms
      *       'groups/{group_id}/message' 'groups/{group_id}/delete_messages' 'groups/{group_id}/send]
      * image['image_list' 'images/{image_id}' 'upload_image' 'delete_image']
      */
-    protected function setMethod($path, $method = 0)
+    protected function setMethod($path, $is_post = false)
     {
         $this->path = $path;
-        $this->method = $method;
+        $this->is_post = $is_post;
     }
 
     /**
@@ -177,16 +175,16 @@ class Coolsms
     }
 
     /**
-     * set API and version
-     * $api
+     * set API name and version
+     * $api_name
      * 'sms', 'senderid', 'group'
-     * $version
+     * $api_version
      */
-    public function setResource($api, $version)
+    public function setResource($api_name, $api_version)
     {
-        if (!isset($api) || !isset($version)) throw new CoolsmsException('API, version is requried');
-        $this->api = $api;
-        $this->version = $version;
+        if (!isset($api_name) || !isset($api_version)) throw new CoolsmsException('API name and version is requried');
+        $this->api_name = $api_name;
+        $this->api_version = $api_version;
     }
 
     /**
