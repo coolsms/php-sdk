@@ -7,7 +7,8 @@
  * www.coolsms.co.kr
  */
 
-use Nurigo;
+use Nurigo\Coolsms\Message as Message;
+use Nurigo\CoolsmsException as CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
@@ -15,17 +16,23 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 $api_key = '#ENTER_YOUR_OWN#';
 $api_secret = '#ENTER_YOUR_OWN#';
 
-// initiate rest api sdk object
-$rest = new Nurigo\Coolsms($api_key, $api_secret);
+try {
+    // initiate rest api sdk object
+    $rest = new Nurigo\Coolsms\Message($api_key, $api_secret);
 
-// set necessary options
-$options->mid = 'M52CB443257C61';			//message id 
-// $options->gid = 'G52CB4432576C8';		//group id
-// $options->count = '40';					//result return counts. default is 20
-// $options->page = '1';					//page 
-// $options->rcpt = '01012345678';			//search sent result by recipient number
-// $options->start = '201401070915';		//set search start date  ex) 201401070915
-// $options->end = '201401071230';			//set search end date	 ex) 201401071230
+	// set necessary options
+	$options = new stdClass();
+    $options->mid = 'M52CB443257C61';			//message id 
+    // $options->gid = 'G52CB4432576C8';		//group id
+    // $options->count = '40';					//result return counts. default is 20
+    // $options->page = '1';					//page 
+    // $options->rcpt = '01012345678';			//search sent result by recipient number
+    // $options->start = '201401070915';		//set search start date  ex) 201401070915
+    // $options->end = '201401071230';			//set search end date	 ex) 201401071230
 
-$result = $rest->sent($options);
-print_r($result);
+    $result = $rest->sent($options);
+	print_r($result);
+} catch(Nurigo\CoolsmsException $e) {
+    echo $e->getMessage(); // get error message
+    echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code
+}
