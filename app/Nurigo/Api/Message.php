@@ -1,5 +1,4 @@
 <?php
-/*- coding: utf-8 -*/
 /* vi:set sw=4 ts=4 expandtab: */
 
 namespace Nurigo\Coolsms;
