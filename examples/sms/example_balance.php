@@ -8,7 +8,7 @@
  */
 
 use Nurigo\Coolsms\Message as Message;
-use Nurigo\CoolsmsException as CoolsmsException;
+use Nurigo\Exceptions\CoolsmsException as CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
@@ -22,7 +22,7 @@ try {
 
     $result = $rest->balance(); // cancel does not return any.
     print_r($result);
-} catch(Nurigo\CoolsmsException $e) {
+} catch (Nurigo\Exceptions\CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code
 }

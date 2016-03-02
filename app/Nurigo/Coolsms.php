@@ -9,16 +9,16 @@
 
 namespace Nurigo;
 
-use Nurigo\Exceptions\CoolsmsException;
+use Nurigo\Exceptions;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 // check php extension "curl_init, json_decode"
 if (!function_exists('curl_init')) {
-    throw new CoolsmsException('Coolsms needs the CURL PHP extension.');
+    throw new CoolsmsSDKException('Coolsms needs the CURL PHP extension.', 401);
 }
 if (!function_exists('json_decode')) {
-    throw new CoolsmsException('Coolsms needs the JSON PHP extension.');
+    throw new CoolsmsSDKException('Coolsms needs the JSON PHP extension.', 401);
 }
 
 /**
@@ -58,7 +58,7 @@ class Coolsms
     public function curlProcess()
     {
         $ch = curl_init(); 
-        if (!$ch) throw new CoolsmsException(curl_error($ch), curl_errno($ch)); // 리워크 할 것임 
+        if (!$ch) throw new CoolsmsSDKException(curl_error($ch), 401);
         // Set url. is_post true = POST , false = GET
         if ($this->is_post) {
             $url = sprintf("%s/%s/%s/%s", self::HOST, $this->api_name, $this->api_version, $this->path);
@@ -89,10 +89,11 @@ class Coolsms
         $this->result = json_decode(curl_exec($ch));
 
         // Unless http status code is 200. throw exception.
-        if (curl_getinfo($ch, CURLINFO_HTTP_CODE) != 200) throw new CoolsmsException($this->result->message, $this->result->code);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($http_code != 200) throw new CoolsmsServerException($this->result, $http_code);
 
         // Check connect errors
-        if (curl_errno($ch)) throw new CoolsmsException(curl_error($ch));
+        if (curl_errno($ch)) throw new CoolsmsSDKException(curl_error($ch), 401);
         curl_close($ch);
     }
 
@@ -186,7 +187,7 @@ class Coolsms
      */
     public function setResource($api_name, $api_version)
     {
-        if (!isset($api_name) || !isset($api_version)) throw new CoolsmsException('API name and version is requried');
+        if (!isset($api_name) || !isset($api_version)) throw new CoolsmsSDKException('API name and version is requried', 401);
         $this->api_name = $api_name;
         $this->api_version = $api_version;
     }
