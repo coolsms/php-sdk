@@ -21,8 +21,8 @@ class CoolsmsServerException extends CoolsmsException
      */
     public function __construct($response, $code) {
         $this->response = $response;
-        $response_data = json_decode($response);
-        parent::__construct($response, $code);
+        $response_data = $response;
+        parent::__construct(json_encode($response), $code);
     }
 
     /**

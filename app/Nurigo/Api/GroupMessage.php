@@ -4,6 +4,7 @@
 namespace Nurigo\Coolsms;
 
 use Nurigo\Coolsms as Coolsms;
+use Nurigo\Exceptions\CoolsmsSDKException;
 
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
@@ -45,7 +46,7 @@ class GroupMessage extends Coolsms
      */
     public function deleteGroups($group_ids) 
     {
-        if (!isset($group_ids)) throw new CoolsmsException('group_ids is required');
+        if (!isset($group_ids)) throw new CoolsmsSDKException('group_ids is required',202);
 
         $options = new \stdClass();
         $options->group_ids = $group_ids;
@@ -61,7 +62,7 @@ class GroupMessage extends Coolsms
      */
     public function groupInfo($group_id) 
     {
-        if (!isset($group_id)) throw new CoolsmsException('group_id is required');
+        if (!isset($group_id)) throw new CoolsmsSDKException('group_id is required',202);
 
         $options = new \stdClass();
         $options->group_id = $group_id;
@@ -79,7 +80,7 @@ class GroupMessage extends Coolsms
     public function addMessages($options) 
     {
         if (!isset($options->group_id) || !isset($options->to) || !isset($options->text) || !isset($options->from)) {
-            throw new CoolsmsException('group_id, to, text, from is required');
+            throw new CoolsmsSDKException('group_id, to, text, from is required',202);
         }
 
         $this->setMethod('groups/' . $options->group_id . '/add_messages' , 1);
@@ -95,7 +96,7 @@ class GroupMessage extends Coolsms
      */
     public function messageList($options) 
     {
-        if (!isset($options->group_id)) throw new CoolsmsException('group_id is required');
+        if (!isset($options->group_id)) throw new CoolsmsSDKException('group_id is required',202);
 
         $this->setMethod('groups/' . $options->group_id . '/message_list');
         $this->addInfos($options);    
@@ -109,7 +110,7 @@ class GroupMessage extends Coolsms
      */
     public function deleteMessages($group_id, $message_ids) 
     {
-        if (!isset($group_id) || !isset($message_ids)) throw new CoolsmsException('"group_id and message_ids" is required');
+        if (!isset($group_id) || !isset($message_ids)) throw new CoolsmsSDKException('"group_id and message_ids" is required',202);
 
         $options = new \stdClass();
         $options->group_id = $group_id;
@@ -126,7 +127,7 @@ class GroupMessage extends Coolsms
      */
     public function sendGroupMessage($group_id) 
     {
-        if (!isset($group_id)) throw new CoolsmsException('group_id is required');
+        if (!isset($group_id)) throw new CoolsmsSDKException('group_id is required',202);
 
         $options = new \stdClass();
         $options->group_id = $group_id;
