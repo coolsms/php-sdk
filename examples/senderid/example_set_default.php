@@ -7,8 +7,8 @@
  * www.coolsms.co.kr
  */
 
-use Nurigo\Coolsms\SenderID as SenderId;
-use Nurigo\CoolsmsException as CoolsmsException;
+use Nurigo\Coolsms\SenderID;
+use Nurigo\Coolsms\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
@@ -18,7 +18,7 @@ $api_secret = '#ENTER_YOUR_OWN#';
 
 try {
     // initiate rest api sdk object
-    $rest = new Nurigo\Coolsms\SenderID($api_key, $api_secret);
+    $rest = new SenderID($api_key, $api_secret);
 
     // handle_key are mandatory. must be filled
     $handle_key = 'C29CE02IOE9'; // sender number handle key. check for 'example_list'
@@ -28,7 +28,7 @@ try {
 
     $result = $rest->setDefault($handle_key); // or $rest->setDefault($handle_key, $site_user);
     print_r($result);
-} catch(Nurigo\CoolsmsException $e) {
+} catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code
 }

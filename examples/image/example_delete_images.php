@@ -7,8 +7,8 @@
  * www.coolsms.co.kr
  */
 
-use Nurigo\Coolsms\Image as Image;
-use Nurigo\CoolsmsException as CoolsmsException;
+use Nurigo\Coolsms\Image;
+use Nurigo\Coolsms\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
@@ -18,14 +18,14 @@ $api_secret = '#ENTER_YOUR_OWN#';
 
 try {
     // initiate rest api sdk object
-    $rest = new Nurigo\Coolsms\Image($api_key, $api_secret);
+    $rest = new Image($api_key, $api_secret);
 
     // image_ids are mandatory. must be filled
     $image_ids = ''; // image ids. ex)'IM34BWIDJ12','IMG2559GBB'
 
     $result = $rest->deleteImages($image_ids);
     print_r($result);
-} catch(Nurigo\CoolsmsException $e) {
+} catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code
 }
