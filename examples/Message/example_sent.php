@@ -7,8 +7,8 @@
  * www.coolsms.co.kr
  */
 
-use Nurigo\Coolsms\Message as Message;
-use Nurigo\CoolsmsException as CoolsmsException;
+use Nurigo\Coolsms\Message;
+use Nurigo\COolsms\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
@@ -18,10 +18,10 @@ $api_secret = '#ENTER_YOUR_OWN#';
 
 try {
     // initiate rest api sdk object
-    $rest = new Nurigo\Coolsms\Message($api_key, $api_secret);
+    $rest = new Message($api_key, $api_secret);
 
-	// set necessary options
-	$options = new stdClass();
+    // set necessary options
+    $options = new stdClass();
     $options->mid = 'M52CB443257C61';			//message id 
     // $options->gid = 'G52CB4432576C8';		//group id
     // $options->count = '40';					//result return counts. default is 20
@@ -31,8 +31,8 @@ try {
     // $options->end = '201401071230';			//set search end date	 ex) 201401071230
 
     $result = $rest->sent($options);
-	print_r($result);
-} catch(Nurigo\CoolsmsException $e) {
+    print_r($result);
+} catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code
 }

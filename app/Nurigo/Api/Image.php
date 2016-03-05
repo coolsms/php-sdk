@@ -1,10 +1,10 @@
 <?php
-/*- coding: utf-8 -*/
 /* vi:set sw=4 ts=4 expandtab: */
 
 namespace Nurigo\Coolsms;
 
 use Nurigo\Coolsms as Coolsms;
+use Nurigo\Exceptions\CoolsmsSDKException;
 
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
@@ -34,7 +34,7 @@ class Image extends Coolsms
      */
     public function imageInfo($iamge_id) 
     {
-        if (!isset($iamge_id)) throw new CoolsmsException('image_id is required');
+        if (!isset($iamge_id)) throw new CoolsmsSDKException('image_id is required',202);
 
         $options = new \stdClass();
         $options->image_id = $image_id;
@@ -51,7 +51,7 @@ class Image extends Coolsms
      */
     public function uploadImage($image, $encoding = null)
     {
-        if (!isset($image)) throw new CoolsmsException('image is required');
+        if (!isset($image)) throw new CoolsmsSDKException('image is required',202);
 
         $options = new \stdClass();
         $options->image = $image;
@@ -68,7 +68,7 @@ class Image extends Coolsms
      */
     public function deleteImages($image_ids) 
     {
-        if (!isset($image_ids)) throw new CoolsmsException('image_ids is required');
+        if (!isset($image_ids)) throw new CoolsmsSDKException('image_ids is required',202);
 
         $options = new \stdClass();
         $options->image_ids = $image_ids;

@@ -1,13 +1,13 @@
 <?php
 /**
- * #example_delete_images
+ * #example_group_list
  *
- * This sample code demonstrate how to delete images through CoolSMS Rest API PHP
+ * This sample code demonstrate how to check group list through CoolSMS Rest API PHP
  * for more info, visit
  * www.coolsms.co.kr
  */
 
-use Nurigo\Coolsms\Image;
+use Nurigo\Coolsms\GroupMessage;
 use Nurigo\Coolsms\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -18,12 +18,9 @@ $api_secret = '#ENTER_YOUR_OWN#';
 
 try {
     // initiate rest api sdk object
-    $rest = new Image($api_key, $api_secret);
+    $rest = new GroupMessage($api_key, $api_secret);
 
-    // image_ids are mandatory. must be filled
-    $image_ids = ''; // image ids. ex)'IM34BWIDJ12','IMG2559GBB'
-
-    $result = $rest->deleteImages($image_ids);
+    $result = $rest->groupList();
     print_r($result);
 } catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message

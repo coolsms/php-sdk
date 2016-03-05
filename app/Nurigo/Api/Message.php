@@ -1,10 +1,10 @@
 <?php
-/*- coding: utf-8 -*/
 /* vi:set sw=4 ts=4 expandtab: */
 
 namespace Nurigo\Coolsms;
 
 use Nurigo\Coolsms as Coolsms;
+use Nurigo\Exceptions\CoolsmsSDKException;
 
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
@@ -47,7 +47,7 @@ class Message extends Coolsms
      */
     public function cancel($options) 
     {
-        if (!isset($options->mid) && !isset($options->gid)) throw new CoolsmsException('"mid or gid" either one must be entered');
+        if (!isset($options->mid) && !isset($options->gid)) throw new CoolsmsSDKException('"mid or gid" either one must be entered',202);
         $this->setMethod('cancel', 1);
         $this->addInfos($options);    
         return $this->getResult();
