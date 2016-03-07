@@ -24,5 +24,5 @@ try {
     print_r($result);
 } catch (CoolsmsException $e) {
     echo $e->getMessage(); // get error message
-    echo $e->getCode(); // get response code
+    echo $e->getCode(); // get error code
 }
