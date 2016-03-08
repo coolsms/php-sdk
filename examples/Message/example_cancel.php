@@ -28,5 +28,5 @@ try {
     $rest->cancel($options); // cancel does not return any.
 } catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message
-    echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code
+    echo $e->getCode(); // get 'api.coolsms.co.kr' response code
 }

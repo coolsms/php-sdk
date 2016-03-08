@@ -30,5 +30,5 @@ try {
     print_r($result);
 } catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message
-    echo $e->getResponseCode(); // get 'api.coolsms.co.kr' response code
+    echo $e->getCode(); // get error code
 }
