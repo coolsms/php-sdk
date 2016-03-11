@@ -8,7 +8,7 @@
  */
 
 use Nurigo\Coolsms\GroupMessage;
-use Nurigo\Coolsms\CoolsmsException;
+use Nurigo\Exceptions\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
@@ -21,7 +21,7 @@ try {
     $rest = new GroupMessage($api_key, $api_secret);
 
     // group_id are mandatory. must be filled
-    $group_id = ''; // group id
+    $group_id = 'GIDFIWKEO19DIW29'; // group id
 
     $result = $rest->groupInfo($group_id);
     print_r($result);

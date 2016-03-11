@@ -8,7 +8,7 @@
  */
 
 use Nurigo\Coolsms\GroupMessage;
-use Nurigo\Coolsms\CoolsmsException;
+use Nurigo\Exceptions\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
