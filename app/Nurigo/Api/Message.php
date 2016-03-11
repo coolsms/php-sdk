@@ -74,7 +74,7 @@ class Message extends Coolsms
     public function status($options) 
     {
         $this->setMethod('status');
-        $this->addInfos();    
+        $this->addInfos($options);
         return $this->getResult();
     }
 }
