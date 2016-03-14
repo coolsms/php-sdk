@@ -3,7 +3,7 @@
 
 namespace Nurigo\Coolsms;
 
-use Nurigo\Coolsms as Coolsms;
+use Nurigo\Coolsms;
 use Nurigo\Exceptions\CoolsmsSDKException;
 
 require_once __DIR__ . "/../../../vendor/autoload.php";
