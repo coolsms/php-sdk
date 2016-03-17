@@ -21,7 +21,8 @@ try {
     $rest = new GroupMessage($api_key, $api_secret);
 
     // Optional parameters for your own needs
-    $options = new stdClass();
+	$options = new stdClass();
+	$options->group_id = 'GID56CC00E21C4DC'; // group id
     // $options->offset = 0; // default 0
     // $options->limit = 20; // default 20
 
