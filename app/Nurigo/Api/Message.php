@@ -23,7 +23,7 @@ class Message extends Coolsms
     public function send($options) 
     {
         // require field 'to', 'from', 'text' check
-        if (!isset($options->to) || !isset($options->from) || !isset($options->text)) throw new CoolsmsSDKException('"to, from, text" is must be entered',202);
+        if (!isset($options->to) || !isset($options->from) || !isset($options->text)) throw new CoolsmsSDKException('"to, from, text" is must be entered', 202);
         $this->setMethod('send', 1);
         $this->addInfos($options);    
         return $this->getResult();
@@ -51,7 +51,7 @@ class Message extends Coolsms
     public function cancel($mid = null, $gid = null) 
     {
         // mid or gid is empty. throw exception
-        if (!$mid && !$gid) throw new CoolsmsSDKException('mid or gid either one must be entered',202);
+        if (!$mid && !$gid) throw new CoolsmsSDKException('mid or gid either one must be entered', 202);
         $this->setMethod('cancel', 1);
         $this->addInfos($options);    
         return $this->getResult();

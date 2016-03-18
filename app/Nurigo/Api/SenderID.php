@@ -35,7 +35,7 @@ class SenderID extends Coolsms
      */
     public function register($phone, $site_user = null)
     {
-        if (!$phone) throw new CoolsmsSDKException('phone number is required',202);
+        if (!$phone) throw new CoolsmsSDKException('phone number is required', 202);
 
         $options = new \stdClass();
         $options->phone = $phone;
@@ -52,7 +52,7 @@ class SenderID extends Coolsms
      */
     public function verify($handle_key)
     {
-        if (!$handle_key) throw new CoolsmsSDKException('handle_key is required',202);
+        if (!$handle_key) throw new CoolsmsSDKException('handle_key is required', 202);
 
         $options = new \stdClass();
         $options->handle_key = $handle_key;
@@ -68,7 +68,7 @@ class SenderID extends Coolsms
      */
     public function delete($handle_key)
     {
-        if (!$handle_key) throw new CoolsmsSDKException('handle_key is required',202);
+        if (!$handle_key) throw new CoolsmsSDKException('handle_key is required', 202);
 
         $options = new \stdClass();
         $options->handle_key = $handle_key;
@@ -98,7 +98,7 @@ class SenderID extends Coolsms
      */
     public function setDefault($handle_key, $site_user = null)
     {
-        if (!$handle_key) throw new CoolsmsSDKException('handle_key is required',202);
+        if (!$handle_key) throw new CoolsmsSDKException('handle_key is required', 202);
 
         $options = new \stdClass();
         $options->handle_key = $handle_key;
