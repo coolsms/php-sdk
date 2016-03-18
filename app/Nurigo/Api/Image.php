@@ -1,7 +1,7 @@
 <?php
 /* vi:set sw=4 ts=4 expandtab: */
 
-namespace Nurigo\Coolsms;
+namespace Nurigo\Api;
 
 use Nurigo\Coolsms;
 use Nurigo\Exceptions\CoolsmsSDKException;
