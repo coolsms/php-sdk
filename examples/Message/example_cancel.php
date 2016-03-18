@@ -22,10 +22,10 @@ try {
 
     // Either mid or gid must be entered. 
     $options = new stdClass();
-    $options->mid = 'M52CB443257C61'; // message id. 
-    // $options->gid = 'G52CB4432576C8'; // group id. 
+    $mid = 'M52CB443257C61'; // message id. 
+    $gid = 'G52CB4432576C8'; // group id. 
 
-    $rest->cancel($options); // cancel does not return any.
+    $rest->cancel($mid); // if $gid is exists. ex) $rest-cancel(null, $gid);
 } catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getCode(); // get 'api.coolsms.co.kr' response code

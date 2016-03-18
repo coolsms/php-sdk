@@ -10,7 +10,7 @@ require_once __DIR__ . "/../../../vendor/autoload.php";
 
 /**
  * @class SenderID 
- * @brief management sender id, using the Rest API
+ * @brief management sender id, using Rest API
  */
 class SenderID extends Coolsms
 {
@@ -22,12 +22,10 @@ class SenderID extends Coolsms
     function __construct($api_key, $api_secret, $basecamp = false)
     {
         // set api_key and api_secret
-        parent::__construct($api_key, $api_secret, $basecamp = false);
+        parent::__construct($api_key, $api_secret, $basecamp);
 
         // set API and version
-        $api = "senderid";
-        $version = "1.1";
-        $this->setResource($api, $version);
+        $this->setResource("senderid", "1.1");
     }
 
     /**
@@ -37,7 +35,7 @@ class SenderID extends Coolsms
      */
     public function register($phone, $site_user = null)
     {
-        if (!isset($phone)) throw new CoolsmsSDKException('phone number is required',202);
+        if (!$phone) throw new CoolsmsSDKException('phone number is required',202);
 
         $options = new \stdClass();
         $options->phone = $phone;
@@ -54,7 +52,7 @@ class SenderID extends Coolsms
      */
     public function verify($handle_key)
     {
-        if (!isset($handle_key)) throw new CoolsmsSDKException('handle_key is required',202);
+        if (!$handle_key) throw new CoolsmsSDKException('handle_key is required',202);
 
         $options = new \stdClass();
         $options->handle_key = $handle_key;
@@ -70,7 +68,7 @@ class SenderID extends Coolsms
      */
     public function delete($handle_key)
     {
-        if (!isset($handle_key)) throw new CoolsmsSDKException('handle_key is required',202);
+        if (!$handle_key) throw new CoolsmsSDKException('handle_key is required',202);
 
         $options = new \stdClass();
         $options->handle_key = $handle_key;
@@ -86,10 +84,10 @@ class SenderID extends Coolsms
      */
     public function senderidList($site_user = null)
     {
-        if($site_user) $options->site_user = $site_user;
-
+        $options = new \stdClass();
+        $options->site_user = $site_user;
         $this->setMethod('list');
-        $this->addInfos();
+        $this->addInfos($options);
         return $this->getResult();
     }
 
@@ -100,7 +98,7 @@ class SenderID extends Coolsms
      */
     public function setDefault($handle_key, $site_user = null)
     {
-        if (!isset($handle_key)) throw new CoolsmsSDKException('handle_key is required',202);
+        if (!$handle_key) throw new CoolsmsSDKException('handle_key is required',202);
 
         $options = new \stdClass();
         $options->handle_key = $handle_key;
@@ -117,10 +115,10 @@ class SenderID extends Coolsms
      */
     public function getDefault($site_user = null)
     {
-        if($site_user) $options->site_user = $site_user;
-
+        $options = new \stdClass();
+        $options->site_user = $site_user;
         $this->setMethod('get_default');
-        $this->addInfos();
+        $this->addInfos($options);
         return $this->getResult();
     }
 }

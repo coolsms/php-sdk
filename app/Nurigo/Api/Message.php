@@ -10,7 +10,7 @@ require_once __DIR__ . "/../../../vendor/autoload.php";
 
 /**
  * @class Message
- * @brief management message, using the Rest API
+ * @brief management message, using Rest API
  */
 class Message extends Coolsms
 {
@@ -48,10 +48,10 @@ class Message extends Coolsms
      * @param mid, gid (either one must be entered.)
      * @return none
      */
-    public function cancel($options) 
+    public function cancel($mid = null, $gid = null) 
     {
         // mid or gid is empty. throw exception
-        if (!isset($options->mid) && !isset($options->gid)) throw new CoolsmsSDKException('"mid or gid" either one must be entered',202);
+        if (!$mid && !$gid) throw new CoolsmsSDKException('mid or gid either one must be entered',202);
         $this->setMethod('cancel', 1);
         $this->addInfos($options);    
         return $this->getResult();
