@@ -16,8 +16,8 @@ class Image extends Coolsms
 {
     /**
      * @brief get image list( HTTP Method GET )
-     * @param $options (options can be optional)
-     * @param offset, limit (optional)
+     * @param integer $offset [optional]
+     * @param integer $limit  [optional]
      * @return object(total_count, offset, limit, list['image_id', 'image_id' ...])
      */
     public function imageList($offset = null, $limit = null) 
@@ -32,7 +32,7 @@ class Image extends Coolsms
 
     /**
      * @brief get image info ( HTTP Method GET )
-     * @param $image_id (required)
+     * @param string $image_id [required]
      * @return object(image_id, file_name, original_name, file_size, width, height)
      */
     public function imageInfo($iamge_id) 
@@ -48,8 +48,8 @@ class Image extends Coolsms
 
     /**
      * @brief upload image ( HTTP Method POST )
-     * @param $image (required)
-     * @param $encoding (optional)
+     * @param mixed  $image    [required]
+     * @param string $encoding [optional]
      * @return object(image_id)
      */
     public function uploadImage($image, $encoding = null)
@@ -66,7 +66,7 @@ class Image extends Coolsms
 
     /**
      * @brief delete images ( HTTP Method POST )
-     * @param $image_ids (required)
+     * @param string $image_ids [required]
      * @return object(success_count)
      */
     public function deleteImages($image_ids) 

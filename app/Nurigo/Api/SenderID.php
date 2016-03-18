@@ -16,7 +16,9 @@ class SenderID extends Coolsms
 {
     /**
      * @brief change api name and api version
-     * @param $api_key, $api_secret, $basecamp ($api_key, $api_secret must be entered)
+     * @param string  $api_key    [required]
+     * @param string  $api_secret [required] 
+     * @param boolean $basecamp   [optional]
      * @return object(group_id)
      */
     function __construct($api_key, $api_secret, $basecamp = false)
@@ -30,7 +32,8 @@ class SenderID extends Coolsms
 
     /**
      * @brief sender id registration request ( HTTP Method POST )
-     * @param $phone (required), $site_user (optional)
+     * @param string $phone     [required]
+     * @param string $site_user [optional]
      * @return object(handle_key, ars_number)
      */
     public function register($phone, $site_user = null)
@@ -47,7 +50,7 @@ class SenderID extends Coolsms
 
     /**
      * @brief verify sender id ( HTTP Method POST )
-     * @param $handle_key (required)
+     * @param string $handle_key [required]
      * @return none 
      */
     public function verify($handle_key)
@@ -63,7 +66,7 @@ class SenderID extends Coolsms
 
     /**
      * @brief delete sender id ( HTTP Method POST )
-     * @param $handle_key (required)
+     * @param string $handle_key [required]
      * @return none
      */
     public function delete($handle_key)
@@ -79,7 +82,7 @@ class SenderID extends Coolsms
 
     /**
      * @brief get sender id list ( HTTP Method GET )
-     * @param $site_user (optional)
+     * @param string $site_user [optional]
      * @return object(site_user, idno, phone_number, flag_default, updatetime, regdate)
      */
     public function senderidList($site_user = null)
@@ -93,7 +96,8 @@ class SenderID extends Coolsms
 
     /**
      * @brief set default sender id ( HTTP Method POST )
-     * @param $phone (required), $site_user (optional)
+     * @param string $phone     [required]
+     * @param string $site_user [optional]
      * @return none 
      */
     public function setDefault($handle_key, $site_user = null)
@@ -110,7 +114,7 @@ class SenderID extends Coolsms
 
     /**
      * @brief get default sender id ( HTTP Method GET )
-     * @param $site_user (optional)
+     * @param string $site_user [optional]
      * @return object(handle_key, phone_number)
      */
     public function getDefault($site_user = null)
