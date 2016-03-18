@@ -22,7 +22,7 @@ class Message extends Coolsms
      */
     public function send($options) 
     {
-        // check require field. ( 'to, from, 'text' )
+        // check require fields. ( 'to, from, 'text' )
         if (!isset($options->to) || !isset($options->from) || !isset($options->text)) throw new CoolsmsSDKException('"to, from, text" must be entered', 202);
         $this->setMethod('send', 1);
         $this->addInfos($options);    
