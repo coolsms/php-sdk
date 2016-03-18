@@ -9,8 +9,8 @@ use Nurigo\Exceptions\CoolsmsSDKException;
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
 /**
- * @class Sender ID 
- * @brief management class, using the Rest API
+ * @class SenderID 
+ * @brief management sender id, using the Rest API
  */
 class SenderID extends Coolsms
 {

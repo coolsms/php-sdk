@@ -9,8 +9,8 @@ use Nurigo\Exceptions\CoolsmsSDKException;
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
 /**
- * @class Group Message
- * @brief Coolsms Rest API core class, using the Rest API
+ * @class GroupMessage
+ * @brief management group message, using the Rest API
  */
 class GroupMessage extends Coolsms
 {

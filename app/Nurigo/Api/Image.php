@@ -10,7 +10,7 @@ require_once __DIR__ . "/../../../vendor/autoload.php";
 
 /**
  * @class Image
- * @brief Image management class, using the Rest API
+ * @brief management image, using the Rest API
  */
 class Image extends Coolsms
 {
