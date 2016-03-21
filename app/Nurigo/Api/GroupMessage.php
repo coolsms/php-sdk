@@ -58,7 +58,7 @@ class GroupMessage extends Coolsms
 
         $options = new \stdClass();
         $options->group_ids = $group_ids;
-        $this->setMethod('delete_groups', 1);
+        $this->setMethod('delete_groups', true);
         $this->addInfos($options);    
         return $this->getResult();
     }
@@ -101,7 +101,7 @@ class GroupMessage extends Coolsms
             throw new CoolsmsSDKException('group_id, to, text, from is required', 202);
         }
 
-        $this->setMethod(sprintf('groups/%s/add_messages', $options->group_id), 1);
+        $this->setMethod(sprintf('groups/%s/add_messages', $options->group_id), true);
         $this->addInfos($options);    
         return $this->getResult();
     }
@@ -135,7 +135,7 @@ class GroupMessage extends Coolsms
         $options = new \stdClass();
         $options->group_id = $group_id;
         $options->message_ids = $message_ids;
-        $this->setMethod(sprintf('groups/%s/delete_messages', $options->group_id), 1);
+        $this->setMethod(sprintf('groups/%s/delete_messages', $options->group_id), true);
         $this->addInfos($options);    
         return $this->getResult();
     }
@@ -151,7 +151,7 @@ class GroupMessage extends Coolsms
 
         $options = new \stdClass();
         $options->group_id = $group_id;
-        $this->setMethod(sprintf('groups/%s/send', $group_id), 1);
+        $this->setMethod(sprintf('groups/%s/send', $group_id), true);
         $this->addInfos($options);    
         return $this->getResult();
     }

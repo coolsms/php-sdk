@@ -59,7 +59,7 @@ class Image extends Coolsms
         $options = new \stdClass();
         $options->image = $image;
         $options->encoding = $encoding;
-        $this->setMethod('upload_image', 1);
+        $this->setMethod('upload_image', true);
         $this->addInfos($options);    
         return $this->getResult();
     }
@@ -75,7 +75,7 @@ class Image extends Coolsms
 
         $options = new \stdClass();
         $options->image_ids = $image_ids;
-        $this->setMethod('delete_images', 1);
+        $this->setMethod('delete_images', true);
         $this->addInfos($options);    
         return $this->getResult();
     }

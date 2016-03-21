@@ -40,7 +40,7 @@ class Message extends Coolsms
     {
         // check require fields. ( 'to, from, 'text' )
         if (!isset($options->to) || !isset($options->from) || !isset($options->text)) throw new CoolsmsSDKException('"to, from, text" must be entered', 202);
-        $this->setMethod('send', 1);
+        $this->setMethod('send', true);
         $this->addInfos($options);    
         return $this->getResult();
     }
@@ -78,7 +78,7 @@ class Message extends Coolsms
     {
         // mid or gid is empty. throw exception
         if (!$mid && !$gid) throw new CoolsmsSDKException('mid or gid either one must be entered', 202);
-        $this->setMethod('cancel', 1);
+        $this->setMethod('cancel', true);
         $this->addInfos($options);    
         return $this->getResult();
     }
