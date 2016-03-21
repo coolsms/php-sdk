@@ -25,9 +25,7 @@ class Image extends Coolsms
         $options = new \stdClass();
         $options->offset = $offset;
         $options->limit = $limit;
-        $this->setMethod('image_list');
-        $this->addInfos($options);
-        return $this->getResult();
+        return $this->request('image_list', $options);
     }
 
     /**
@@ -41,9 +39,7 @@ class Image extends Coolsms
 
         $options = new \stdClass();
         $options->image_id = $image_id;
-        $this->setMethod('images/' . $image_id);
-        $this->addInfos($options);    
-        return $this->getResult();
+        return $this->request(sprintf('images/%s', $image_id), $options);;
     }
 
     /**
@@ -59,9 +55,7 @@ class Image extends Coolsms
         $options = new \stdClass();
         $options->image = $image;
         $options->encoding = $encoding;
-        $this->setMethod('upload_image', true);
-        $this->addInfos($options);    
-        return $this->getResult();
+        return $this->request('upload_image', $options, true);
     }
 
     /**
@@ -75,8 +69,6 @@ class Image extends Coolsms
 
         $options = new \stdClass();
         $options->image_ids = $image_ids;
-        $this->setMethod('delete_images', true);
-        $this->addInfos($options);    
-        return $this->getResult();
+        return $this->request('delete_images', $options, true);
     }
 }

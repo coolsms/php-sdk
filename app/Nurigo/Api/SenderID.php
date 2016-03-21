@@ -27,7 +27,7 @@ class SenderID extends Coolsms
         parent::__construct($api_key, $api_secret, $basecamp);
 
         // set API and version
-        $this->setResource("senderid", "1.1");
+        $this->setApiConfig("senderid", "1.1");
     }
 
     /**
@@ -43,9 +43,7 @@ class SenderID extends Coolsms
         $options = new \stdClass();
         $options->phone = $phone;
         $options->site_user = $site_user;
-        $this->setMethod('register', true);
-        $this->addInfos($options);
-        return $this->getResult();
+        return $this->request('register', $options, true);
     }
 
     /**
@@ -59,9 +57,7 @@ class SenderID extends Coolsms
 
         $options = new \stdClass();
         $options->handle_key = $handle_key;
-        $this->setMethod('verify', true);
-        $this->addInfos($options);
-        return $this->getResult();
+        return $this->request('verify', $options, true);
     }
 
     /**
@@ -75,9 +71,7 @@ class SenderID extends Coolsms
 
         $options = new \stdClass();
         $options->handle_key = $handle_key;
-        $this->setMethod('delete', true);
-        $this->addInfos($options);
-        return $this->getResult();
+        return $this->request('delete', $options, true);
     }
 
     /**
@@ -89,9 +83,7 @@ class SenderID extends Coolsms
     {
         $options = new \stdClass();
         $options->site_user = $site_user;
-        $this->setMethod('list');
-        $this->addInfos($options);
-        return $this->getResult();
+        return $this->request('list', $options);
     }
 
     /**
@@ -107,9 +99,7 @@ class SenderID extends Coolsms
         $options = new \stdClass();
         $options->handle_key = $handle_key;
         $options->site_user = $site_user;
-        $this->setMethod('set_default', true);
-        $this->addInfos($options);
-        return $this->getResult();
+        return $this->request('set_default', $options, true);
     }
 
     /**
@@ -121,8 +111,6 @@ class SenderID extends Coolsms
     {
         $options = new \stdClass();
         $options->site_user = $site_user;
-        $this->setMethod('get_default');
-        $this->addInfos($options);
-        return $this->getResult();
+        return $this->request('get_default', $options);
     }
 }

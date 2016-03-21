@@ -54,7 +54,7 @@ class Coolsms
     private $api_version = "1.5";
     private $api_key;
     private $api_secret;
-    private $path;
+    private $resource;
     private $is_post;
     private $result;
     private $basecamp;
@@ -81,9 +81,9 @@ class Coolsms
         if (!$ch) throw new CoolsmsSystemException(curl_error($ch), 399);
         // Set url. is_post true = POST , false = GET
         if ($this->is_post) {
-            $url = sprintf("%s/%s/%s/%s", self::HOST, $this->api_name, $this->api_version, $this->path);
+            $url = sprintf("%s/%s/%s/%s", self::HOST, $this->api_name, $this->api_version, $this->resource);
         } else {
-            $url = sprintf("%s/%s/%s/%s?%s", self::HOST, $this->api_name, $this->api_version, $this->path, $this->content);
+            $url = sprintf("%s/%s/%s/%s?%s", self::HOST, $this->api_name, $this->api_version, $this->resource, $this->content);
         }
 
         // Set curl info
@@ -93,7 +93,7 @@ class Coolsms
         curl_setopt($ch, CURLOPT_HEADER, 0); // include the header in the output (1 = true, 0 = false) 
         curl_setopt($ch, CURLOPT_POST, $this->is_post); // POST GET method
 
-        // Set POST DATA
+        // set POST data
         if ($this->is_post) {
             $header = array("Content-Type:multipart/form-data");
 
@@ -108,11 +108,11 @@ class Coolsms
 
         $this->result = json_decode(curl_exec($ch));
 
-        // Unless http status code is 200. throw exception.
+        // unless http status code is 200. throw exception.
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($http_code != 200) throw new CoolsmsServerException($this->result, $http_code);
 
-        // Check curl errors
+        // check curl errors
         if (curl_errno($ch)) throw new CoolsmsSystemException(curl_error($ch), 399); 
 
         curl_close($ch);
@@ -173,23 +173,46 @@ class Coolsms
 
         $options->signature = $this->getSignature($options->timestamp, $options->salt);
         $this->setContent($options);
-        $this->curlProcess();
     }
 
     /**
      * $is_post 
-     * GET = 0(default), POST, 1
-     * $path
+     * GET = false(default), POST, true
+     * $resource
      * sms['send' 'sent' 'cancel' 'balance']
      * senderid['register' 'verify' 'delete' 'list' 'set_default' 'get_default']
      * group['new_group' 'group_list' 'delete_groups' 'groups/{group_id}' 'groups/{group_id}/add_messages' 
      *       'groups/{group_id}/message' 'groups/{group_id}/delete_messages' 'groups/{group_id}/send]
      * image['image_list' 'images/{image_id}' 'upload_image' 'delete_image']
      */
-    protected function setMethod($path, $is_post = false)
+    protected function setResource($resource, $is_post = false)
     {
-        $this->path = $path;
+        $this->resource = $resource;
         $this->is_post = $is_post;
+    }
+
+    /**
+     * @brief https request using rest api 
+     * @param string  $resource [required]
+     * @param object  $options  [optional]
+     * @param boolean $is_post  [optional] GET = false, POST = true
+     * @return mixed
+     */
+    protected function request($resource, $options = null, $is_post = false)
+    {
+        if (!$resource) throw new CoolsmsSDKException('resource is required', 201);
+
+        // set http method and rest api path
+        $this->setResource($resource, $is_post);
+
+        // set contents
+        $this->addInfos($options);
+
+        // https request
+        $this->curlProcess();
+
+        // return result
+        return $this->getResult();
     }
 
     /**
@@ -206,7 +229,7 @@ class Coolsms
      * 'sms', 'senderid', 'group'
      * $api_version
      */
-    public function setResource($api_name, $api_version)
+    public function setApiConfig($api_name, $api_version)
     {
         if (!isset($api_name) || !isset($api_version)) throw new CoolsmsSDKException('API name and version is requried', 201);
         $this->api_name = $api_name;

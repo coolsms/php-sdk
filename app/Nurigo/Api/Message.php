@@ -40,9 +40,8 @@ class Message extends Coolsms
     {
         // check require fields. ( 'to, from, 'text' )
         if (!isset($options->to) || !isset($options->from) || !isset($options->text)) throw new CoolsmsSDKException('"to, from, text" must be entered', 202);
-        $this->setMethod('send', true);
-        $this->addInfos($options);    
-        return $this->getResult();
+
+        return $this->request('send', $options, true);
     }
     
     /**
@@ -61,11 +60,9 @@ class Message extends Coolsms
      *   @param string  group_id         [optional] }
      * @return object(total count, list_count, page, data['type', 'accepted_time', 'recipient_number', 'group_id', 'message_id', 'status', 'result_code', 'result_message', 'sent_time', 'text'])
      */
-    public function sent($options) 
+    public function sent($options = null)
     {
-        $this->setMethod('sent');
-        $this->addInfos($options);    
-        return $this->getResult();
+        return $this->request('sent', $options);
     }
 
     /**
@@ -78,9 +75,7 @@ class Message extends Coolsms
     {
         // mid or gid is empty. throw exception
         if (!$mid && !$gid) throw new CoolsmsSDKException('mid or gid either one must be entered', 202);
-        $this->setMethod('cancel', true);
-        $this->addInfos($options);    
-        return $this->getResult();
+        return $this->request('cancel', $options, true);
     }
 
     /**
@@ -90,9 +85,7 @@ class Message extends Coolsms
      */
     public function balance() 
     {
-        $this->setMethod('balance');
-        $this->addInfos();    
-        return $this->getResult();
+        return $this->request('balance');
     }
 
     /**
@@ -104,10 +97,8 @@ class Message extends Coolsms
      *   @param integer channel [optional] }
      * @return object(registdate, sms_average, sms_sk_average, sms_kt_average, sms_lg_average, mms_average, mms_sk_average, mms_kt_average, mms_lg_average)
      */
-    public function status($options) 
+    public function status($options = null) 
     {
-        $this->setMethod('status');
-        $this->addInfos($options);
-        return $this->getResult();
+        return $this->request('status', $options);
     }
 }
