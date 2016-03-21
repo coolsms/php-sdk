@@ -1,8 +1,8 @@
 <?php
 /**
- * #example_list
+ * #example_image_list
  *
- * This sample code demonstrate how to check sender number list through CoolSMS Rest API PHP
+ * This sample code demonstrate how to check image list through CoolSMS Rest API PHP
  * for more info, visit
  * www.coolsms.co.kr
  */
@@ -21,9 +21,10 @@ try {
     $rest = new SenderID($api_key, $api_secret);
 
     // Optional parameters for your own needs
-    // $site_user = 'admin'; // site user_id. '__private__' is default value
+    $offset = 0; // default 0
+    $limit = 20; // default 20
 
-    $result = $rest->senderidList(); // or $rest->senderidList($site_user);
+    $result = $rest->getImageList($offset, $limit);
     print_r($result);
 } catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message

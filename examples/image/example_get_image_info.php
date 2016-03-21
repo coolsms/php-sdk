@@ -1,13 +1,13 @@
 <?php
 /**
- * #example_balance
+ * #example_image_info
  *
- * This sample code demonstrate how to check cash & point balance through CoolSMS Rest API PHP
+ * This sample code demonstrate how to check image info through CoolSMS Rest API PHP
  * for more info, visit
  * www.coolsms.co.kr
  */
 
-use Nurigo\Api\Message;
+use Nurigo\Api\SenderID;
 use Nurigo\Exceptions\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -18,11 +18,14 @@ $api_secret = '#ENTER_YOUR_OWN#';
 
 try {
     // initiate rest api sdk object
-    $rest = new Message($api_key, $api_secret);
+    $rest = new SenderID($api_key, $api_secret);
 
-    $result = $rest->balance(); // cancel does not return any.
+    // image_id are mandatory. must be filled
+    $image_id = ''; // image id
+
+    $result = $rest->getImageInfo($image_id);
     print_r($result);
-} catch (CoolsmsException $e) {
+} catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getCode(); // get error code
 }

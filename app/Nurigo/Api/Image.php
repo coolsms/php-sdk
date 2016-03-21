@@ -20,7 +20,7 @@ class Image extends Coolsms
      * @param integer $limit  [optional]
      * @return object(total_count, offset, limit, list['image_id', 'image_id' ...])
      */
-    public function imageList($offset = null, $limit = null) 
+    public function getImageList($offset = null, $limit = null) 
     {
         $options = new \stdClass();
         $options->offset = $offset;
@@ -33,7 +33,7 @@ class Image extends Coolsms
      * @param string $image_id [required]
      * @return object(image_id, file_name, original_name, file_size, width, height)
      */
-    public function imageInfo($iamge_id) 
+    public function getImageInfo($iamge_id) 
     {
         if (!$iamge_id) throw new CoolsmsSDKException('image_id is required', 202);
 

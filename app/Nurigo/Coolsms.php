@@ -119,7 +119,7 @@ class Coolsms
     }
 
     /**
-     * @brief Set http body content
+     * @brief set http body content
      */
     private function setContent($options)
     {
@@ -176,14 +176,9 @@ class Coolsms
     }
 
     /**
-     * $is_post 
-     * GET = false(default), POST, true
-     * $resource
-     * sms['send' 'sent' 'cancel' 'balance']
-     * senderid['register' 'verify' 'delete' 'list' 'set_default' 'get_default']
-     * group['new_group' 'group_list' 'delete_groups' 'groups/{group_id}' 'groups/{group_id}/add_messages' 
-     *       'groups/{group_id}/message' 'groups/{group_id}/delete_messages' 'groups/{group_id}/send]
-     * image['image_list' 'images/{image_id}' 'upload_image' 'delete_image']
+     * @brief set api resource and http method type
+     * @param string  $resource  [required] related information. http://www.coolsms.co.kr/REST_API
+     * @param boolean $is_post  [optional] GET = false, POST = true
      */
     protected function setResource($resource, $is_post = false)
     {
@@ -224,10 +219,9 @@ class Coolsms
     }
 
     /**
-     * set API name and version
-     * $api_name
-     * 'sms', 'senderid', 'group'
-     * $api_version
+     * @brief set api name and api version
+     * @param string  $api_name    [required] 'sms', 'senderid', 'image'
+     * @param integer $api_version [required]
      */
     public function setApiConfig($api_name, $api_version)
     {

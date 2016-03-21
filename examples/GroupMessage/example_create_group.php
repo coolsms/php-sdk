@@ -29,7 +29,7 @@ try {
     // $options->force_sms = true;				// 'true or false' always send sms 
     // $options->app_version = '';				// App version
 
-    $result = $rest->newGroup($options);
+    $result = $rest->createGroup($options);
     print_r($result);
 } catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message

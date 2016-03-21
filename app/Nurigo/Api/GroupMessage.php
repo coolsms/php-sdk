@@ -15,7 +15,7 @@ require_once __DIR__ . "/../../../vendor/autoload.php";
 class GroupMessage extends Coolsms
 {
     /**
-     * @brief create new group ( HTTP Method GET )
+     * @brief create create group ( HTTP Method GET )
      * @param object $options {
      *   @param string  charset     [optional]
      *   @param string  srk         [optional]
@@ -28,17 +28,17 @@ class GroupMessage extends Coolsms
      *   @param string  app_version [optional] }
      * @return object(group_id)
      */
-    public function newGroup($options) 
+    public function createGroup($options) 
     {
         return $this->request('new_group', $options);
     }
 
     /**
-     * @brief group_list ( HTTP Method GET )
+     * @brief get group list ( HTTP Method GET )
      * @param None
      * @return array['groupid', 'groupid'...]
      */
-    public function groupList() 
+    public function getGroupList() 
     {
         return $this->request('group_list');
     }
@@ -62,7 +62,7 @@ class GroupMessage extends Coolsms
      * @param string $group_id [required]
      * @return object(group_id, message_count)
      */
-    public function groupInfo($group_id) 
+    public function getGroupInfo($group_id) 
     {
         if (!$group_id) throw new CoolsmsSDKException('group_id is required', 202);
 
@@ -103,7 +103,7 @@ class GroupMessage extends Coolsms
      * @param integer $limit    [optional]
      * @return object(total_count, offset, limit, list['message_id', 'message_id' ...])
      */
-    public function messageList($group_id, $offset = null, $limit = null)
+    public function getMessageList($group_id, $offset = null, $limit = null)
     {
         if (!$group_id) throw new CoolsmsSDKException('group_id is required', 202);
 

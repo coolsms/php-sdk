@@ -79,7 +79,7 @@ class SenderID extends Coolsms
      * @param string $site_user [optional]
      * @return object(site_user, idno, phone_number, flag_default, updatetime, regdate)
      */
-    public function senderidList($site_user = null)
+    public function getSenderidList($site_user = null)
     {
         $options = new \stdClass();
         $options->site_user = $site_user;

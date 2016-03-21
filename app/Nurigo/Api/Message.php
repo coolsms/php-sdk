@@ -83,13 +83,13 @@ class Message extends Coolsms
      * @param None
      * @return object(cash, point)
      */
-    public function balance() 
+    public function getBalance() 
     {
         return $this->request('balance');
     }
 
     /**
-     * @brief status ( HTTP Method GET )
+     * @brief get status ( HTTP Method GET )
      * @param object $options {
      *   @param integer count   [optional]
      *   @param string  unit    [optional]
@@ -97,7 +97,7 @@ class Message extends Coolsms
      *   @param integer channel [optional] }
      * @return object(registdate, sms_average, sms_sk_average, sms_kt_average, sms_lg_average, mms_average, mms_sk_average, mms_kt_average, mms_lg_average)
      */
-    public function status($options = null) 
+    public function getStatus($options = null) 
     {
         return $this->request('status', $options);
     }
