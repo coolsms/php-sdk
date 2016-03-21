@@ -2,10 +2,28 @@
 /* vi:set sw=4 ts=4 expandtab: */
 
 /**
- * Copyright (C) 2008-2016 NURIGO
+ * Copyright (C) 2008-2016 NURIGO \n
  * http://www.coolsms.co.kr
- * SDK Version 1.1
- **/
+ */
+
+/**
+ * @mainpage PHP SDK
+ * @section intro 소개
+ *     - 소개 : Coolsms REST API 
+ *     - 버전 : 2.0
+ *     - 설명 : Coolsms REST API 를 이용 보다 빠르고 안전하게 문자메시지를 보낼 수 있는 PHP로 만들어진 SDK 입니다.
+ * @section CreateInfo 작성 정보
+ *     - 작성자 : Nurigo
+ *     - 작성일 : 2015/03/18 
+ * @section ModifyInfo 수정 정보
+ *     - 2013/11/05
+ *         -# 메인 루틴 작성
+ *         -# GPIP 제어 루틴 추가
+ * @section Caution 주의할 사항
+ *     - PHP SDK 2.0 은 PSR4에 근거하여 만들어 졌습니다. autoloading 과 namingspace의 개념을 알고 사용 하시는게 더 좋습니다.
+ * @section common 기타 정보
+ *     - 저작권 GPL v2
+ */
 
 namespace Nurigo;
 
@@ -24,8 +42,8 @@ if (!function_exists('json_decode')) {
 }
 
 /**
- * Coolsms Rest API core class, using the Rest API
- * @author NURIGO <contact@nurigo.net>
+ * @class Coolsms
+ * @brief Coolsms Rest API core class, using the Rest API
  */
 class Coolsms
 {

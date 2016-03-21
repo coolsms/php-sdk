@@ -9,11 +9,16 @@ use Nurigo\Exceptions\CoolsmsSDKException;
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
 /**
- * Sender ID management class, using the Rest API
- * @author NURIGO <contact@nurigo.net>
+ * @class SenderID 
+ * @brief management sender id, using the Rest API
  */
 class SenderID extends Coolsms
 {
+    /**
+     * @brief change api name and api version
+     * @param $api_key, $api_secret, $basecamp ($api_key, $api_secret must be entered)
+     * @return object(group_id)
+     */
     function __construct($api_key, $api_secret, $basecamp = false)
     {
         // set api_key and api_secret
@@ -26,10 +31,9 @@ class SenderID extends Coolsms
     }
 
     /**
-     * @POST register method
-     * @param $phone (required)
-     * @param $site_user (optional)
-     * @return json object(handle_key, ars_number)
+     * @brief sender id registration request ( HTTP Method POST )
+     * @param $phone (required), $site_user (optional)
+     * @return object(handle_key, ars_number)
      */
     public function register($phone, $site_user = null)
     {
@@ -44,9 +48,9 @@ class SenderID extends Coolsms
     }
 
     /**
-     * @POST verify method
+     * @brief verify sender id ( HTTP Method POST )
      * @param $handle_key (required)
-     * return nothing
+     * @return none 
      */
     public function verify($handle_key)
     {
@@ -60,9 +64,9 @@ class SenderID extends Coolsms
     }
 
     /**
-     * POST delete method
+     * @brief delete sender id ( HTTP Method POST )
      * @param $handle_key (required)
-     * return nothing
+     * @return none
      */
     public function delete($handle_key)
     {
@@ -76,9 +80,9 @@ class SenderID extends Coolsms
     }
 
     /**
-     * GET list method
+     * @brief get sender id list ( HTTP Method GET )
      * @param $site_user (optional)
-     * return json object(site_user, idno, phone_number, flag_default, updatetime, regdate)
+     * @return object(site_user, idno, phone_number, flag_default, updatetime, regdate)
      */
     public function senderidList($site_user = null)
     {
@@ -90,10 +94,9 @@ class SenderID extends Coolsms
     }
 
     /**
-     * POST set_default
-     * @param $phone (required)
-     * @param $site_user (optional)
-     * return nothing
+     * @brief set default sender id ( HTTP Method POST )
+     * @param $phone (required), $site_user (optional)
+     * @return none 
      */
     public function setDefault($handle_key, $site_user = null)
     {
@@ -108,9 +111,9 @@ class SenderID extends Coolsms
     }
 
     /**
-     * GET get_default
+     * @brief get default sender id ( HTTP Method GET )
      * @param $site_user (optional)
-     * return json object(handle_key, phone_number)
+     * @return object(handle_key, phone_number)
      */
     public function getDefault($site_user = null)
     {

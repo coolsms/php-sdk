@@ -25,11 +25,11 @@ try {
     $options->to = '01000000000';
     $options->from = '01000000000';
     $options->text = '안녕하세요. 10000건을 20초안에 발송하는 빠르고 저렴한 CoolSMS의 테스팅 문자입니다. ';
-    $options->group_id = 'GID56CC00E21C4DC';
+    $options->group_id = 'GID56CC00E21C4DC';	// group id
 
     // Optional parameters for your own needs
     // $options->type = 'SMS';
-    // $options->image_id = 'IM289E9CISNWIC'					// image_id. type must be set as 'MMS'
+    // $options->image_id = 'IM289E9CISNWIC'	// image_id. type must be set as 'MMS'
     // $options->refname = '';					// Reference name 
     // $options->country = 82;					// Korea(82) Japan(81) America(1) China(86) Default is Korea
     // $options->datetime = '20140106153000';	// Format must be(YYYYMMDDHHMISS) 2014 01 06 15 30 00 (2014 Jan 06th 3pm 30 00)

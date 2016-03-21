@@ -9,16 +9,16 @@ use Nurigo\Exceptions\CoolsmsSDKException;
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
 /**
- * Group Message management class, using the Rest API
- * @author NURIGO <contact@nurigo.net>
+ * @class GroupMessage
+ * @brief management group message, using the Rest API
  */
 class GroupMessage extends Coolsms
 {
     /**
-     * @GET new_group method
+     * @brief create new group ( HTTP Method GET )
      * @param $options (options can be optional)
-     * @charset, srk, mode, delay, force_sms, os_platform, dev_lang, sdk_version, app_version (optional)
-     * @returns an object(group_id)
+     * @param charset, srk, mode, delay, force_sms, os_platform, dev_lang, sdk_version, app_version (optional)
+     * @return object(group_id)
      */
     public function newGroup($options) 
     {
@@ -28,9 +28,9 @@ class GroupMessage extends Coolsms
     }
 
     /**
-     * @GET group_list method
-     * $options (none)
-     * @returns an array['groupid', 'groupid'...]
+     * @brief group_list ( HTTP Method GET )
+     * @param $options (none)
+     * @return array['groupid', 'groupid'...]
      */
     public function groupList() 
     {
@@ -40,9 +40,9 @@ class GroupMessage extends Coolsms
     }
 
     /**
-     * @POST delete_groups method
+     * @brief delete groups ( HTTP Method POST )
      * @param $group_ids (required)
-     * @returns an object(count)
+     * @return object(count)
      */
     public function deleteGroups($group_ids) 
     {
@@ -56,9 +56,9 @@ class GroupMessage extends Coolsms
     }
 
     /**
-     * @GET groups/{group_id} method
+     * @brief get group info ( HTTP Method GET )
      * @param $group_id (required)
-     * @returns an object(group_id, message_count)
+     * @return object(group_id, message_count)
      */
     public function groupInfo($group_id) 
     {
@@ -72,10 +72,10 @@ class GroupMessage extends Coolsms
     }
 
     /**
-     * @POST groups/{group_id}/add_messages method
+     * @brief add message to group ( HTTP Method POST )
      * @param $options (options must contain group_id, to, from, text)
-     * @type, image_id, refname, country, datetime, subject, delay, extension (optional)
-     * @returns an object(success_count, error_count, error_list['messageid':'code', 'messageid', 'code'])
+     * @param type, image_id, refname, country, datetime, subject, delay, extension (optional)
+     * @return object(success_count, error_count, error_list['messageid':'code', 'messageid', 'code'])
      */
     public function addMessages($options) 
     {
@@ -89,10 +89,10 @@ class GroupMessage extends Coolsms
     }
 
     /**
-     * @GET groups/{group_id}/message_list method
+     * @brief get message list ( HTTP Method GET )
      * @param $options (options must contain group_id)
      * @offset, limit (optional)
-     * @returns an object(total_count, offset, limit, list['message_id', 'message_id' ...])
+     * @return object(total_count, offset, limit, list['message_id', 'message_id' ...])
      */
     public function messageList($options) 
     {
@@ -104,9 +104,9 @@ class GroupMessage extends Coolsms
     }
 
     /**
-     * @POST groups/{group_id}/delete_messages method
+     * @brief delete message from group ( HTTP Method POST )
      * @param $group_id, $message_ids (required)
-     * @returns an object(success_count)
+     * @return object(success_count)
      */
     public function deleteMessages($group_id, $message_ids) 
     {
@@ -121,9 +121,9 @@ class GroupMessage extends Coolsms
     }
 
     /**
-     * @POST groups/{group_id}/send method
+     * @brief send group message ( HTTP Method POST )
      * @param $group_id (required)
-     * @returns an object(group_id)
+     * @return object(group_id)
      */
     public function sendGroupMessage($group_id) 
     {

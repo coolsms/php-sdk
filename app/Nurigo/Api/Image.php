@@ -9,16 +9,16 @@ use Nurigo\Exceptions\CoolsmsSDKException;
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
 /**
- * Image management class, using the Rest API
- * @author NURIGO <contact@nurigo.net>
+ * @class Image
+ * @brief management image, using the Rest API
  */
 class Image extends Coolsms
 {
     /**
-     * @GET image_list method
+     * @brief get image list( HTTP Method GET )
      * @param $options (options can be optional)
-     * @offset, limit (optional)
-     * @returns an object(total_count, offset, limit, list['image_id', 'image_id' ...])
+     * @param offset, limit (optional)
+     * @return object(total_count, offset, limit, list['image_id', 'image_id' ...])
      */
     public function imageList($options) 
     {
@@ -28,9 +28,9 @@ class Image extends Coolsms
     }
 
     /**
-     * @GET images/{image_id} method
+     * @brief get image info ( HTTP Method GET )
      * @param $image_id (required)
-     * @returns an object(image_id, file_name, original_name, file_size, width, height)
+     * @return object(image_id, file_name, original_name, file_size, width, height)
      */
     public function imageInfo($iamge_id) 
     {
@@ -44,10 +44,10 @@ class Image extends Coolsms
     }
 
     /**
-     * @POST upload_image method
+     * @brief upload image ( HTTP Method POST )
      * @param $image (required)
      * @param $encoding (optional)
-     * @returns an object(image_id)
+     * @return object(image_id)
      */
     public function uploadImage($image, $encoding = null)
     {
@@ -62,9 +62,9 @@ class Image extends Coolsms
     }
 
     /**
-     * @POST delete_images method
+     * @brief delete images ( HTTP Method POST )
      * @param $image_ids (required)
-     * @returns an object(success_count)
+     * @return object(success_count)
      */
     public function deleteImages($image_ids) 
     {

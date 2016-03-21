@@ -9,16 +9,16 @@ use Nurigo\Exceptions\CoolsmsSDKException;
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
 /**
- * Message management class, using the Rest API
- * @author NURIGO <contact@nurigo.net>
+ * @class Message
+ * @brief management message, using the Rest API
  */
 class Message extends Coolsms
 {
     /**
-     * @POST send method
+     * @brief send message ( HTTP Method POST )
      * @param $options (options can be optional)
-     * @to, from, text, type, image, refname, country, datetime, mid, gid, subject, charset (optional)
-     * @returns an object(recipient_number, group_id, message_id, result_code, result_message)
+     * @param to, from, text, type, image, refname, country, datetime, mid, gid, subject, charset (optional)
+     * @return object(recipient_number, group_id, message_id, result_code, result_message)
      */
     public function send($options) 
     {
@@ -30,10 +30,10 @@ class Message extends Coolsms
     }
     
     /**
-     * @GET sent method
+     * @brief sent message list ( HTTP Method GET )
      * @param $options (options can be optional)
-     * @count, page, s_rcpt, s_start, s_end, mid, gid (optional)
-     * @returns an object(total count, list_count, page, data['type', 'accepted_time', 'recipient_number', 'group_id', 'message_id', 'status', 'result_code', 'result_message', 'sent_time', 'text'])
+     * @param count, page, s_rcpt, s_start, s_end, mid, gid (optional)
+     * @return object(total count, list_count, page, data['type', 'accepted_time', 'recipient_number', 'group_id', 'message_id', 'status', 'result_code', 'result_message', 'sent_time', 'text'])
      */
     public function sent($options) 
     {
@@ -43,9 +43,10 @@ class Message extends Coolsms
     }
 
     /**
-     * @POST cancel method
+     * @brief cancel reserve message ( HTTP Method POST )
      * @param $options (options can be optional)
-     * @mid, gid (either one must be entered.)
+     * @param mid, gid (either one must be entered.)
+     * @return none
      */
     public function cancel($options) 
     {
@@ -57,9 +58,9 @@ class Message extends Coolsms
     }
 
     /**
-     * @GET balance method
-     * @options(none)
-     * @return an object(cash, point)
+     * @brief get remaining balance ( HTTP Method GET )
+     * @param $options(none)
+     * @return object(cash, point)
      */
     public function balance() 
     {
@@ -69,10 +70,9 @@ class Message extends Coolsms
     }
 
     /**
-     * @GET status method
+     * @brief status ( HTTP Method GET )
      * @param $options (options can be optional)
-     * @return an object(registdate, sms_average, sms_sk_average, sms_kt_average, sms_lg_average, mms_average, mms_sk_average, mms_kt_average, mms_lg_average)
-     * this method is made for Coolsms inc. internal use
+     * @return object(registdate, sms_average, sms_sk_average, sms_kt_average, sms_lg_average, mms_average, mms_sk_average, mms_kt_average, mms_lg_average)
      */
     public function status($options) 
     {

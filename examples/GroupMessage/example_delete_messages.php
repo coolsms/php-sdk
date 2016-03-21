@@ -21,8 +21,8 @@ try {
     $rest = new GroupMessage($api_key, $api_secret);
 
     // group_id, message_ids are mandatory. must be filled
-    $group_id = 'GID56CC00E21C4DC'; // ex) '1GCOLS23BDG'
-    $message_ids = '2838DFJFE02EI10TM'; // ex) '2838DFJFE02EI10TM','RGGBB11545'
+    $group_id = 'GID56CC00E21C4DC'; // group id
+    $message_ids = '2838DFJFE02EI10TM'; // message ids. ex) '2838DFJFE02EI10TM','RGGBB11545'
 
     $result = $rest->deleteMessages($group_id, $message_ids);
     print_r($result);
