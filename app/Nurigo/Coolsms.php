@@ -15,10 +15,6 @@
  * @section CreateInfo 작성 정보
  *     - 작성자 : Nurigo
  *     - 작성일 : 2015/03/18 
- * @section ModifyInfo 수정 정보
- *     - 2013/11/05
- *         -# 메인 루틴 작성
- *         -# GPIP 제어 루틴 추가
  * @section Caution 주의할 사항
  *     - PHP SDK 2.0 은 PSR4에 근거하여 만들어 졌습니다. autoloading 과 namingspace의 개념을 알고 사용 하시는게 더 좋습니다.
  * @section common 기타 정보
