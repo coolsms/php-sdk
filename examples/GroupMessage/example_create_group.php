@@ -7,7 +7,7 @@
  * www.coolsms.co.kr
  */
 
-use Nurigo\Coolsms\GroupMessage;
+use Nurigo\Api\GroupMessage;
 use Nurigo\Exceptions\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -21,7 +21,7 @@ try {
     $rest = new GroupMessage($api_key, $api_secret);
 
     // Optional parameters for your own needs
-    $options = new stcClass();
+    $options = new stdClass();
     // $options->charset = 'utf8'; 				// utf8, euckr default value is utf8
     // $options->srk = '';						// Solution key
     // $options->mode = 'test';					// If 'test' value. refund cash to point
@@ -29,7 +29,7 @@ try {
     // $options->force_sms = true;				// 'true or false' always send sms 
     // $options->app_version = '';				// App version
 
-    $result = $rest->newGroup($options);
+    $result = $rest->createGroup($options);
     print_r($result);
 } catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message

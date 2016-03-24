@@ -1,13 +1,13 @@
 <?php
 /**
- * #example_list
+ * #example_balance
  *
- * This sample code demonstrate how to check sender number list through CoolSMS Rest API PHP
+ * This sample code demonstrate how to check cash & point balance through CoolSMS Rest API PHP
  * for more info, visit
  * www.coolsms.co.kr
  */
 
-use Nurigo\Coolsms\SenderID;
+use Nurigo\Api\Message;
 use Nurigo\Exceptions\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -18,14 +18,11 @@ $api_secret = '#ENTER_YOUR_OWN#';
 
 try {
     // initiate rest api sdk object
-    $rest = new SenderID($api_key, $api_secret);
+    $rest = new Message($api_key, $api_secret);
 
-    // Optional parameters for your own needs
-    // $site_user = 'admin'; // site user_id. '__private__' is default value
-
-    $result = $rest->senderidList(); // or $rest->senderidList($site_user);
+    $result = $rest->getBalance();
     print_r($result);
-} catch(CoolsmsException $e) {
+} catch (CoolsmsException $e) {
     echo $e->getMessage(); // get error message
     echo $e->getCode(); // get error code
 }

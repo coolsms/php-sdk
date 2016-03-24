@@ -4,7 +4,8 @@
 namespace Nurigo\Exceptions;
 
 /**
- * Thrown when an System call returns an exception.
+ * @class CoolsmsSystemException
+ * @brief Thrown when an System call returns an exception.
  */
 class CoolsmsSystemException extends CoolsmsException
 {

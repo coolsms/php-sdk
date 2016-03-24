@@ -1,7 +1,7 @@
 <?php
 /* vi:set sw=4 ts=4 expandtab: */
 
-namespace Nurigo\Coolsms;
+namespace Nurigo\Api;
 
 use Nurigo\Coolsms;
 use Nurigo\Exceptions\CoolsmsSDKException;
@@ -10,129 +10,133 @@ require_once __DIR__ . "/../../../vendor/autoload.php";
 
 /**
  * @class GroupMessage
- * @brief management group message, using the Rest API
+ * @brief management group message, using Rest API
  */
 class GroupMessage extends Coolsms
 {
     /**
-     * @brief create new group ( HTTP Method GET )
-     * @param $options (options can be optional)
-     * @param charset, srk, mode, delay, force_sms, os_platform, dev_lang, sdk_version, app_version (optional)
+     * @brief create create group ( HTTP Method GET )
+     * @param object $options {
+     *   @param string  charset     [optional]
+     *   @param string  srk         [optional]
+     *   @param string  mode        [optional]
+     *   @param string  delay       [optional]
+     *   @param boolean force_sms   [optional]
+     *   @param string  os_platform [optional]
+     *   @param string  dev_lang    [optional]
+     *   @param string  sdk_version [optional]
+     *   @param string  app_version [optional] }
      * @return object(group_id)
      */
-    public function newGroup($options) 
+    public function createGroup($options) 
     {
-        $this->setMethod('new_group');
-        $this->addInfos($options);    
-        return $this->getResult();
+        return $this->request('new_group', $options);
     }
 
     /**
-     * @brief group_list ( HTTP Method GET )
-     * @param $options (none)
+     * @brief get group list ( HTTP Method GET )
+     * @param None
      * @return array['groupid', 'groupid'...]
      */
-    public function groupList() 
+    public function getGroupList() 
     {
-        $this->setMethod('group_list');
-        $this->addInfos();
-        return $this->getResult();
+        return $this->request('group_list');
     }
 
     /**
      * @brief delete groups ( HTTP Method POST )
-     * @param $group_ids (required)
+     * @param string $group_ids [required]
      * @return object(count)
      */
     public function deleteGroups($group_ids) 
     {
-        if (!isset($group_ids)) throw new CoolsmsSDKException('group_ids is required',202);
+        if (!$group_ids) throw new CoolsmsSDKException('group_ids is required', 202);
 
         $options = new \stdClass();
         $options->group_ids = $group_ids;
-        $this->setMethod('delete_groups', 1);
-        $this->addInfos($options);    
-        return $this->getResult();
+        return $this->request('delete_groups', $options, true);
     }
 
     /**
      * @brief get group info ( HTTP Method GET )
-     * @param $group_id (required)
+     * @param string $group_id [required]
      * @return object(group_id, message_count)
      */
-    public function groupInfo($group_id) 
+    public function getGroupInfo($group_id) 
     {
-        if (!isset($group_id)) throw new CoolsmsSDKException('group_id is required',202);
+        if (!$group_id) throw new CoolsmsSDKException('group_id is required', 202);
 
         $options = new \stdClass();
         $options->group_id = $group_id;
-        $this->setMethod('groups/' . $group_id);
-        $this->addInfos($options);    
-        return $this->getResult();
+        return $this->request(sprintf('groups/%s', $group_id), $options);
     }
+    
 
     /**
      * @brief add message to group ( HTTP Method POST )
-     * @param $options (options must contain group_id, to, from, text)
-     * @param type, image_id, refname, country, datetime, subject, delay, extension (optional)
+     * @param object $options {
+     *   @param string  group_id [required]
+     *   @param string  to       [required]
+     *   @param string  from     [required]
+     *   @param string  text     [required]
+     *   @param string  image_id [optional]
+     *   @param string  refname  [optional]
+     *   @param string  country  [optional]
+     *   @param string  datetime [optional]
+     *   @param string  subject  [optional]
+     *   @param integer delay    [optional] }
      * @return object(success_count, error_count, error_list['messageid':'code', 'messageid', 'code'])
      */
     public function addMessages($options) 
     {
         if (!isset($options->group_id) || !isset($options->to) || !isset($options->text) || !isset($options->from)) {
-            throw new CoolsmsSDKException('group_id, to, text, from is required',202);
+            throw new CoolsmsSDKException('group_id, to, text, from is required', 202);
         }
 
-        $this->setMethod('groups/' . $options->group_id . '/add_messages' , 1);
-        $this->addInfos($options);    
-        return $this->getResult();
+        return $this->request(sprintf('groups/%s/add_messages', $options->group_id), $options, true);
     }
 
     /**
      * @brief get message list ( HTTP Method GET )
-     * @param $options (options must contain group_id)
-     * @offset, limit (optional)
+     * @param string  $group_id [required]
+     * @param integer $offset   [optional]
+     * @param integer $limit    [optional]
      * @return object(total_count, offset, limit, list['message_id', 'message_id' ...])
      */
-    public function messageList($options) 
+    public function getMessageList($group_id, $offset = null, $limit = null)
     {
-        if (!isset($options->group_id)) throw new CoolsmsSDKException('group_id is required',202);
+        if (!$group_id) throw new CoolsmsSDKException('group_id is required', 202);
 
-        $this->setMethod('groups/' . $options->group_id . '/message_list');
-        $this->addInfos($options);    
-        return $this->getResult();
+        return $this->request(sprintf('groups/%s/message_list', $options->group_id), $options);
     }
 
     /**
      * @brief delete message from group ( HTTP Method POST )
-     * @param $group_id, $message_ids (required)
+     * @param string $group_id    [required]
+     * @param string $message_ids [required]
      * @return object(success_count)
      */
     public function deleteMessages($group_id, $message_ids) 
     {
-        if (!isset($group_id) || !isset($message_ids)) throw new CoolsmsSDKException('"group_id and message_ids" is required',202);
+        if (!$group_id || !$message_ids) throw new CoolsmsSDKException('group_id and message_ids are required', 202);
 
         $options = new \stdClass();
         $options->group_id = $group_id;
         $options->message_ids = $message_ids;
-        $this->setMethod('groups/' . $options->group_id . '/delete_messages', 1);
-        $this->addInfos($options);    
-        return $this->getResult();
+        return $this->request(sprintf('groups/%s/delete_messages', $options->group_id), $options, true);
     }
 
     /**
      * @brief send group message ( HTTP Method POST )
-     * @param $group_id (required)
+     * @param string $group_id [required]
      * @return object(group_id)
      */
     public function sendGroupMessage($group_id) 
     {
-        if (!isset($group_id)) throw new CoolsmsSDKException('group_id is required',202);
+        if (!$group_id) throw new CoolsmsSDKException('group_id is required', 202);
 
         $options = new \stdClass();
         $options->group_id = $group_id;
-        $this->setMethod('groups/' . $group_id . '/send', 1);
-        $this->addInfos($options);    
-        return $this->getResult();
+        return $this->request(sprintf('groups/%s/send', $group_id), $options, true);
     }
 }

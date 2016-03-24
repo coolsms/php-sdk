@@ -1,13 +1,13 @@
 <?php
 /**
- * #example_image_info
+ * #example_message_list
  *
- * This sample code demonstrate how to check image info through CoolSMS Rest API PHP
+ * This sample code demonstrate check message list through CoolSMS Rest API PHP
  * for more info, visit
  * www.coolsms.co.kr
  */
 
-use Nurigo\Coolsms\SenderID;
+use Nurigo\Api\GroupMessage;
 use Nurigo\Exceptions\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -18,12 +18,14 @@ $api_secret = '#ENTER_YOUR_OWN#';
 
 try {
     // initiate rest api sdk object
-    $rest = new SenderID($api_key, $api_secret);
+    $rest = new GroupMessage($api_key, $api_secret);
 
-    // image_id are mandatory. must be filled
-    $image_id = ''; // image id
+    // Optional parameters for your own needs
+	$group_id = 'GID56CC00E21C4DC'; // group id
+    // $offset = 0; // default 0
+    // $limit = 20; // default 20
 
-    $result = $rest->imageInfo($image_id);
+    $result = $rest->getMessageList($group_id, $offset, $limit);
     print_r($result);
 } catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message

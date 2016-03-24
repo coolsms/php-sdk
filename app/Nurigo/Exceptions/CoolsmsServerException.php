@@ -4,7 +4,8 @@
 namespace Nurigo\Exceptions;
 
 /**
- * Thrown when an Server call returns an exception.
+ * @class CoolsmsServerException
+ * @brief Thrown when an Server call returns an exception.
  */
 class CoolsmsServerException extends CoolsmsException
 {
@@ -15,9 +16,9 @@ class CoolsmsServerException extends CoolsmsException
     protected $response_data;
 
     /**
-     * Make a new SDK Exception with the given result.
-     *
-     * @param String $result The result from the API server & SDK Client
+     * @brief Make a new SDK Exception with the given result.
+     * @param string  $response [required] response from the API server & SDK Client
+     * @param integer $code     [required] response code
      */
     public function __construct($response, $code) {
         $this->response = $response;
@@ -26,7 +27,7 @@ class CoolsmsServerException extends CoolsmsException
     }
 
     /**
-     * Return json decoded response data 
+     * @brief return json decoded response data 
      */
     public function getResponseData() {
         return $this->response_data;

@@ -1,13 +1,13 @@
 <?php
 /**
- * #example_group_info
+ * #example_group_list
  *
- * This sample code demonstrate how to check group info through CoolSMS Rest API PHP
+ * This sample code demonstrate how to check group list through CoolSMS Rest API PHP
  * for more info, visit
  * www.coolsms.co.kr
  */
 
-use Nurigo\Coolsms\GroupMessage;
+use Nurigo\Api\GroupMessage;
 use Nurigo\Exceptions\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -20,10 +20,7 @@ try {
     // initiate rest api sdk object
     $rest = new GroupMessage($api_key, $api_secret);
 
-    // group_id are mandatory. must be filled
-    $group_id = 'GIDFIWKEO19DIW29'; // group id
-
-    $result = $rest->groupInfo($group_id);
+    $result = $rest->getGroupList();
     print_r($result);
 } catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message

@@ -1,13 +1,13 @@
 <?php
 /**
- * #example_image_list
+ * #example_list
  *
- * This sample code demonstrate how to check image list through CoolSMS Rest API PHP
+ * This sample code demonstrate how to check sender number list through CoolSMS Rest API PHP
  * for more info, visit
  * www.coolsms.co.kr
  */
 
-use Nurigo\Coolsms\SenderID;
+use Nurigo\Api\SenderID;
 use Nurigo\Exceptions\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -21,11 +21,9 @@ try {
     $rest = new SenderID($api_key, $api_secret);
 
     // Optional parameters for your own needs
-    $options = new stdClass();
-    // $options->offset = 0; // default 0
-    // $options->limit = 20; // default 20
+    // $site_user = 'admin'; // site user_id. '__private__' is default value
 
-    $result = $rest->imageList($options);
+    $result = $rest->getSenderidList(); // or $rest->senderidList($site_user);
     print_r($result);
 } catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message

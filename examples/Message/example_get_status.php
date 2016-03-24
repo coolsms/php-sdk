@@ -7,7 +7,7 @@
  * www.coolsms.co.kr
  */
 
-use Nurigo\Coolsms\Message;
+use Nurigo\Api\Message;
 use Nurigo\Exceptions\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -27,7 +27,7 @@ try {
     // $options->date = '20161016230000';		// 데이터를 읽어오는 기준 시각 
     // $options->channel = '1';					// 1 : 1건 발송채널(default), 2 : 대량 발송 채널
 
-    $result = $rest->status($options);
+    $result = $rest->getStatus($options);
     print_r($result);
 } catch(CoolsmsException $e) {
     echo $e->getMessage(); // get error message
