@@ -96,7 +96,7 @@ class Coolsms
             // route가 있으면 header에 붙여준다. substr 해준 이유는 앞에 @^가 붙기 때문에 자르기 위해서.
             if (isset($this->content['route'])) $header[] = "User-Agent:" . substr($this->content['route'], 1);
 
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
             curl_setopt($ch, CURLOPT_POSTFIELDS, $this->content); 
         }
         curl_setopt($ch, CURLOPT_TIMEOUT, 10); // TimeOut value
