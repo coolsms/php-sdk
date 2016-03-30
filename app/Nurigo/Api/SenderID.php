@@ -88,8 +88,8 @@ class SenderID extends Coolsms
 
     /**
      * @brief set default sender id ( HTTP Method POST )
-     * @param string $phone     [required]
-     * @param string $site_user [optional]
+     * @param string $handle_key [required]
+     * @param string $site_user  [optional]
      * @return none 
      */
     public function setDefault($handle_key, $site_user = null)
