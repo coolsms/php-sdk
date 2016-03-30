@@ -7,7 +7,7 @@
  * www.coolsms.co.kr
  */
 
-use Nurigo\Api\SenderID;
+use Nurigo\Api\Image;
 use Nurigo\Exceptions\CoolsmsException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -18,7 +18,7 @@ $api_secret = '#ENTER_YOUR_OWN#';
 
 try {
     // initiate rest api sdk object
-    $rest = new SenderID($api_key, $api_secret);
+    $rest = new Image($api_key, $api_secret);
 
     // image are mandatory. must be filled
     $image = 'images/test.jpg'; // image
