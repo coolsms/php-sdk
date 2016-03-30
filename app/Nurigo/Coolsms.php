@@ -43,11 +43,11 @@ if (!function_exists('json_decode')) {
  */
 class Coolsms
 {
-    const HOST = "http://rest2.coolsms.co.kr";
+    const HOST = "http://14.63.186.175";
     const SDK_VERSION = "1.1";
 
     private $api_name = "sms";
-    private $api_version = "1.5";
+    private $api_version = "2";
     private $api_key;
     private $api_secret;
     private $resource;
