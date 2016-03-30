@@ -27,7 +27,7 @@ use Nurigo\Exceptions\CoolsmsServerException;
 use Nurigo\Exceptions\CoolsmsSystemException;
 use Nurigo\Exceptions\CoolsmsSDKException;
 
-require_once __DIR__ . "/../../vendor/autoload.php";
+require_once __DIR__ . "/../../bootstrap.php";
 
 // check php extension "curl_init, json_decode"
 if (!function_exists('curl_init')) {

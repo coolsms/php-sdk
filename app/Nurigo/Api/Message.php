@@ -6,7 +6,7 @@ namespace Nurigo\Api;
 use Nurigo\Coolsms;
 use Nurigo\Exceptions\CoolsmsSDKException;
 
-require_once __DIR__ . "/../../../vendor/autoload.php";
+require_once __DIR__ . "/../../../bootstrap.php";
 
 /**
  * @class Message
