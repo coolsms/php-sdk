@@ -7,7 +7,7 @@
  *
  */
 
-include_once "coolsms.php";
+include_once "../coolsms.php";
 
 
 /*
@@ -25,9 +25,11 @@ $rest = new coolsms($apikey, $apisecret);
 $options->timestamp = (string)time();
 $options->to = '01000000000';
 $options->from = '01000000000';
-$options->type = 'SMS';
-$options->text = '안녕하세요. 10000건을 20초안에 발송하는 빠르고 저렴한 CoolSMS의 테스팅 문자입니다. ';
+$options->text = '안녕하세요 홍길동님 회원가입을 환영합니다.';
 $options->app_version = 'test app 1.2';  //application name and version	 
+$options->type = 'ATA';
+$options->sender_key = '#ENTER_YOUR_SENDER_KEY#';
+$options->template_code = '#ENTER_YOUR_TEMPLATE_CODE#';
 
 // Optional parameters for your own needs
 //$options->image = 'desert.jpg'; 			//image for MMS. type must be set as 'MMS'
