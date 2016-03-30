@@ -10,7 +10,7 @@
 use Nurigo\Api\GroupMessage;
 use Nurigo\Exceptions\CoolsmsException;
 
-require_once __DIR__ . "/../../vendor/autoload.php";
+require_once __DIR__ . "/../../bootstrap.php";
 
 // api_key and api_secret can be obtained from www.coolsms.co.kr/credentials
 $api_key = '#ENTER_YOUR_OWN#';
