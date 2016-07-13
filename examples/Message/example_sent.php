@@ -22,8 +22,8 @@ try {
 
     // set necessary options
     $options = new stdClass();
-    $options->mid = 'M52CB443257C61';			//message id 
-    // $options->gid = 'G52CB4432576C8';		//group id
+    $options->message_id = 'M52CB443257C61';			//message id 
+    // $options->group_id = 'G52CB4432576C8';		//group id
     // $options->count = '40';					//result return counts. default is 20
     // $options->page = '1';					//page 
     // $options->rcpt = '01012345678';			//search sent result by recipient number
