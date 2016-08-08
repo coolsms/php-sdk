@@ -10,16 +10,10 @@ Send Message & Message Management using PHP and REST API.
   $ composer require coolsms/php-sdk
   ```
 
-- Package install url ( source code & examples ) : http://www.coolsms.co.kr/download/3130218
+- Package install url ( source code & examples ) : http://www.coolsms.co.kr/download/545387
 
-- Github : https://github.com/coolsms/php-sdk
-
-## Requirements
-
-* Composer
-* PHP CURL extension
-* PHP JSON extension
+- Github : https://github.com/coolsms/python-sdk
 
 ## Usage
 
-Look at the 'http://www.coolsms.co.kr/PHP_SDK_Example'.
+Look at the 'http://www.coolsms.co.kr/PYTHON_SDK_Example'.
