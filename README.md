@@ -1,6 +1,6 @@
 # Coolsms PHP SDK
 
-Send Message & Message Management using PHP and REST API.
+Send Message & Alimtalk using PHP and REST API.
 
 ## Installation
 
@@ -16,10 +16,10 @@ Send Message & Message Management using PHP and REST API.
 
 ## Requirements
 
+* PHP 5.5 or greater
 * Composer
 * PHP CURL extension
 * PHP JSON extension
-* PHP 5.5 or greater
 
 ## Usage
 
