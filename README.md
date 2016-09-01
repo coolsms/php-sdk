@@ -19,6 +19,7 @@ Send Message & Message Management using PHP and REST API.
 * Composer
 * PHP CURL extension
 * PHP JSON extension
+* PHP 5.5 or greater
 
 ## Usage
 
