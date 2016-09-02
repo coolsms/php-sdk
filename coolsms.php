@@ -95,7 +95,7 @@ class coolsms
 				if($key != "image")
 					$this->content[$key] = sprintf("\0%s", $val);
 				else
-					$this->content[$key] = "@".realpath("./$val");
+					$this->content[$key] = '@'.realpath("$val");
 			}
 		}
 		else
