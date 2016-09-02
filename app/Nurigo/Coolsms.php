@@ -126,7 +126,7 @@ class Coolsms
                 if ($key != "text") $val = trim($val);
                 
                 if ($key == "image") {
-                    $this->content[$key] = "@" . realpath("./$val");
+                    $this->content[$key] = '@' . realpath("$val");
                 } else {
                     $this->content[$key] = sprintf("%s", $val);
                 }
