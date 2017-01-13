@@ -126,7 +126,7 @@ class Coolsms
                 if ($key != "text") $val = trim($val);
                 
                 if ($key == "image") {
-                    $this->content[$key] = '@' . realpath("$val");
+                    $this->content[$key] = curl_file_create($val);
                 } else {
                     $this->content[$key] = sprintf("%s", $val);
                 }
