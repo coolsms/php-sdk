@@ -78,7 +78,6 @@ class Coolsms
     {
         $ch = curl_init();
         if (!$ch) throw new CoolsmsSystemException(curl_error($ch), 399);
-        // Set url. is_post true = POST , false = GET
         $url = sprintf("%s/%s/%s/%s", self::HOST, $this->api_name, $this->api_version, $this->resource);
         // Set curl info
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -87,16 +86,13 @@ class Coolsms
         //curl_setopt($ch, CURLOPT_SSLVERSION, 3); // SSL protocol version (need for https connect, 3 -> SSLv3)
         curl_setopt($ch, CURLOPT_HEADER, 0); // include the header in the output (1 = true, 0 = false) 
         curl_setopt($ch, CURLOPT_POST, $this->is_post); // POST GET method
-
-
         $header = array(
             "Content-Type: application/json",
             "Authorization: HMAC-MD5 ApiKey=$this->api_key, Date=$this->date, Salt=$this->salt, Signature=$this->signature"
         );
-
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $this->content);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10); // TimeOut value
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30); // TimeOut value
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // curl_exec() result output (1 = true, 0 = false)
 
         $this->result = json_decode(curl_exec($ch));
@@ -115,10 +111,11 @@ class Coolsms
      */
     private function setContent($options)
     {
-        if($options->json_args){
-            $this->content = $options->json_args;
+        if($options->encoding_json_data) {
+            $this->content = $options->encoding_json_data;
             return;
         }
+
         $this->content = new \stdClass;
         if ($options->json_option) {
             $json_option = $options->json_option;
@@ -136,27 +133,8 @@ class Coolsms
         if ($options->json_option == 'SimpleMessage')
         {
             $this->setApiConfig('SimpleMessage', '3');
-            $args = new \stdClass();
-            $args->to = explode(',', $options->to);
-            $args->from = $options->from;
-            $args->text = $options->text;
-            $args->type = $options->type;
-            $args->country = $options->country;
-            $args->subject = $options->subject;
-            $object = new \stdClass();
-            $object->messages = array($args);
-            $object->groupOptions = new \stdClass();
-            $object->groupOptions->appId = $options->appId;
-            $object->groupOptions->appVersion = $options->appVersion;
-            $object->groupOptions->mode = $options->mode;
-            $object->groupOptions->forceSms = $options->forceSms;
-            $object->groupOptions->onlyAta = $options->onlyAta;
-            $object->groupOptions->siteUser = $options->siteUser;
-            $object->groupOptions->osPlatform = $options->osPlatform;
-            $object->groupOptions->devLanguage = $options->devLanguage;
-            $object->groupOptions->sdkVersion = $options->sdkVersion;
-            $this->content = $object;
         }
+
         $this->content = json_encode($this->content);
     }
 
@@ -183,12 +161,10 @@ class Coolsms
         $options->mode = 'real';
         $options->forceSms = 'false';
         $options->onlyAta = 'false';
-        $options->type = 'SMS';
         $options->country = '82';
         $options->subject = '';
 
         // set salt & timestamp
-
         $options->salt = uniqid();
         $options->date = date('Y-m-d H:i:s');
         $this->salt = $options->salt;
@@ -198,7 +174,6 @@ class Coolsms
 
         $options->signature = $this->getSignature($options->date, $options->salt);
         $this->signature = $options->signature;
-
 
         $this->setContent($options);
     }
