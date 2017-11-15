@@ -35,7 +35,7 @@ $options->type = 'SMS'; // SMS, MMS, LMS, ATA
 // $options->template_code = '#ENTER_YOUR_TEMPLATE_CODE#';
 
 //  Optional parameters for your own needs
-// $options->image = 'desert.jpg'; 			// image for MMS. type must be set as 'MMS'
+// $options->image = 'test.png'; 			// image for MMS. type must be set as 'MMS'
 // $options->refname = '';					// Reference name 
 // $options->country = 'KR';				// Korea(KR) Japan(JP) America(USA) China(CN) Default is Korea
 // $options->datetime = '20140106153000';	// Format must be(YYYYMMDDHHMISS) 2014 01 06 15 30 00 (2014 Jan 06th 3pm 30 00)

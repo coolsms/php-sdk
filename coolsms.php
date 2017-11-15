@@ -83,6 +83,31 @@ class coolsms
 	}
 
 	/**
+	 * PHP5.6은 CURLOPT_SAFE_UPLOAD를 설정하지 않으면 이미지 path로 보내는게 작동하지 않으며 
+	 * PHP7에서 완전히 제거, 따라서 PHP5.6이상은 CurlFile개체를 사용하여 이미지 데이터 반환
+	 * https://wiki.php.net/rfc/curl-file-upload 참고
+	 */
+	private function getImageData($filename)
+	{
+		$file = pathinfo($filename);
+		$contentType = "iamge/{$file['extension']}";
+		$postname = $file['basename'];
+
+		// PHP5.6이상
+		if (function_exists('curl_file_create')) {
+			return curl_file_create($filename, $contentType, $postname);
+		}
+
+		// PHP5.6이하
+		$value = "@{$filename};filename=" . $postname;
+		if ($contentType) {
+			$value .= ';type=' . $contentType;
+		}
+
+		return $value;
+	}
+
+	/**
 	 * set http body content
 	 */
 	private function setContent($options)
@@ -95,7 +120,7 @@ class coolsms
 				if($key != "image")
 					$this->content[$key] = sprintf("\0%s", $val);
 				else
-					$this->content[$key] = '@'.realpath("$val");
+					$this->content[$key] = $this->getImageData(realpath($val));
 			}
 		}
 		else
