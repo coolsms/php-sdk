@@ -2,6 +2,10 @@
 
 Send Message & Alimtalk using PHP and REST API.
 
+## 🛑 This SDK is no longer maintained! Please use the [SOLAPI SDK](https://github.com/solapi/solapi-php) instead.
+* You can see examples below.  
+[SOLAPI PHP SDK Examples](https://github.com/solapi/solapi-php-examples)
+
 ## Installation
 
 - The recommended way to install Coolsms PHP SDK is through composer:
